@@ -1,0 +1,67 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+}
+
+android {
+    compileSdk 31
+
+    defaultConfig {
+        applicationId = "com.belak.pipe"
+        minSdk = rootProject.ext.minSdkVersion
+        targetSdk = targetSdkVersion
+        versionCode = 1
+        versionName = versionName
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+
+        jvmTarget = '1.8'
+    }
+    buildFeatures {
+        viewBinding true
+    }
+}
+
+dependencies {
+
+    implementation "androidx.core:core-ktx:$core_ktx"
+    implementation "androidx.appcompat:appcompat:$app_compat"
+    implementation "com.google.android.material:material:$androidmaterial_version"
+    implementation "androidx.constraintlayout:constraintlayout:$constraintLayout"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
+    implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
+    implementation "com.google.code.gson:gson:$gsonVersion"
+
+    // Dependency injection
+    api "io.insert-koin:koin-core:$koin_version"
+    api "io.insert-koin:koin-android:$koin_version"
+    api "io.insert-koin:koin-androidx-scope:$koin_version"
+    api "io.insert-koin:koin-androidx-viewmodel:$koin_version"
+    api "io.insert-koin:koin-androidx-fragment:$koin_version"
+
+
+    // Unit Tests
+    testImplementation "junit:junit:$junit_version"
+    testImplementation "androidx.test.ext:junit:$androidxtestext_version"
+    testImplementation "org.junit.jupiter:junit-jupiter:$junitjupiter_version"
+    testImplementation "androidx.test:core:$androidxtest_version"
+    testImplementation "androidx.test:runner:$androidxtest_version"
+    testImplementation "androidx.test:rules:$androidxtest_version"
+    testImplementation "androidx.test.ext:junit:$androidxtestext_version"
+    testImplementation "androidx.arch.core:core-testing:$androidxcoretesting_version"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesTest"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$espreso_test"
+}
