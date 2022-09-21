@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.belak.pipe">
-    <uses-permission android:name="android.permission.RECEIVE_SMS"/>
-    <uses-permission android:name="android.permission.SEND_SMS"/>
-    <uses-permission android:name="android.permission.READ_SMS"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
+    package="com.sms.pipe">
+
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:name=".SampleApplication"
@@ -15,25 +17,52 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SmsPipe">
         <activity
-            android:name="com.belak.pipe.view.activities.ScrollingActivity"
-            android:exported="true"
-            android:theme="@style/Theme.SmsPipe.NoActionBar">
+            android:name=".view.activities.MainActivity"
+            android:exported="false"
+            android:theme="@style/Theme.SmsPipe"
+            android:label="@string/title_activity_main">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".view.activities.SplashScreenActivity"
+            android:theme="@style/Theme.Launcher">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".view.activities.LoginActivity"
+            android:exported="true">
 
-        <receiver android:name=".services.SMSReceiver"
-                  android:exported="true"
-                  android:permission="android.permission.RECEIVE_SMS" >
-            <intent-filter  android:priority="2147483647">
-                <action android:name="android.provider.Telephony.SMS_RECEIVED"/>
-                <action android:name="Telephony.Sms.Intents.SMS_RECEIVED_ACTION"/>
+            <!-- deep linking -->
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="http" />
+                <data android:scheme="https" />
+                <data android:host="sms-pipe-web.web.app" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".view.activities.ScrollingActivity"
+            android:theme="@style/Theme.SmsPipe" />
+
+        <receiver
+            android:name=".services.SMSReceiver"
+            android:exported="true"
+            android:permission="android.permission.RECEIVE_SMS">
+            <intent-filter android:priority="2147483647">
+                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
+                <action android:name="Telephony.Sms.Intents.SMS_RECEIVED_ACTION" />
             </intent-filter>
         </receiver>
-
     </application>
 
 </manifest>

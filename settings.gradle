@@ -15,5 +15,5 @@ dependencyResolutionManagement {
         jcenter()
     }
 }
-rootProject.name = "BasePipe"
+rootProject.name = "Sms-Pipe"
 include ':app'

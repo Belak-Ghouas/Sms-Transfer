@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "795450865971",
+    "project_id": "sms-pipe-android",
+    "storage_bucket": "sms-pipe-android.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:795450865971:android:b928b68cd037229751e646",
+        "android_client_info": {
+          "package_name": "com.sms.pipe"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "795450865971-tkbba6m2mfcl0hto6o62tketc97v5kdh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCDdCw3yd0XwuWWbxHDfdgJZN2C4vgA-X0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "795450865971-tkbba6m2mfcl0hto6o62tketc97v5kdh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
