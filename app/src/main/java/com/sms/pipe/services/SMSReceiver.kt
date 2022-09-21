@@ -7,19 +7,32 @@ import android.provider.Telephony
 import android.telephony.SmsMessage
 import android.util.Log
 import com.sms.pipe.data.models.MessageModel
+import com.sms.pipe.domain.usecases.SendMessageUseCase
 import com.sms.pipe.utils.Result
+import com.sms.pipe.utils.doIfSuccess
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import org.koin.java.KoinJavaComponent.inject
 
 
 class SMSReceiver : BroadcastReceiver() {
 
     private val tag = " SMSReceiver "
+    private val sendMessageUseCase :SendMessageUseCase by inject(SendMessageUseCase::class.java)
+
     override fun onReceive(context: Context?, intent: Intent?) {
         Log.e(tag,"Hiii i am here")
         intent?.let {
             if (intent.action == Telephony.Sms.Intents.SMS_RECEIVED_ACTION ) {
                 val serviceIntent = Intent(context, PipeService::class.java)
                // displayMessage(intent)
-                extractMessage(intent)
+                extractMessage(intent).doIfSuccess {
+                    CoroutineScope(Dispatchers.IO).launch {
+                        sendMessageUseCase(it.messageBody,"#test-android-app")
+
+                    }
+                      }
                 context?.startService(serviceIntent)
             }
         } ?: kotlin.run {

@@ -8,7 +8,7 @@ import org.koin.dsl.module
 
 
 val vmHomeModules = module {
-    viewModel { HomeViewModel() }
+    viewModel { HomeViewModel(sendMessageUseCase = get(), messagingRepository = get()) }
 }
 
 val vmDashboardModules = module {

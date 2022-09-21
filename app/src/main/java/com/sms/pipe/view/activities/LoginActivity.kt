@@ -44,7 +44,7 @@ class LoginActivity: BaseActivity<LoginActivityViewModel, LoginActivityBinding>(
 
     private fun loggedIn(isLoggedIn: Boolean) {
        if(isLoggedIn){
-           val intent = Intent(this, ScrollingActivity::class.java)
+           val intent = Intent(this, MainActivity::class.java)
            startActivity(intent)
        }else{
             binding.inputEmail.text?.clear()

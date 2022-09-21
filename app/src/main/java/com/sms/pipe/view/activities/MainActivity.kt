@@ -1,6 +1,10 @@
 package com.sms.pipe.view.activities
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -35,11 +39,29 @@ class MainActivity :BaseActivity<BaseActivityViewModel,ActivityMainBinding>() {
     override val moduleList: List<Module> = listOf(vmMainActivityModule)
 
     override fun initViews() {
-
+    askPermission()
     }
 
     override fun initObservers() {
     }
 
+    private fun askPermission(){
+
+        val permissions = arrayOf(
+            Manifest.permission.RECEIVE_SMS,
+            Manifest.permission.READ_SMS,
+            Manifest.permission.RECEIVE_MMS,
+            Manifest.permission_group.SMS)
+        val listToAsk = arrayListOf<String>()
+        for (permission in permissions){
+            if(ContextCompat.checkSelfPermission(this,permission) != PackageManager.PERMISSION_GRANTED){
+                listToAsk.add(permission)
+            }
+        }
+        if(listToAsk.isNotEmpty()){
+            ActivityCompat.requestPermissions(this, listToAsk.toTypedArray(), 1)
+        }
+
+    }
 
 }

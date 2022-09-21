@@ -72,6 +72,9 @@ dependencies {
     //slack
     implementation("com.slack.api:slack-api-client:1.25.1")
 
+    // Work Manager
+    def work_version = "2.7.1"
+    implementation "androidx.work:work-runtime-ktx:$work_version"
     // Unit Tests
     testImplementation "junit:junit:$junit_version"
     testImplementation "androidx.test.ext:junit:$androidxtestext_version"
