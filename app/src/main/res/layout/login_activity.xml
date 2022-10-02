@@ -119,7 +119,7 @@
             android:enabled="true"
             android:text="Login"
             android:textAllCaps="false"
-            android:textColor="@android:color/white" />
+            android:textColor="@android:color/white"/>
 
 
     </androidx.cardview.widget.CardView>

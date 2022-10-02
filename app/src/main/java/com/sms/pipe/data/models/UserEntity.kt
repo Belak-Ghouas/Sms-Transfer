@@ -19,5 +19,9 @@ data class UserEntity(
 
     @ColumnInfo(name = "slack_app_id") val slack_app_id: String,
 
+    @ColumnInfo(name = "teamName") val teamName: String?,
+
+    @ColumnInfo(name = "teamID") val teamId: String?,
+
     @ColumnInfo(name = "logged") val logged:Boolean
 )

@@ -21,8 +21,9 @@ class MessagingDataSourceImpl : MessagingDataSource {
 
     private var slack :MethodsClient? = null
 
-    override fun initialize(token: String) {
+    override fun initialize(token: String):Boolean {
        slack = Slack.getInstance().methods(token)
+        return true
     }
 
 

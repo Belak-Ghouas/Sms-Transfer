@@ -26,6 +26,7 @@ class SampleApplication : Application() {
         applicationScope.launch {
             initMessagingUseCase()
         }
+
     }
 
 

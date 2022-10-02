@@ -17,8 +17,8 @@
     <color name="blue_light">#81D4FA</color>
 
     <!-- Primary brand color. -->
-    <color name="colorPrimary">#455a64</color>
-    <color name="colorPrimaryVariant">#718792</color>
+    <color name="colorPrimary">#000000</color>
+    <color name="colorPrimaryVariant">#0B0B0B</color>
     <color name="colorOnPrimary">#ffffff</color>
     <!-- Secondary brand color. -->
     <color name="colorSecondary">#A5D6A7</color>

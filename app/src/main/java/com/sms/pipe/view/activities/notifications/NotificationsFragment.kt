@@ -1,4 +1,4 @@
-package com.sms.pipe.view.activities.ui.notifications
+package com.sms.pipe.view.activities.notifications
 
 import com.sms.pipe.databinding.FragmentNotificationsBinding
 import com.sms.pipe.framework.di.vmNotificationModules

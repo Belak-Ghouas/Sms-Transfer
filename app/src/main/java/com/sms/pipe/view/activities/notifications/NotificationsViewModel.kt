@@ -1,8 +1,7 @@
-package com.sms.pipe.view.activities.ui.notifications
+package com.sms.pipe.view.activities.notifications
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.sms.pipe.view.viewmodels.BaseFragmentViewModel
 
 class NotificationsViewModel : BaseFragmentViewModel() {

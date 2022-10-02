@@ -2,6 +2,7 @@ package com.sms.pipe.framework.datasourcesImpl
 
 import com.sms.pipe.data.dao.UserDao
 import com.sms.pipe.data.datasources.UserLocalDataSource
+import com.sms.pipe.data.models.SlackTeamModel
 import com.sms.pipe.data.models.UserEntity
 import com.sms.pipe.data.models.UserModel
 
@@ -32,6 +33,8 @@ class UserLocalDataSourceImpl(private val userDao: UserDao): UserLocalDataSource
            slack_app_id = this.slack_app_id?: "",
            slack_token_type = this.slack_token_type?:"",
            bot_user_id = this.bot_user_id?:"",
+           teamId = this.slack_team?.teamId,
+           teamName = this.slack_team?.teamName,
            logged = this.logged)
     }
 
@@ -43,6 +46,7 @@ class UserLocalDataSourceImpl(private val userDao: UserDao): UserLocalDataSource
             slack_app_id = this.slack_app_id.ifEmpty { null },
             slack_token_type = this.slack_token_type.ifEmpty { null },
             bot_user_id = this.bot_user_id.ifEmpty { null },
+            slack_team = SlackTeamModel(teamName=this.teamName,teamId=this.teamId),
             logged = this.logged
         )
     }

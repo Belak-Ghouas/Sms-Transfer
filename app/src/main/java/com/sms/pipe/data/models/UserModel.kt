@@ -21,5 +21,8 @@ data class UserModel(
     @SerializedName("slack_app_id")
     val slack_app_id: String?,
 
+    @SerializedName("team")
+    val slack_team:SlackTeamModel?,
+
     var logged:Boolean = true
 )

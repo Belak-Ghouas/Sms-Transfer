@@ -2,7 +2,7 @@ package com.sms.pipe.data.models
 
 data class MessageModel(
     var messageBody : String="",
-    var sender : Long =-1
+    var sender : String =""
 ){
     override fun toString(): String {
         return "{sender : $sender ,  message body: $messageBody}"
@@ -10,6 +10,6 @@ data class MessageModel(
 }
 
 fun MessageModel.isEmpty():Boolean{
-    return messageBody.isEmpty() &&  sender == -1L
+    return messageBody.isEmpty() &&  sender.isEmpty()
 }
 

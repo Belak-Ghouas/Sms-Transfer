@@ -1,14 +1,14 @@
 package com.sms.pipe.framework.di
 
-import com.sms.pipe.view.activities.ui.dashboard.DashboardViewModel
-import com.sms.pipe.view.activities.ui.home.HomeViewModel
-import com.sms.pipe.view.activities.ui.notifications.NotificationsViewModel
+import com.sms.pipe.view.activities.dashboard.DashboardViewModel
+import com.sms.pipe.view.activities.home.HomeViewModel
+import com.sms.pipe.view.activities.notifications.NotificationsViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 
 val vmHomeModules = module {
-    viewModel { HomeViewModel(sendMessageUseCase = get(), messagingRepository = get()) }
+    viewModel { HomeViewModel(sendMessageUseCase = get(), messagingRepository = get(), getLoggedUserUseCase = get()) }
 }
 
 val vmDashboardModules = module {

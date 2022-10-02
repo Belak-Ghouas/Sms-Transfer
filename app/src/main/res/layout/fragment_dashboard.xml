@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.activities.ui.dashboard.DashboardFragment">
+    tools:context=".view.activities.dashboard.DashboardFragment">
 
     <TextView
         android:id="@+id/text_dashboard"
@@ -20,4 +20,28 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/enable"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text_dashboard" />
+
+    <Button
+        android:id="@+id/add_new_rule"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+    app:icon="@drawable/ic_add"
+        android:text = "add a new rule"
+        android:background="@drawable/rounded_corner"
+        app:textAllCaps="false"
+    style="@style/Widget.MaterialComponents.Button.Icon"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+    />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

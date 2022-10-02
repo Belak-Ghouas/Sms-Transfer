@@ -5,7 +5,7 @@ import com.sms.pipe.utils.Result
 
 interface MessagingDataSource {
 
-    fun initialize(token:String)
+    fun initialize(token:String):Boolean
 
     suspend fun sendMessage(message:String,channelId :String)
 

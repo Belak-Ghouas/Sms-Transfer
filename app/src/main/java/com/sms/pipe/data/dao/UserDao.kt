@@ -15,4 +15,7 @@ interface UserDao {
 
     @Delete
     fun delete(user: UserEntity)
+
+    @Query("UPDATE UserEntity SET logged = 0 WHERE email =:userId")
+    fun logout( userId:String)
 }
