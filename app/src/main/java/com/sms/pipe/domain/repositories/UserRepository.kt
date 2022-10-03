@@ -7,4 +7,6 @@ interface UserRepository {
     suspend fun login(email:String , password:String): UserModel?
 
     suspend fun getLoggedUser(): UserModel?
+
+    suspend fun logout(): Boolean
 }

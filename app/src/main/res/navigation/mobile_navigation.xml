@@ -7,18 +7,24 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.sms.pipe.view.activities.home.HomeFragment"
+        android:name="com.sms.pipe.view.home.HomeFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/navigation_dashboard"
-        android:name="com.sms.pipe.view.activities.dashboard.DashboardFragment"
+        android:name="com.sms.pipe.view.dashboard.DashboardFragment"
         tools:layout="@layout/fragment_dashboard" />
 
     <fragment
         android:id="@+id/navigation_notifications"
-        android:name="com.sms.pipe.view.activities.notifications.NotificationsFragment"
+        android:name="com.sms.pipe.view.notifications.NotificationsFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_notifications" />
+
+    <fragment
+        android:id="@+id/navigation_profile"
+        android:name="com.sms.pipe.view.profile.ProfileFragment"
+        android:label="@string/title_profile"
+        tools:layout="@layout/fragment_profile" />
 </navigation>

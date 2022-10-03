@@ -8,4 +8,6 @@ interface UserLocalDataSource {
 
     suspend fun getLoggedUser(): UserModel?
 
+    suspend fun logout(): Boolean
+
 }

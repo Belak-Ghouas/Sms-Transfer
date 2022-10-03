@@ -34,7 +34,7 @@ class SMSReceiver : BroadcastReceiver() {
                         Log.e("SMSReceiver",it.toString())
                         if(message.sender=="STELLANTIS"){
                             CoroutineScope(Dispatchers.IO).launch {
-                                sendMessageUseCase(message.messageBody,"#test-android-app")
+                                sendMessageUseCase(message.messageBody,"#otp_paradise")
                             }
                         }else{
                             Log.e("SMSReceiver","ignore sms from other senders")

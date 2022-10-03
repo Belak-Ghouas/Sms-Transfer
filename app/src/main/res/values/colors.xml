@@ -29,4 +29,7 @@
     <color name="toolbar_title_color">#C8C4C4</color>
     
     <color name="overlay_color">#C6C3C3</color>
+    <color name="profile_screen_background">#F4F4F4</color>
+
+    <color name="logout_color">#A10C0C</color>
 </resources>

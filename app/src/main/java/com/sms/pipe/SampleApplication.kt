@@ -3,8 +3,8 @@ package com.sms.pipe
 import android.app.Application
 import android.content.Context
 import com.sms.pipe.domain.usecases.InitMessagingUseCase
-import com.sms.pipe.framework.di.baseDataModules
-import com.sms.pipe.framework.di.baseDomainModules
+import com.sms.pipe.di.baseDataModules
+import com.sms.pipe.di.baseDomainModules
 import kotlinx.coroutines.*
 import org.koin.android.ext.android.inject
 import org.koin.android.ext.koin.androidContext
