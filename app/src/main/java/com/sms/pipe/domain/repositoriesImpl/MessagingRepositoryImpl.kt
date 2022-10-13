@@ -1,7 +1,7 @@
 package com.sms.pipe.domain.repositoriesImpl
 
 import com.sms.pipe.data.datasources.MessagingDataSource
-import com.sms.pipe.data.models.ConversationModel
+import com.sms.pipe.data.models.ChannelModel
 import com.sms.pipe.domain.repositories.MessagingRepository
 import com.sms.pipe.utils.Result
 
@@ -10,5 +10,5 @@ class MessagingRepositoryImpl(private val messagingDataSource: MessagingDataSour
 
     override suspend fun sendMessage(message: String, channelId: String) = messagingDataSource.sendMessage(message,channelId)
 
-    override suspend fun getConversationList(): Result<List<ConversationModel>> = messagingDataSource.getConversationList()
+    override suspend fun getListChannels(): Result<List<ChannelModel>> = messagingDataSource.getConversationList()
 }

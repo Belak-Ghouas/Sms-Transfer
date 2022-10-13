@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/navigation_home"
         android:name="com.sms.pipe.view.home.HomeFragment"
-        android:label="@string/title_home"
+        android:label="@string/fragment_title_home"
         tools:layout="@layout/fragment_home" />
 
     <fragment
@@ -19,12 +19,24 @@
     <fragment
         android:id="@+id/navigation_notifications"
         android:name="com.sms.pipe.view.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
+        android:label="@string/fragment_title_notifications"
         tools:layout="@layout/fragment_notifications" />
 
     <fragment
         android:id="@+id/navigation_profile"
         android:name="com.sms.pipe.view.profile.ProfileFragment"
-        android:label="@string/title_profile"
+        android:label="@string/fragment_title_profile"
         tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/chooseSlackFragment"
+        android:name="com.sms.pipe.view.addApplet.CreateSlackFragment"
+        android:label="ChooseSlackFragment"
+        tools:layout="@layout/fragment_create_slack"/>
+    <fragment
+        android:id="@+id/createFilterFragment"
+        android:name="com.sms.pipe.view.addApplet.CreateFilterFragment"
+        android:label="CreateFilterFragment"
+        tools:layout="@layout/fragment_create_filter"/>
+
+
 </navigation>

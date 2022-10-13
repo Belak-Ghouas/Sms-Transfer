@@ -1,7 +1,7 @@
-package com.sms.pipe.data.dao
+package com.sms.pipe.data.db.dao
 
 import androidx.room.*
-import com.sms.pipe.data.models.UserEntity
+import com.sms.pipe.data.db.entity.UserEntity
 
 
 @Dao

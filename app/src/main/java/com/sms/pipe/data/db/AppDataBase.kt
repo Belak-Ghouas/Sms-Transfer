@@ -4,13 +4,20 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.sms.pipe.data.dao.UserDao
-import com.sms.pipe.data.models.UserEntity
+import androidx.room.TypeConverters
+import com.sms.pipe.data.db.dao.AppletDao
+import com.sms.pipe.data.db.dao.UserDao
+import com.sms.pipe.data.db.entity.AppletEntity
+import com.sms.pipe.data.db.entity.Converters
+import com.sms.pipe.data.db.entity.UserEntity
 
-@Database(entities = [UserEntity::class], version = 1, exportSchema = false)
+@Database(entities = [UserEntity::class,AppletEntity::class], version = 1, exportSchema = false)
+@TypeConverters(Converters::class)
 abstract class AppDataBase : RoomDatabase() {
 
     abstract fun userDao(): UserDao
+
+    abstract fun appletDao():AppletDao
 
     companion object {
 

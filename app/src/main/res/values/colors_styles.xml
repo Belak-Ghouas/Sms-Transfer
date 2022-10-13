@@ -3,7 +3,28 @@
 
     <style name="MyApp.chip" parent="Widget.MaterialComponents.Chip.Filter">
         <item name="chipBackgroundColor">@color/bg_chip_state_list</item>
+        <item name="checkedIconEnabled">false</item>
+        <item name="checkedIcon">@null</item>
     </style>
 
 
+    <style name="user_profile_information_text">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textStyle">italic</item>
+    </style>
+
+    <style name="user_profile_information_text_title">
+        <item name="android:textSize">13sp</item>
+        <item name="android:textColor">@color/dark_grey</item>
+    </style>
+
+
+    <style name="user_profile_divider">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">2dp</item>
+        <item name="android:paddingStart">15dp</item>
+        <item name="android:paddingEnd">15dp</item>
+        <item name="android:background">?android:attr/listDivider</item>
+    </style>
 </resources>

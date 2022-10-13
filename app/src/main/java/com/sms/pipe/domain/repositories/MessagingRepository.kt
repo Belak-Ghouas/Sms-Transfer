@@ -1,6 +1,6 @@
 package com.sms.pipe.domain.repositories
 
-import com.sms.pipe.data.models.ConversationModel
+import com.sms.pipe.data.models.ChannelModel
 import com.sms.pipe.utils.Result
 
 interface MessagingRepository {
@@ -9,5 +9,5 @@ interface MessagingRepository {
 
     suspend fun sendMessage(message:String,channelId :String)
 
-    suspend fun getConversationList():Result<List<ConversationModel>>
+    suspend fun getListChannels():Result<List<ChannelModel>>
 }

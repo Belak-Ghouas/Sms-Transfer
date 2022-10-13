@@ -38,9 +38,14 @@ abstract class BaseFragment <VM : BaseFragmentViewModel, B : ViewBinding> : Frag
         savedInstanceState: Bundle?
     ): View? {
         binding = getViewBinding()
+
+       return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         initViews()
         initObservers()
-       return binding.root
     }
 
     abstract fun getViewBinding(): B

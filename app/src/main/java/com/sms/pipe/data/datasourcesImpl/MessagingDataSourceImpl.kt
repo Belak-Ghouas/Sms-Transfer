@@ -10,7 +10,7 @@ import com.slack.api.methods.response.chat.ChatPostMessageResponse
 import com.slack.api.model.Conversation
 import com.slack.api.model.ConversationType
 import com.sms.pipe.data.datasources.MessagingDataSource
-import com.sms.pipe.data.models.ConversationModel
+import com.sms.pipe.data.models.ChannelModel
 import com.sms.pipe.utils.ErrorCodes.MESSAGING_API_CALL_FAILED
 import com.sms.pipe.utils.MessagingIsNotInitializedException
 import com.sms.pipe.utils.Result
@@ -46,7 +46,7 @@ class MessagingDataSourceImpl : MessagingDataSource {
 
     }
 
-    override suspend fun getConversationList():Result<List<ConversationModel>>{
+    override suspend fun getConversationList():Result<List<ChannelModel>>{
         val types: MutableList<ConversationType> = ArrayList()
         types.add(ConversationType.PUBLIC_CHANNEL)
         types.add(ConversationType.PRIVATE_CHANNEL)
@@ -60,7 +60,7 @@ class MessagingDataSourceImpl : MessagingDataSource {
 
                 val channels: List<Conversation> = listResponse.channels
                 Log.d("Conversation", channels.map { it.name }.toString())
-                return  Result.Success(channels.map { ConversationModel(it.name) } )
+                return  Result.Success(channels.map { ChannelModel(it.name) } )
             } catch (e: IOException) {
                 Log.e("API call failed: " , e.toString())
             } catch (e: SlackApiException) {

@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.sms.pipe.data.models.UserModel
 import com.sms.pipe.domain.repositories.MessagingRepository
+import com.sms.pipe.domain.usecases.GetAppletsUseCase
 import com.sms.pipe.domain.usecases.GetLoggedUserUseCase
 import com.sms.pipe.domain.usecases.SendMessageUseCase
 import com.sms.pipe.view.model.AppletUi
@@ -13,7 +14,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class HomeViewModel(private val sendMessageUseCase: SendMessageUseCase,
-                    private val messagingRepository: MessagingRepository,
+                    private val getAppletsUseCase: GetAppletsUseCase,
                     private val getLoggedUserUseCase: GetLoggedUserUseCase) : BaseFragmentViewModel() {
 
     private val _appletUi = MutableLiveData<AppletUi>()
@@ -38,19 +39,10 @@ class HomeViewModel(private val sendMessageUseCase: SendMessageUseCase,
 
     fun getApplet(){
         viewModelScope.launch(Dispatchers.Default){
-            ( getLoggedUserUseCase()?.toAppletUi())?.let {
+            getAppletsUseCase().firstOrNull()?.let {
                 _appletUi.postValue(it)
             }
         }
     }
 
-
-    private fun UserModel.toAppletUi(): AppletUi? {
-        if (this.slack_team != null && this.slack_team.teamName != null) {
-            return AppletUi(
-                appletName = this.slack_team.teamName,
-            )
-        }
-        return null
-    }
 }

@@ -1,6 +1,7 @@
 package com.sms.pipe.view.profile
 
 import android.content.Intent
+import com.sms.pipe.data.models.UserModel
 import com.sms.pipe.databinding.FragmentProfileBinding
 import com.sms.pipe.di.profileModules
 import com.sms.pipe.view.base.BaseFragment
@@ -17,6 +18,8 @@ class ProfileFragment : BaseFragment<ProfileViewModel, FragmentProfileBinding>()
         binding.logoutCard.setOnClickListener {
             fragmentViewModel.logout()
         }
+
+        binding.notification
     }
 
     override fun initObservers() {
@@ -26,5 +29,14 @@ class ProfileFragment : BaseFragment<ProfileViewModel, FragmentProfileBinding>()
          startActivity(intent)
          requireActivity().finish()
      }
+        
+        fragmentViewModel.user.observe(viewLifecycleOwner){
+            bindUserUI(it)
+        }
+    }
+
+    private fun bindUserUI(userModel: UserModel) {
+        binding.email.text = userModel.email
+        binding.username.text = userModel.username
     }
 }

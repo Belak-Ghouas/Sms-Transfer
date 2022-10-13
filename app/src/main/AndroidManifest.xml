@@ -51,7 +51,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".view.activities.ScrollingActivity"
+            android:name=".view.addApplet.CreateAppletActivity"
             android:theme="@style/Theme.SmsPipe" />
 
         <receiver

@@ -1,4 +1,4 @@
-package com.sms.pipe.data.models
+package com.sms.pipe.data.db.entity
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

@@ -1,9 +1,9 @@
 package com.sms.pipe.data.datasourcesImpl
 
-import com.sms.pipe.data.dao.UserDao
+import com.sms.pipe.data.db.dao.UserDao
 import com.sms.pipe.data.datasources.UserLocalDataSource
 import com.sms.pipe.data.models.SlackTeamModel
-import com.sms.pipe.data.models.UserEntity
+import com.sms.pipe.data.db.entity.UserEntity
 import com.sms.pipe.data.models.UserModel
 
 class UserLocalDataSourceImpl(private val userDao: UserDao): UserLocalDataSource {

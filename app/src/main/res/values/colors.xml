@@ -8,6 +8,8 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
+    <color name="dark_grey">#3E3E3E</color>
+
     <!-- theme colors -->
     <color name="green">#1B5E20</color>
     <color name="green_dark">#003300</color>
@@ -19,7 +21,7 @@
     <!-- Primary brand color. -->
     <color name="colorPrimary">#000000</color>
     <color name="colorPrimaryVariant">#0B0B0B</color>
-    <color name="colorOnPrimary">#ffffff</color>
+    <color name="colorOnPrimary">#EEEEEE</color>
     <!-- Secondary brand color. -->
     <color name="colorSecondary">#A5D6A7</color>
     <color name="colorSecondaryVariant">#005B9F</color>
@@ -29,7 +31,7 @@
     <color name="toolbar_title_color">#C8C4C4</color>
     
     <color name="overlay_color">#C6C3C3</color>
-    <color name="profile_screen_background">#F4F4F4</color>
+    <color name="profile_screen_background">#FFFFFF</color>
 
     <color name="logout_color">#A10C0C</color>
 </resources>

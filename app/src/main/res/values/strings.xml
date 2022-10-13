@@ -93,8 +93,21 @@
 
     <string name="login_screen_name">Login</string>
     <string name="title_activity_main">MainActivity</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
-    <string name="title_profile">Profile</string>
+    <string name="fragment_title_home">Home</string>
+    <string name="fragment_title_dashboard">Dashboard</string>
+    <string name="fragment_title_notifications">Notifications</string>
+    <string name="fragment_title_profile">Profile</string>
+    <string name="user_profile_title">Profile Management</string>
+    <string name="user_profile_email">Email</string>
+    <string name="user_profile_username">Username</string>
+    <string name="user_profile_notifications">Notifications</string>
+    <string name="user_profile_sign_out">Sign out</string>
+    <string name="phone_number_title">phone number</string>
+    <string name="content_of_the_sms">Content of the sms</string>
+    <string name="by_sender_title">By sender</string>
+    <string name="sms_content_hint">sms content</string>
+    <string name="phone_number_filter_description">Phone number of the sender, every time an sms received with phone number , the filter will be triggered</string>
+    <string name="sms_content_description">Each time an sms received contains the text entered below the filter will be triggered</string>
+    <string name="post_to_slack_description"> This step is required to select your preferable Slack channel to post you automatic message, you can also personalize the content of this message. </string>
+    <string name="selected_channel">You selected the channel : <b><i> %1$s </i></b> all dedicated filter will send messages on this slack channel  </string>
 </resources>

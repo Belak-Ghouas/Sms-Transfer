@@ -5,8 +5,6 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
-import androidx.core.app.DialogCompat
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
@@ -17,6 +15,7 @@ import com.sms.pipe.di.vmMainActivityModule
 import com.sms.pipe.view.base.BaseActivity
 import com.sms.pipe.view.base.BaseActivityViewModel
 import org.koin.core.module.Module
+
 const val PERMISSION_REQUEST_CODE =99
 
 class MainActivity : BaseActivity<BaseActivityViewModel, ActivityMainBinding>() {
@@ -85,6 +84,11 @@ class MainActivity : BaseActivity<BaseActivityViewModel, ActivityMainBinding>() 
                 // Ignore all other requests.
             }
         }
+    }
+
+
+    fun navigateTo(fragmentId: Int) {
+        findNavController(R.id.nav_host_fragment_activity_main).navigate(fragmentId)
     }
 
 }
