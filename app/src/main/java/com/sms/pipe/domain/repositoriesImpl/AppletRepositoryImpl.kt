@@ -16,4 +16,8 @@ class AppletRepositoryImpl(private val appletDataSource: AppletDataSource):Apple
     override suspend fun getAllApplet(): List<AppletUi> {
         return appletDataSource.getAllApplet()
     }
+
+    override suspend fun getEnabledApplets(): List<AppletUi> {
+        return appletDataSource.getEnabledApplets()
+    }
 }

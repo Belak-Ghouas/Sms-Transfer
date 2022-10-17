@@ -6,13 +6,12 @@ import androidx.room.PrimaryKey
 import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.sms.pipe.view.model.AppletFilterType
 
 
 @Entity
 data class AppletEntity(
     @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "id") val id: Long = 0,
+    @ColumnInfo(name = "applet_id") val id: Long = 0,
 
     @ColumnInfo(name = "appletName") val appletName:String,
 
@@ -20,7 +19,7 @@ data class AppletEntity(
 
     @ColumnInfo(name = "channel_name") val channelName: String,
 
-    @ColumnInfo(name = "filters") val filters: List<AppletFilterType> = listOf(),
+    @ColumnInfo(name = "filters") val filters: List<AppletFilterEntity> = listOf(),
 
     @ColumnInfo(name = "isEnabled") val isEnabled :Boolean
 )
@@ -28,13 +27,13 @@ data class AppletEntity(
 
 object Converters {
     @TypeConverter
-    fun fromString(value: String): List<AppletFilterType> {
-        val listType = object: TypeToken<ArrayList<AppletFilterType>>() {}.type
+    fun fromString(value: String): List<AppletFilterEntity> {
+        val listType = object: TypeToken<ArrayList<AppletFilterEntity>>() {}.type
         return Gson().fromJson(value, listType)
     }
 
     @TypeConverter
-    fun fromArrayList(list:List<AppletFilterType>): String {
+    fun fromArrayList(list:List<AppletFilterEntity>): String {
         val gson = Gson()
         return gson.toJson(list)
     }

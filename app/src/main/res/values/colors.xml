@@ -33,5 +33,10 @@
     <color name="overlay_color">#C6C3C3</color>
     <color name="profile_screen_background">#FFFFFF</color>
 
+    <color name="bar_nav_color">#A2C3D3</color>
+    <color name="bar_status_color">#74B0D7EA</color>
+
     <color name="logout_color">#A10C0C</color>
+
+    <color name="transparent">#00FFFFFF</color>
 </resources>

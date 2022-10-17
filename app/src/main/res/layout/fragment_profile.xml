@@ -16,7 +16,7 @@
         android:id="@+id/profile_card_image"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="240dp"
+        android:minHeight="260dp"
         app:cardCornerRadius="20dp"
         app:cardElevation="6dp"
         android:layout_marginTop="20dp"
@@ -36,7 +36,7 @@
             />
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="220dp"
             android:layout_marginTop="30dp"
             android:background="@drawable/profile_background"
             android:orientation="vertical">
@@ -48,7 +48,7 @@
         android:id="@+id/user_information_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="150dp"
+        android:minHeight="170dp"
         app:cardCornerRadius="8dp"
         app:cardElevation="6dp"
         android:layout_marginTop="20dp"
@@ -63,7 +63,8 @@
             android:paddingTop="5dp"
             android:paddingBottom="5dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingVertical="20dp"
             android:orientation="vertical">
 
 
@@ -141,6 +142,42 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="40dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp">
+                <TextView
+                    android:id="@+id/applets"
+                    style="@style/user_profile_information_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/user_profile_applets"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/enable_applets"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:enabled="true"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+                <TextView
+                    android:id="@+id/service_description"
+                    style="@style/user_profile_information_text_title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:text="@string/profile_service_description"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/enable_applets"
+                    app:layout_constraintTop_toBottomOf="@id/applets"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
         </androidx.appcompat.widget.LinearLayoutCompat>
     </com.google.android.material.card.MaterialCardView>
 
@@ -173,7 +210,7 @@
                 android:gravity="center"
                 android:text="@string/user_profile_sign_out"
                 android:textColor="@color/logout_color"
-                android:textSize="16sp"
+                android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

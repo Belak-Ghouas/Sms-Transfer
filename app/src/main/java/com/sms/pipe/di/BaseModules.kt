@@ -9,9 +9,6 @@ import com.sms.pipe.domain.repositoriesImpl.MessagingRepositoryImpl
 import com.sms.pipe.domain.repositoriesImpl.UserRepositoryImpl
 import com.sms.pipe.domain.repositories.MessagingRepository
 import com.sms.pipe.domain.repositories.UserRepository
-import com.sms.pipe.domain.usecases.GetLoggedUserUseCase
-import com.sms.pipe.domain.usecases.InitMessagingUseCase
-import com.sms.pipe.domain.usecases.SendMessageUseCase
 import com.sms.pipe.data.ApiInterface
 import com.sms.pipe.data.datasources.AppletDataSource
 import com.sms.pipe.data.datasourcesImpl.AppletDataSourceImpl
@@ -21,7 +18,7 @@ import com.sms.pipe.data.datasourcesImpl.UserRemoteDataSourceImpl
 import com.sms.pipe.data.db.AppDataBase
 import com.sms.pipe.domain.repositories.AppletRepository
 import com.sms.pipe.domain.repositoriesImpl.AppletRepositoryImpl
-import com.sms.pipe.domain.usecases.StoreAppletUseCase
+import com.sms.pipe.domain.usecases.*
 import com.sms.pipe.utils.PhoneUtils
 import org.koin.android.ext.koin.androidApplication
 import org.koin.dsl.module
@@ -50,4 +47,5 @@ val baseDomainModules = module {
     factory { SendMessageUseCase(messagingRepository = get()) }
     factory { InitMessagingUseCase(userRepository = get(), messagingRepository = get()) }
     factory { StoreAppletUseCase(appletRepository = get()) }
+    factory { OnSMSReceivedUseCase(messagingRepository = get(), appletRepository = get()) }
 }

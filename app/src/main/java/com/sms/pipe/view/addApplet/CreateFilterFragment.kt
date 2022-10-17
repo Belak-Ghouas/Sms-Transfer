@@ -9,14 +9,16 @@ import android.view.ViewGroup
 import com.sms.pipe.databinding.FragmentCreateFilterBinding
 import com.sms.pipe.di.vmCreateFilterModules
 import com.sms.pipe.view.base.BaseFragment
-import com.sms.pipe.view.model.AppletFilterType
+import com.sms.pipe.view.model.AppletFilter
+import com.sms.pipe.view.model.AppletFilterContent
+import com.sms.pipe.view.model.AppletFilterSender
 import com.sms.pipe.view.model.AppletUi
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.core.module.Module
 
 class CreateFilterFragment : BaseFragment<CreateFilterViewModel, FragmentCreateFilterBinding>() {
 
-    private val myAppletFilter:ArrayList<AppletFilterType> = ArrayList()
+    private val myAppletFilter:ArrayList<AppletFilter> = ArrayList()
     private val createAppletViewModel by sharedViewModel<CreateAppletViewModel>()
     private val activity : CreateAppletActivity by lazy {
         requireActivity() as CreateAppletActivity
@@ -46,11 +48,10 @@ class CreateFilterFragment : BaseFragment<CreateFilterViewModel, FragmentCreateF
         binding.chipNumberFilter.setOnCheckedChangeListener{_,checked->
             calculateStateOfValidateButton()
             if(checked){
-                myAppletFilter.add(AppletFilterType.BY_SENDER)
+
                 binding.senderNumberInput.visibility = View.VISIBLE
                 binding.tvPhoneNumberDescription.visibility = View.VISIBLE
             }else {
-                myAppletFilter.remove(AppletFilterType.BY_SENDER)
                 binding.senderNumberInput.visibility = View.GONE
                 binding.tvPhoneNumberDescription.visibility =View.GONE
                 binding.senderPhoneNumber.text?.clear()
@@ -59,11 +60,9 @@ class CreateFilterFragment : BaseFragment<CreateFilterViewModel, FragmentCreateF
         binding.chipSmsContentFilter.setOnCheckedChangeListener{_,checked->
             calculateStateOfValidateButton()
             if(checked){
-                myAppletFilter.add(AppletFilterType.BY_CONTENT)
                 binding.smsContentInput.visibility = View.VISIBLE
                 binding.tvSmsContentDescription.visibility = View.VISIBLE
             }else{
-                myAppletFilter.remove(AppletFilterType.BY_CONTENT)
                 binding.smsContentInput.visibility = View.GONE
                 binding.tvSmsContentDescription.visibility = View.GONE
                 binding.senderSmsContent.text?.clear()
@@ -83,6 +82,14 @@ class CreateFilterFragment : BaseFragment<CreateFilterViewModel, FragmentCreateF
     }
 
     private fun createApplet() {
+        if(binding.chipNumberFilter.isChecked && binding.senderPhoneNumber.text?.isNotEmpty() == true){
+            myAppletFilter.add(AppletFilterSender(binding.senderPhoneNumber.text.toString()))
+        }
+
+        if(binding.chipSmsContentFilter.isChecked && binding.senderSmsContent.text?.isNotEmpty() == true){
+            myAppletFilter.add(AppletFilterContent(binding.senderSmsContent.text.toString()))
+        }
+
         val myApplet = AppletUi(
             appletName = "Default",
             filters = myAppletFilter,

@@ -8,6 +8,7 @@ import android.telephony.SmsMessage
 import android.util.Log
 import com.sms.pipe.data.models.MessageModel
 import com.sms.pipe.domain.usecases.InitMessagingUseCase
+import com.sms.pipe.domain.usecases.OnSMSReceivedUseCase
 import com.sms.pipe.domain.usecases.SendMessageUseCase
 import com.sms.pipe.utils.Result
 import com.sms.pipe.utils.doIfSuccess
@@ -22,6 +23,7 @@ class SMSReceiver : BroadcastReceiver() {
     private val tag = " SMSReceiver "
     private val sendMessageUseCase :SendMessageUseCase by inject(SendMessageUseCase::class.java)
     private val initMessagingUseCase : InitMessagingUseCase by inject(InitMessagingUseCase::class.java)
+    private val onSmsReceivedUseCase : OnSMSReceivedUseCase by inject(OnSMSReceivedUseCase::class.java)
 
     override fun onReceive(context: Context?, intent: Intent?) {
         CoroutineScope(Dispatchers.IO).launch {
@@ -32,16 +34,12 @@ class SMSReceiver : BroadcastReceiver() {
                     // displayMessage(intent)
                     extractMessage(intent).doIfSuccess {message->
                         Log.e("SMSReceiver",it.toString())
-                        if(message.sender=="STELLANTIS"){
                             CoroutineScope(Dispatchers.IO).launch {
-                                sendMessageUseCase(message.messageBody,"#otp_paradise")
+                                onSmsReceivedUseCase(message)
                             }
-                        }else{
-                            Log.e("SMSReceiver","ignore sms from other senders")
-                        }
 
                     }
-                    context?.startService(serviceIntent)
+                //    context?.startService(serviceIntent)
                 }
             } ?: kotlin.run {
                 Log.e(tag, "the intent is null")

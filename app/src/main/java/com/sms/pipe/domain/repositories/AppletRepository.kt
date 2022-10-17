@@ -8,4 +8,6 @@ interface AppletRepository {
     suspend fun getApplet(id:Long): AppletUi
 
     suspend fun getAllApplet():List<AppletUi>
+
+    suspend fun getEnabledApplets():List<AppletUi>
 }

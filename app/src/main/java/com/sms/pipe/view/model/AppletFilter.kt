@@ -1,6 +1,7 @@
 package com.sms.pipe.view.model
 
+import com.sms.pipe.data.models.MessageModel
+
 interface AppletFilter {
-    fun filterBySender(sender:String):Boolean
-    fun filterByContent(content:String):Boolean
+    fun match(messageModel:MessageModel):Boolean
 }

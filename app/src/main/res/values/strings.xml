@@ -101,6 +101,7 @@
     <string name="user_profile_email">Email</string>
     <string name="user_profile_username">Username</string>
     <string name="user_profile_notifications">Notifications</string>
+    <string name="user_profile_applets">Service State</string>
     <string name="user_profile_sign_out">Sign out</string>
     <string name="phone_number_title">phone number</string>
     <string name="content_of_the_sms">Content of the sms</string>
@@ -110,4 +111,7 @@
     <string name="sms_content_description">Each time an sms received contains the text entered below the filter will be triggered</string>
     <string name="post_to_slack_description"> This step is required to select your preferable Slack channel to post you automatic message, you can also personalize the content of this message. </string>
     <string name="selected_channel">You selected the channel : <b><i> %1$s </i></b> all dedicated filter will send messages on this slack channel  </string>
+    <string name="profile_service_description">Allow the application to post incoming tagged SMS Message to your selected channels</string>
+    <string name="card_description">Depending on the rules, Applet will post messages on this channel : %1$s</string>
+    <string name="card_rules">Rules added : %1$s</string>
 </resources>

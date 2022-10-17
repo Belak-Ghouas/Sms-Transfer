@@ -1,19 +1,26 @@
 package com.sms.pipe.view.model
 
-data class AppletFilterSender(val senderNumber:String):AppletFilter {
+import com.sms.pipe.data.models.MessageModel
 
-    override fun filterBySender(sender:String): Boolean {
-        return senderNumber.equals(sender,true)
+data class AppletFilterSender(var value :String):AppletFilter {
+    override fun match(messageModel: MessageModel): Boolean {
+        return messageModel.sender.equals(value,true)
     }
 
-    override fun filterByContent(content:String): Boolean {
-       return false
+    override fun toString(): String {
+        return "Filter on Sender"
     }
 }
 
-enum class AppletFilterType{
-    BY_SENDER,
-    BY_CONTENT
+data class AppletFilterContent(var value: String):AppletFilter{
+
+    override fun match(messageModel: MessageModel): Boolean {
+        return messageModel.messageBody.contains(value,true)
+    }
+
+    override fun toString(): String {
+        return "Filter on Content"
+    }
 }
 
 enum class AppletFilterRelation{

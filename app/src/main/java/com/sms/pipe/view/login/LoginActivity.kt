@@ -1,7 +1,9 @@
 package com.sms.pipe.view.login
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import com.sms.pipe.databinding.LoginActivityBinding
 import com.sms.pipe.di.domainLoginModules
@@ -24,6 +26,7 @@ class LoginActivity: BaseActivity<LoginActivityViewModel, LoginActivityBinding>(
     }
 
     private fun didComeFromDeepLink() {
+        Log.d("LoginActivity ","We Come from deepLink")
     }
 
     override fun initViews() {
@@ -37,6 +40,11 @@ class LoginActivity: BaseActivity<LoginActivityViewModel, LoginActivityBinding>(
                 return@setOnClickListener
             }
            activityViewModel.login(binding.inputEmail.text.toString(),binding.inputPassword.text.toString())
+        }
+
+        binding.createAccount.setOnClickListener {
+            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://sms-pipe-web.web.app/register"))
+            startActivity(browserIntent)
         }
     }
 

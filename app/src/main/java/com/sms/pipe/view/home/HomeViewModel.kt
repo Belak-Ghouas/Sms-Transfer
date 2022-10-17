@@ -26,16 +26,6 @@ class HomeViewModel(private val sendMessageUseCase: SendMessageUseCase,
 
     }
 
-    private val _text = MutableLiveData<String>().apply {
-        viewModelScope.launch(Dispatchers.IO){
-         /*   messagingRepository.getConversationList().doIfSuccess {
-               this@apply.postValue(it.toString())
-            }*/
-        }
-
-
-    }
-    val text: LiveData<String> = _text
 
     fun getApplet(){
         viewModelScope.launch(Dispatchers.Default){

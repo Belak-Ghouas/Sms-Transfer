@@ -28,7 +28,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:visibility="visible"
+        tools:visibility="gone"
         />
 
 
@@ -60,66 +60,83 @@
         card_view:layout_constraintRight_toRightOf="parent"
         card_view:layout_constraintTop_toTopOf="parent">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/input_layout_email"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="20dp"
-            app:errorEnabled="true"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/input_email"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_layout_email"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="top|center"
-                android:hint="email@example.com"
-                android:imeOptions="actionDone"
-                android:inputType="textEmailAddress"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="20dp"
+                app:errorEnabled="true"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
-        </com.google.android.material.textfield.TextInputLayout>
+                app:layout_constraintStart_toStartOf="parent">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/input_layout_password"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="100dp"
-            app:errorEnabled="true"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/input_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="top|center"
+                    android:hint="email@example.com"
+                    android:imeOptions="actionDone"
+                    android:inputType="textEmailAddress"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/input_password"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_layout_password"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:hint="password"
-                android:imeOptions="actionDone"
-                android:inputType="textPassword"
+                android:layout_marginHorizontal="20dp"
+                app:errorEnabled="true"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="parent" />
-        </com.google.android.material.textfield.TextInputLayout>
+                app:layout_constraintStart_toStartOf="parent">
 
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/input_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:hint="password"
+                    android:imeOptions="actionDone"
+                    android:inputType="textPassword"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="parent" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-        <Button
-            android:id="@+id/login_btn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="70dp"
-            android:layout_marginHorizontal="20dp"
-            android:background="@drawable/rounded_corner"
-            android:enabled="true"
-            android:text="Login"
-            android:textAllCaps="false"
-            android:textColor="@android:color/white"/>
+            <TextView
+                android:id="@+id/create_account"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="20dp"
+                android:layout_gravity="end"
+                android:gravity="end"
+                android:clickable="true"
+                android:text="Create new account?"
+                android:textColor="#ff0000ff"
+                android:textSize="18sp"
+                />
+            <Button
+                android:id="@+id/login_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/rounded_corner"
+                android:enabled="true"
+                android:text="Login"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white"/>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
 
     </androidx.cardview.widget.CardView>
