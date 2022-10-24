@@ -39,4 +39,7 @@
     <color name="logout_color">#A10C0C</color>
 
     <color name="transparent">#00FFFFFF</color>
+
+    <color name="m_grey">#7C7C7C</color>
+    <color name="disabled_grey">#3CAEAEAE</color>
 </resources>

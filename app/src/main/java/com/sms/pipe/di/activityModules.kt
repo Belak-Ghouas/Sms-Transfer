@@ -21,7 +21,7 @@ val domainLoginModules = module {
 
 
 val vmSplashModule= module {
-    viewModel { SplashScreenActivityViewModel(getLoggedUserUseCase = get()) }
+    viewModel { SplashScreenActivityViewModel() }
 }
 
 

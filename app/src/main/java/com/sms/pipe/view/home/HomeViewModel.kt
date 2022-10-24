@@ -3,28 +3,21 @@ package com.sms.pipe.view.home
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.sms.pipe.data.models.UserModel
-import com.sms.pipe.domain.repositories.MessagingRepository
 import com.sms.pipe.domain.usecases.GetAppletsUseCase
-import com.sms.pipe.domain.usecases.GetLoggedUserUseCase
+import com.sms.pipe.domain.usecases.RefreshUserDataUseCase
 import com.sms.pipe.domain.usecases.SendMessageUseCase
-import com.sms.pipe.view.model.AppletUi
 import com.sms.pipe.view.base.BaseFragmentViewModel
+import com.sms.pipe.view.model.AppletUi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class HomeViewModel(private val sendMessageUseCase: SendMessageUseCase,
                     private val getAppletsUseCase: GetAppletsUseCase,
-                    private val getLoggedUserUseCase: GetLoggedUserUseCase) : BaseFragmentViewModel() {
+                    private val refreshUserDataUseCase: RefreshUserDataUseCase
+) : BaseFragmentViewModel() {
 
     private val _appletUi = MutableLiveData<AppletUi>()
     val appletUi : LiveData<AppletUi> =_appletUi
-    fun sendMessage(message:String) {
-        viewModelScope.launch(Dispatchers.IO){
-            sendMessageUseCase(message,"#test-android-app")
-        }
-
-    }
 
 
     fun getApplet(){
@@ -34,5 +27,30 @@ class HomeViewModel(private val sendMessageUseCase: SendMessageUseCase,
             }
         }
     }
+
+    fun refresh() {
+        viewModelScope.launch(Dispatchers.IO){
+            refreshUserDataUseCase()
+            getUser()
+        }
+    }
+
+    private val _hasSlack  = MutableLiveData<Boolean> ()
+    val hasSlack:LiveData<Boolean> = _hasSlack
+
+    init {
+        getUser()
+    }
+
+    private fun getUser() {
+        viewModelScope.launch(Dispatchers.IO){
+            getLoggedUserUseCase()?.let {
+                _hasSlack.postValue(!it.slack_access_token.isNullOrEmpty())
+            }?:run {
+                _hasSlack.postValue(false)
+            }
+        }
+    }
+
 
 }

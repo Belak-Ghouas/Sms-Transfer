@@ -19,7 +19,8 @@ class UserLocalDataSourceImpl(private val userDao: UserDao): UserLocalDataSource
         user?.let {
             return it
         }?: kotlin.run {
-            return userDao.getLoggedUser()?.toModel()
+            user = userDao.getLoggedUser()?.toModel()
+            return user
         }
     }
 

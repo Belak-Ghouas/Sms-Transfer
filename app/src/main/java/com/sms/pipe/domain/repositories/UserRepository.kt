@@ -9,4 +9,6 @@ interface UserRepository {
     suspend fun getLoggedUser(): UserModel?
 
     suspend fun logout(): Boolean
+
+    suspend fun refreshData()
 }

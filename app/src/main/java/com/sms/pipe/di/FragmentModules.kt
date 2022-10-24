@@ -12,12 +12,12 @@ import org.koin.dsl.module
 
 
 val vmHomeModules = module {
-    viewModel { HomeViewModel(sendMessageUseCase = get(), getAppletsUseCase = get(), getLoggedUserUseCase = get()) }
+    viewModel { HomeViewModel(sendMessageUseCase = get(), getAppletsUseCase = get(), refreshUserDataUseCase = get()) }
     factory { GetAppletsUseCase(appletRepository = get()) }
 }
 
 val vmDashboardModules = module {
-    viewModel { DashboardViewModel() }
+    viewModel { DashboardViewModel(refreshUserDataUseCase = get()) }
 }
 
 val vmNotificationModules = module {
@@ -25,7 +25,7 @@ val vmNotificationModules = module {
 }
 
 val profileModules = module {
-    viewModel { ProfileViewModel(logoutUseCase = get(), getLoggedUserUseCase = get()) }
+    viewModel { ProfileViewModel(logoutUseCase = get()) }
     factory { LogoutUseCase(userRepository = get()) }
 }
 

@@ -10,12 +10,14 @@ import com.sms.pipe.utils.Result
 
 class UserRemoteDataSourceImpl(private val userApi : ApiInterface, private val phoneUtils: PhoneUtils) :
     UserRemoteDataSource {
+    
     override suspend fun login(email: String, password: String): Result<UserModel> {
         try {
             return if (phoneUtils.isNetworkOnline()) {
                 val loginResponse = userApi.login(email, password)
                 if (loginResponse.isSuccessful) {
                     loginResponse.body()?.user?.let {
+                        it.token = loginResponse.body()?.token
                         it.logged = true
                         Result.Success(it)
                     } ?: kotlin.run {
@@ -34,7 +36,31 @@ class UserRemoteDataSourceImpl(private val userApi : ApiInterface, private val p
 
     }
 
+
     override suspend fun save(user: UserModel) {
+    }
+
+    override suspend fun refreshData(token:String): Result<UserModel> {
+        try {
+            return if (phoneUtils.isNetworkOnline()) {
+                val loginResponse = userApi.refreshData("Bearer $token")
+                if (loginResponse.isSuccessful) {
+                    loginResponse.body()?.user?.let {
+                        it.logged = true
+                        Result.Success(it)
+                    } ?: kotlin.run {
+                        Result.Failure(EMPTY_API_RESPONSE, "empty response")
+                    }
+                } else {
+                    Result.Failure(loginResponse.code(), loginResponse.errorBody().toString())
+                }
+            } else {
+
+                Result.Failure(errorCode = NO_NETWORK, "no network")
+            }
+        }catch (exception:Exception){
+            return   Result.Failure(errorCode = NO_NETWORK, "no network")
+        }
     }
 
 

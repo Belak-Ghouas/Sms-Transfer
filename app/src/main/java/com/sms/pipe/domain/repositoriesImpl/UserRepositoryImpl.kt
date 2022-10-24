@@ -1,5 +1,6 @@
 package com.sms.pipe.domain.repositoriesImpl
 
+import com.sms.pipe.data.datasources.SecureDataStore
 import com.sms.pipe.data.datasources.UserLocalDataSource
 import com.sms.pipe.data.datasources.UserRemoteDataSource
 import com.sms.pipe.data.models.UserModel
@@ -10,7 +11,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
-class UserRepositoryImpl(private val userRemoteDataSource: UserRemoteDataSource, private val userLocalDataSource: UserLocalDataSource) :
+class UserRepositoryImpl(private val userRemoteDataSource: UserRemoteDataSource, private val userLocalDataSource: UserLocalDataSource, private val secureDataStore: SecureDataStore) :
     UserRepository {
     private val scope = CoroutineScope(Job()+Dispatchers.IO)
 
@@ -29,9 +30,21 @@ class UserRepositoryImpl(private val userRemoteDataSource: UserRemoteDataSource,
 
     override suspend fun logout() = userLocalDataSource.logout()
 
+    override suspend fun refreshData() {
+        secureDataStore.get("token").apply {
+            if(this.isNotEmpty()){
+                userRemoteDataSource.refreshData(this).doIfSuccess {
+                    saveUserOnLocal(it)
+                }
+            }
+        }
+
+    }
+
     private fun saveUserOnLocal(user: UserModel){
         scope.launch {
             userLocalDataSource.save(user)
+            user.token?.let { secureDataStore.store("token", it) }
         }
     }
 }
