@@ -25,7 +25,7 @@ val vmNotificationModules = module {
 }
 
 val profileModules = module {
-    viewModel { ProfileViewModel(logoutUseCase = get()) }
+    viewModel { ProfileViewModel(logoutUseCase = get() , getLoggedUserUseCase = get()) }
     factory { LogoutUseCase(userRepository = get()) }
 }
 

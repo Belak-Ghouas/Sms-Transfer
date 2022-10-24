@@ -2,8 +2,8 @@ package com.sms.pipe.di
 
 import com.sms.pipe.domain.usecases.GetListChannelsUseCase
 import com.sms.pipe.domain.usecases.LoginUseCase
+import com.sms.pipe.view.MainActivityViewModel
 import com.sms.pipe.view.addApplet.CreateAppletViewModel
-import com.sms.pipe.view.base.BaseActivityViewModel
 import com.sms.pipe.view.base.BaseFragmentViewModel
 import com.sms.pipe.view.login.LoginActivityViewModel
 import com.sms.pipe.view.splash.SplashScreenActivityViewModel
@@ -21,12 +21,12 @@ val domainLoginModules = module {
 
 
 val vmSplashModule= module {
-    viewModel { SplashScreenActivityViewModel() }
+    viewModel { SplashScreenActivityViewModel(getLoggedUserUseCase = get()) }
 }
 
 
 val vmMainActivityModule = module {
-    viewModel { BaseActivityViewModel() }
+    viewModel { MainActivityViewModel(getLoggedUserUseCase = get(), refreshUserDataUseCase = get()) }
 }
 
 val vmChooseSlackModule = module {

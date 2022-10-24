@@ -21,11 +21,6 @@ class DashboardViewModel(private val refreshUserDataUseCase: RefreshUserDataUseC
 
     private fun getUser() {
         viewModelScope.launch(Dispatchers.IO){
-            getLoggedUserUseCase()?.let {
-                _hasSlack.postValue(!it.slack_access_token.isNullOrEmpty())
-            }?:run {
-                _hasSlack.postValue(false)
-            }
         }
     }
 

@@ -12,11 +12,6 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="com.sms.pipe.view.dashboard.DashboardFragment"
-        tools:layout="@layout/fragment_dashboard" />
-
-    <fragment
         android:id="@+id/navigation_notifications"
         android:name="com.sms.pipe.view.notifications.NotificationsFragment"
         android:label="@string/fragment_title_notifications"

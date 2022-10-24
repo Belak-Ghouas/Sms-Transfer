@@ -235,25 +235,6 @@
         </androidx.appcompat.widget.LinearLayoutCompat>
     </com.google.android.material.card.MaterialCardView>
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/add_to_slack"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:drawableStart="@drawable/ic_slack"
-        android:drawablePadding="8dp"
-        android:text ="add your app to slack"
-        android:visibility="gone"
-        android:textSize="18sp"
-        android:textAllCaps="false"
-        android:paddingHorizontal="8dp"
-        android:background="@drawable/rounded_corner"
-        android:backgroundTint="@color/bar_status_color"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/card_empty"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:visibility="visible"/>
-
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline"
         android:layout_width="wrap_content"

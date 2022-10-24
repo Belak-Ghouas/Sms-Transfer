@@ -94,7 +94,7 @@
     <string name="login_screen_name">Login</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="fragment_title_home">Home</string>
-    <string name="fragment_title_dashboard">Dashboard</string>
+    <string name="fragment_title_add">create</string>
     <string name="fragment_title_notifications">Notifications</string>
     <string name="fragment_title_profile">Profile</string>
     <string name="user_profile_title">Profile Management</string>

@@ -1,27 +1,34 @@
 package com.sms.pipe.view
 
+import android.content.Intent
 import android.content.pm.PackageManager
-import android.os.Build
 import android.os.Bundle
-import android.view.WindowManager
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.core.view.forEach
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.snackbar.Snackbar
 import com.sms.pipe.R
 import com.sms.pipe.databinding.ActivityMainBinding
 import com.sms.pipe.di.vmMainActivityModule
+import com.sms.pipe.view.addApplet.CreateAppletActivity
 import com.sms.pipe.view.base.BaseActivity
-import com.sms.pipe.view.base.BaseActivityViewModel
 import org.koin.core.module.Module
 
 
-const val PERMISSION_REQUEST_CODE =99
+const val PERMISSION_REQUEST_CODE = 99
 
-class MainActivity : BaseActivity<BaseActivityViewModel, ActivityMainBinding>() {
-    override fun getViewModelClass() = BaseActivityViewModel::class
+class MainActivity : BaseActivity<MainActivityViewModel, ActivityMainBinding>() {
+
+    private var needRefresh = false
+
+    override fun getViewModelClass() = MainActivityViewModel::class
     override fun getViewBinding() = ActivityMainBinding.inflate(layoutInflater)
+    override val moduleList: List<Module> = listOf(vmMainActivityModule)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val navView: BottomNavigationView = binding.navView
@@ -29,37 +36,104 @@ class MainActivity : BaseActivity<BaseActivityViewModel, ActivityMainBinding>() 
         navView.setupWithNavController(navController)
     }
 
-    override val moduleList: List<Module> = listOf(vmMainActivityModule)
+    override fun onResume() {
+        super.onResume()
+        if (needRefresh) {
+            needRefresh = false
+            showSnackBarRefresh()
+        }
+    }
+
+
+    private fun showSnackBarRefresh() {
+        val snack = Snackbar.make(
+            binding.root,
+            "Need to refresh after adding you app to slack ",
+            Snackbar.LENGTH_INDEFINITE
+        )
+
+        snack.setAction("Refresh") {
+            activityViewModel.refresh()
+            snack.dismiss()
+        }.setActionTextColor(ContextCompat.getColor(this, R.color.bar_nav_color))
+        snack.anchorView = binding.guideline
+        snack.show()
+
+
+    }
 
     override fun initViews() {
-     askPermission()
+        binding.navView.menu.forEach {
+            if (it.itemId == R.id.navigation_dashboard) {
+                it.setOnMenuItemClickListener {
+                    createNewApplet()
+                    true
+                }
+            }
+        }
+        askPermission()
     }
+
+
+    private fun createNewApplet() {
+        if (allPermissionsAreGranted().isEmpty()) {
+            if (activityViewModel.hasSlack.value == true) {
+                openCreateAppletActivity()
+            } else {
+                openAddToSlackBottomSheet()
+            }
+        } else {
+            askPermission()
+        }
+
+    }
+
+    private fun openCreateAppletActivity() {
+        val intent = Intent(this, CreateAppletActivity::class.java)
+        startActivity(intent)
+    }
+
+
+    private fun openAddToSlackBottomSheet(){
+        needRefresh = true
+        val bottomSheet = BottomSheetAddToSlack()
+        bottomSheet.show(supportFragmentManager, "BottomSheetAddToSlack")
+    }
+
 
     override fun initObservers() {
+
     }
 
-    fun askPermission(){
+    fun askPermission() {
         allPermissionsAreGranted().apply {
-            if(this.isNotEmpty()){
-                ActivityCompat.requestPermissions(this@MainActivity, this.toTypedArray(), PERMISSION_REQUEST_CODE)
+            if (this.isNotEmpty()) {
+                ActivityCompat.requestPermissions(
+                    this@MainActivity,
+                    this.toTypedArray(),
+                    PERMISSION_REQUEST_CODE
+                )
             }
         }
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int,
-                                            permissions: Array<String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>, grantResults: IntArray
+    ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when (requestCode) {
             PERMISSION_REQUEST_CODE -> {
                 // If request is cancelled, the result arrays are empty.
                 if ((grantResults.isNotEmpty() &&
-                            grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                            grantResults[0] == PackageManager.PERMISSION_GRANTED)
+                ) {
                     // Permission is granted. Continue the action or workflow
                     // in your app.
                 } else {
-                   AlertDialog.Builder(this)
+                    AlertDialog.Builder(this)
                         .setMessage("getString(R.string.order_confirmation)")
-                        .setPositiveButton("Ok") { _,_ -> }
+                        .setPositiveButton("Ok") { _, _ -> }
                         .create()
                         .show()
                     // Explain to the user that the feature is unavailable because

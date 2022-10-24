@@ -8,8 +8,7 @@ import com.sms.pipe.view.base.BaseActivityViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class SplashScreenActivityViewModel():
-    BaseActivityViewModel() {
+class SplashScreenActivityViewModel(private val getLoggedUserUseCase: GetLoggedUserUseCase): BaseActivityViewModel() {
 
     private val _isLogged= MutableLiveData<Boolean>()
     val isLogged : LiveData<Boolean> = _isLogged

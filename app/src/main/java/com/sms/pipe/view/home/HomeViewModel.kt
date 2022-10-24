@@ -28,29 +28,5 @@ class HomeViewModel(private val sendMessageUseCase: SendMessageUseCase,
         }
     }
 
-    fun refresh() {
-        viewModelScope.launch(Dispatchers.IO){
-            refreshUserDataUseCase()
-            getUser()
-        }
-    }
-
-    private val _hasSlack  = MutableLiveData<Boolean> ()
-    val hasSlack:LiveData<Boolean> = _hasSlack
-
-    init {
-        getUser()
-    }
-
-    private fun getUser() {
-        viewModelScope.launch(Dispatchers.IO){
-            getLoggedUserUseCase()?.let {
-                _hasSlack.postValue(!it.slack_access_token.isNullOrEmpty())
-            }?:run {
-                _hasSlack.postValue(false)
-            }
-        }
-    }
-
 
 }
