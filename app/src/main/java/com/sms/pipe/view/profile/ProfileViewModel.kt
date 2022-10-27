@@ -1,9 +1,6 @@
 package com.sms.pipe.view.profile
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.liveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.sms.pipe.data.models.UserModel
 import com.sms.pipe.domain.usecases.GetLoggedUserUseCase
 import com.sms.pipe.domain.usecases.LogoutUseCase
@@ -17,14 +14,18 @@ class ProfileViewModel(private val logoutUseCase: LogoutUseCase ,private val get
     val loggedOut:LiveData<Boolean> = _loggedOut
 
     val user: LiveData<UserModel> =  liveData(Dispatchers.IO) {
-        getLoggedUserUseCase()?.let {
-            emit(it)
+        getLoggedUserUseCase().collect{ user->
+            user?.let {
+                emit(it)
+            }
         }
     }
 
     fun logout() {
         viewModelScope.launch(Dispatchers.IO){
-           _loggedOut.postValue(logoutUseCase())
+            logoutUseCase().let {
+                _loggedOut.postValue(it)
+            }
         }
     }
 

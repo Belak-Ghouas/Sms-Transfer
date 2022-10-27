@@ -5,10 +5,14 @@ import com.sms.pipe.domain.repositories.UserRepository
 
 class InitMessagingUseCase(private val userRepository: UserRepository , private val messagingRepository: MessagingRepository ) {
     suspend operator fun invoke(): Boolean {
-          return  userRepository.getLoggedUser()?.slack_access_token?.let {
-                messagingRepository.initialize(it)
-            }?: kotlin.run {
-                false
-            }
+        var result = false
+          userRepository.getLoggedUser().collect{user->
+              user?.slack_access_token?.let {
+                  result = messagingRepository.initialize(it)
+              }?: kotlin.run {
+                  result = false
+              }
+          }
+        return result
     }
 }

@@ -21,7 +21,6 @@ import org.koin.java.KoinJavaComponent.inject
 class SMSReceiver : BroadcastReceiver() {
 
     private val tag = " SMSReceiver "
-    private val sendMessageUseCase :SendMessageUseCase by inject(SendMessageUseCase::class.java)
     private val initMessagingUseCase : InitMessagingUseCase by inject(InitMessagingUseCase::class.java)
     private val onSmsReceivedUseCase : OnSMSReceivedUseCase by inject(OnSMSReceivedUseCase::class.java)
 

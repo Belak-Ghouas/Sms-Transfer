@@ -114,4 +114,6 @@
     <string name="profile_service_description">Allow the application to post incoming tagged SMS Message to your selected channels</string>
     <string name="card_description">Depending on the rules, Applet will post messages on this channel : %1$s</string>
     <string name="card_rules">Rules added : %1$s</string>
+    <string name="need_permission">You need to allow your application this permission in order to work fine</string>
+    <string name="description_access_slack">Click on the button bellow , a Web Browser will be opened select your preferred slack group and authorize the app access</string>
 </resources>

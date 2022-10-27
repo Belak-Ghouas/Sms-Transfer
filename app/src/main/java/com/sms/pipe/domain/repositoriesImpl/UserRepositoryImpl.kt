@@ -9,6 +9,7 @@ import com.sms.pipe.utils.doIfSuccess
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
 class UserRepositoryImpl(private val userRemoteDataSource: UserRemoteDataSource, private val userLocalDataSource: UserLocalDataSource, private val secureDataStore: SecureDataStore) :
@@ -24,7 +25,7 @@ class UserRepositoryImpl(private val userRemoteDataSource: UserRemoteDataSource,
     }
 
 
-    override suspend fun getLoggedUser(): UserModel? {
+    override suspend fun getLoggedUser(): Flow<UserModel?> {
        return userLocalDataSource.getLoggedUser()
     }
 

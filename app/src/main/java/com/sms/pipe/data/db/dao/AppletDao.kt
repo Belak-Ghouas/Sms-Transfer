@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.sms.pipe.data.db.entity.AppletEntity
+import kotlinx.coroutines.flow.Flow
 
 
 @Dao
@@ -17,8 +18,11 @@ interface AppletDao {
     suspend fun insert(applet: AppletEntity):Long
 
     @Query("SELECT * FROM AppletEntity")
-    suspend fun getAllApplet():List<AppletEntity>
+    fun getAllApplet():Flow<List<AppletEntity>>
 
     @Query("SELECT * FROM AppletEntity WHERE isEnabled = 1")
     suspend fun getEnabledApplets():List<AppletEntity>
+
+    @Query("DELETE FROM AppletEntity WHERE applet_id = :id")
+    suspend fun deleteById(id: Long): Int
 }

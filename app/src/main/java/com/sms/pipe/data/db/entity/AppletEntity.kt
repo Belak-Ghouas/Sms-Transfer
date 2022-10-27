@@ -11,11 +11,11 @@ import com.google.gson.reflect.TypeToken
 @Entity
 data class AppletEntity(
     @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "applet_id") val id: Long = 0,
+    @ColumnInfo(name = "applet_id") val applet_id: Long = 0,
 
     @ColumnInfo(name = "appletName") val appletName:String,
 
-    @ColumnInfo(name = "creation_date") val creationDate:String ,
+    @ColumnInfo(name = "creation_date") val creationDate:String,
 
     @ColumnInfo(name = "channel_name") val channelName: String,
 

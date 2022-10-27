@@ -20,6 +20,7 @@
             android:name=".view.MainActivity"
             android:exported="false"
             android:theme="@style/Theme.SmsPipe"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_main">
             <meta-data
                 android:name="android.app.lib_name"
@@ -27,6 +28,7 @@
         </activity>
         <activity
             android:name=".view.splash.SplashScreenActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.Launcher">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -36,6 +38,7 @@
         </activity>
         <activity
             android:name=".view.login.LoginActivity"
+            android:screenOrientation="portrait"
             android:exported="true">
 
             <!-- deep linking -->
@@ -52,6 +55,7 @@
         </activity>
         <activity
             android:name=".view.addApplet.CreateAppletActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.SmsPipe" />
 
         <receiver

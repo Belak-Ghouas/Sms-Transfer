@@ -5,7 +5,9 @@ import android.view.View
 import androidx.fragment.app.activityViewModels
 import com.sms.pipe.R
 import com.sms.pipe.databinding.FragmentHomeBinding
-import com.sms.pipe.di.vmHomeModules
+import com.sms.pipe.di.homeModules
+import com.sms.pipe.utils.ARG_SELECTED_APPLET
+import com.sms.pipe.view.BottomSheetDeleteApplet
 import com.sms.pipe.view.MainActivity
 import com.sms.pipe.view.MainActivityViewModel
 import com.sms.pipe.view.base.BaseFragment
@@ -22,7 +24,7 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>() {
     }
     private val mainViewModel: MainActivityViewModel by activityViewModels()
 
-    override val moduleList: List<Module> = listOf(vmHomeModules)
+    override val moduleList: List<Module> = listOf(homeModules)
 
     override fun getViewBinding() = FragmentHomeBinding.inflate(layoutInflater)
 
@@ -37,12 +39,25 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>() {
             true
         }
 
+        binding.card.setOnClickListener {
+            fragmentViewModel.appletUi.value?.id?.let {
+                onAppletSelected(it)
+            }
+        }
+
         binding.cardEmpty.setOnClickListener {
         }
     }
 
     override fun initObservers() {
-        fragmentViewModel.appletUi.observe(viewLifecycleOwner, ::setAppletUi)
+        fragmentViewModel.appletUi.observe(viewLifecycleOwner){applet->
+            applet?.let {
+                setAppletUi(it)
+            }?:run{
+                setDefaultCard()
+            }
+
+        }
     }
 
     private fun setAppletUi(applet: AppletUi) {
@@ -59,5 +74,19 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>() {
         binding.rules.text =
             getString(R.string.card_rules, applet.filters.map { it.toString() }.toString())
 
+    }
+
+    private fun setDefaultCard(){
+        binding.cardEmpty.visibility = View.VISIBLE
+        binding.card.visibility = View.GONE
+    }
+
+    private fun onAppletSelected(id:Long){
+
+        val deleteAppletBottom = BottomSheetDeleteApplet()
+        deleteAppletBottom.arguments = Bundle().apply {
+            this.putLong(ARG_SELECTED_APPLET,id)
+        }
+        deleteAppletBottom.show(mActivity.supportFragmentManager,"DeleteApplet")
     }
 }

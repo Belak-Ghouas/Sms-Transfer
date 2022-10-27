@@ -15,7 +15,9 @@ class SplashScreenActivityViewModel(private val getLoggedUserUseCase: GetLoggedU
 
     fun getLoggedUser(){
         viewModelScope.launch(Dispatchers.Default){
-            _isLogged.postValue( getLoggedUserUseCase()!=null)
+            getLoggedUserUseCase().collect{
+                _isLogged.postValue( it!=null)
+            }
         }
     }
 }

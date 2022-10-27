@@ -11,8 +11,8 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 
-val vmHomeModules = module {
-    viewModel { HomeViewModel(sendMessageUseCase = get(), getAppletsUseCase = get(), refreshUserDataUseCase = get()) }
+val homeModules = module {
+    viewModel { HomeViewModel(getAppletsUseCase = get()) }
     factory { GetAppletsUseCase(appletRepository = get()) }
 }
 

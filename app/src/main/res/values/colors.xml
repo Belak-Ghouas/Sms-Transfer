@@ -33,7 +33,7 @@
     <color name="overlay_color">#C6C3C3</color>
     <color name="profile_screen_background">#FFFFFF</color>
 
-    <color name="bar_nav_color">#A2C3D3</color>
+    <color name="bar_nav_color">#D0EAF6</color>
     <color name="bar_status_color">#74B0D7EA</color>
 
     <color name="logout_color">#A10C0C</color>
@@ -42,4 +42,10 @@
 
     <color name="m_grey">#7C7C7C</color>
     <color name="disabled_grey">#3CAEAEAE</color>
+
+    <color name="bottom_sheet_bar">#9F9F9F</color>
+
+    <color name="delete_applet_background">#F6F6F6</color>
+
+    <color name="on_boarding_color">#43296C</color>
 </resources>

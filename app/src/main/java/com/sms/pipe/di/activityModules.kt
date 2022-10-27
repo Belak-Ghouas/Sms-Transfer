@@ -1,5 +1,6 @@
 package com.sms.pipe.di
 
+import com.sms.pipe.domain.usecases.DeleteAppletUseCase
 import com.sms.pipe.domain.usecases.GetListChannelsUseCase
 import com.sms.pipe.domain.usecases.LoginUseCase
 import com.sms.pipe.view.MainActivityViewModel
@@ -25,8 +26,9 @@ val vmSplashModule= module {
 }
 
 
-val vmMainActivityModule = module {
-    viewModel { MainActivityViewModel(getLoggedUserUseCase = get(), refreshUserDataUseCase = get()) }
+val mainActivityModule = module {
+    viewModel { MainActivityViewModel(getLoggedUserUseCase = get(), refreshUserDataUseCase = get(), deleteAppletUseCase = get()) }
+    factory { DeleteAppletUseCase(appletRepository = get()) }
 }
 
 val vmChooseSlackModule = module {

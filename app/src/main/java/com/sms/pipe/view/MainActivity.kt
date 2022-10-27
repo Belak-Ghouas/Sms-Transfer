@@ -13,7 +13,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.sms.pipe.R
 import com.sms.pipe.databinding.ActivityMainBinding
-import com.sms.pipe.di.vmMainActivityModule
+import com.sms.pipe.di.mainActivityModule
 import com.sms.pipe.view.addApplet.CreateAppletActivity
 import com.sms.pipe.view.base.BaseActivity
 import org.koin.core.module.Module
@@ -27,7 +27,7 @@ class MainActivity : BaseActivity<MainActivityViewModel, ActivityMainBinding>() 
 
     override fun getViewModelClass() = MainActivityViewModel::class
     override fun getViewBinding() = ActivityMainBinding.inflate(layoutInflater)
-    override val moduleList: List<Module> = listOf(vmMainActivityModule)
+    override val moduleList: List<Module> = listOf(mainActivityModule)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,10 +58,13 @@ class MainActivity : BaseActivity<MainActivityViewModel, ActivityMainBinding>() 
         }.setActionTextColor(ContextCompat.getColor(this, R.color.bar_nav_color))
         snack.anchorView = binding.guideline
         snack.show()
-
-
     }
 
+    override fun initObservers() {
+     activityViewModel.refresh.observe(this){
+         binding.swiperefresh.isRefreshing = it
+     }
+    }
     override fun initViews() {
         binding.navView.menu.forEach {
             if (it.itemId == R.id.navigation_dashboard) {
@@ -70,6 +73,11 @@ class MainActivity : BaseActivity<MainActivityViewModel, ActivityMainBinding>() 
                     true
                 }
             }
+        }
+        binding.swiperefresh.setOnRefreshListener {
+            // This method performs the actual data-refresh operation.
+            // The method calls setRefreshing(false) when it's finished.
+           activityViewModel.refresh()
         }
         askPermission()
     }
@@ -101,9 +109,7 @@ class MainActivity : BaseActivity<MainActivityViewModel, ActivityMainBinding>() 
     }
 
 
-    override fun initObservers() {
 
-    }
 
     fun askPermission() {
         allPermissionsAreGranted().apply {
@@ -132,8 +138,13 @@ class MainActivity : BaseActivity<MainActivityViewModel, ActivityMainBinding>() 
                     // in your app.
                 } else {
                     AlertDialog.Builder(this)
-                        .setMessage("getString(R.string.order_confirmation)")
-                        .setPositiveButton("Ok") { _, _ -> }
+                        .setMessage(getString(R.string.need_permission))
+                        .setPositiveButton("OK") { _, _ ->
+                            askPermission()
+                        }
+                        .setNegativeButton("cancel"){_,_->
+
+                        }
                         .create()
                         .show()
                     // Explain to the user that the feature is unavailable because

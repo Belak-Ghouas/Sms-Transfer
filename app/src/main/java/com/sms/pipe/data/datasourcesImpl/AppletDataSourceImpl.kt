@@ -8,6 +8,8 @@ import com.sms.pipe.view.model.AppletFilter
 import com.sms.pipe.view.model.AppletFilterContent
 import com.sms.pipe.view.model.AppletFilterSender
 import com.sms.pipe.view.model.AppletUi
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
 class AppletDataSourceImpl(private val appletDao: AppletDao): AppletDataSource {
     override suspend fun storeApplet(applet: AppletUi):Boolean {
@@ -18,13 +20,17 @@ class AppletDataSourceImpl(private val appletDao: AppletDao): AppletDataSource {
         return appletDao.getApplet(id).toModel()
     }
 
-    override suspend fun getAllApplet(): List<AppletUi> {
-        return appletDao.getAllApplet().map { it.toModel() }
+    override suspend fun getAllApplet(): Flow<List<AppletUi>> {
+        return appletDao.getAllApplet().map {
+            it.map { entity-> entity.toModel() }
+        }
     }
 
     override suspend fun getEnabledApplets(): List<AppletUi> {
         return appletDao.getEnabledApplets().map{it.toModel()}
     }
+
+    override suspend fun deleteApplet(id: Long): Boolean = appletDao.deleteById(id)!=0
 
 
     private fun AppletUi.toEntity():AppletEntity{
@@ -39,7 +45,7 @@ class AppletDataSourceImpl(private val appletDao: AppletDao): AppletDataSource {
 
     private fun AppletEntity.toModel():AppletUi{
         return AppletUi(
-            id = this.id,
+            id = this.applet_id,
             appletName = this.appletName,
             creationDate = this.creationDate,
             channelName = this.channelName,

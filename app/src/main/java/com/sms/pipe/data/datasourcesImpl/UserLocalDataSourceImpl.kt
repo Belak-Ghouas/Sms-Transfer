@@ -5,6 +5,8 @@ import com.sms.pipe.data.datasources.UserLocalDataSource
 import com.sms.pipe.data.models.SlackTeamModel
 import com.sms.pipe.data.db.entity.UserEntity
 import com.sms.pipe.data.models.UserModel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
 class UserLocalDataSourceImpl(private val userDao: UserDao): UserLocalDataSource {
 
@@ -15,13 +17,8 @@ class UserLocalDataSourceImpl(private val userDao: UserDao): UserLocalDataSource
         userDao.insert(user.toEntity())
     }
 
-    override suspend fun getLoggedUser(): UserModel? {
-        user?.let {
-            return it
-        }?: kotlin.run {
-            user = userDao.getLoggedUser()?.toModel()
-            return user
-        }
+    override suspend fun getLoggedUser(): Flow<UserModel?> {
+        return userDao.getLoggedUser().map { it?.toModel() }
     }
 
     override suspend fun logout(): Boolean {

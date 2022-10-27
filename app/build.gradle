@@ -49,6 +49,7 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1'
     implementation 'androidx.navigation:navigation-fragment-ktx:2.5.2'
     implementation 'androidx.navigation:navigation-ui-ktx:2.5.2'
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
 
     //encrypted
     implementation "androidx.security:security-crypto:1.0.0"
