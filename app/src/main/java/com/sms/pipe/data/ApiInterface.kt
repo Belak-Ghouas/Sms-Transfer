@@ -13,4 +13,8 @@ interface ApiInterface {
     @GET("/mobile/user")
     suspend fun refreshData(@Header("Authorization") authHeader:String) : Response<UserLoginResponse>
 
+
+    @FormUrlEncoded
+    @POST("/api/auth/register")
+    suspend fun signUp(@Field("email") email:String , @Field("password") password:String ,@Field("username") username:String): Response<Unit>
 }

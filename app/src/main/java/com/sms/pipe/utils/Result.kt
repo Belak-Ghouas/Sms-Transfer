@@ -27,19 +27,21 @@ sealed class Result<out T> {
 
 }
 
-inline fun <reified T> Result<T>.doIfFailure(callback: (errorCode:Int, error: String?) -> Unit) {
+inline fun <reified T> Result<T>.doIfFailure(callback: (errorCode:Int, error: String?) -> Unit) :Result<T> {
     if (this is Result.Failure) {
         if (errorCode != null) {
             callback(errorCode,message)
         }
     }
+    return this
 }
 
-inline fun <reified T> Result<T>.doIfSuccess(callback: (value: T) -> Unit) {
+inline fun <reified T> Result<T>.doIfSuccess(callback: (value: T) -> Unit) :Result<T> {
     when(val t =this){
         is Result.Success -> callback.invoke(t.value)
         else -> {}
     }
+    return this
 }
 
 inline fun <reified T> Result<T>.doIfWaiting(callback: () -> Unit) {

@@ -1,6 +1,5 @@
 package com.sms.pipe.di
 
-import com.sms.pipe.domain.usecases.GetAppletsUseCase
 import com.sms.pipe.domain.usecases.LogoutUseCase
 import com.sms.pipe.view.addApplet.CreateFilterViewModel
 import com.sms.pipe.view.dashboard.DashboardViewModel
@@ -12,8 +11,7 @@ import org.koin.dsl.module
 
 
 val homeModules = module {
-    viewModel { HomeViewModel(getAppletsUseCase = get()) }
-    factory { GetAppletsUseCase(appletRepository = get()) }
+    viewModel { HomeViewModel(getOnBoardingStepsUseCase = get()) }
 }
 
 val vmDashboardModules = module {

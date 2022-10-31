@@ -15,7 +15,9 @@ import com.sms.pipe.data.datasources.*
 import com.sms.pipe.data.datasourcesImpl.*
 import com.sms.pipe.data.db.AppDataBase
 import com.sms.pipe.domain.repositories.AppletRepository
+import com.sms.pipe.domain.repositories.SecureDataStoreRepository
 import com.sms.pipe.domain.repositoriesImpl.AppletRepositoryImpl
+import com.sms.pipe.domain.repositoriesImpl.SecureDataStoreRepositoryImpl
 import com.sms.pipe.domain.usecases.*
 import com.sms.pipe.utils.PhoneUtils
 import org.koin.android.ext.koin.androidApplication
@@ -33,6 +35,7 @@ val baseDataModules = module {
     single <UserRemoteDataSource>{ UserRemoteDataSourceImpl(userApi = get(), phoneUtils = get())  }
     single <UserLocalDataSource>  { UserLocalDataSourceImpl(userDao = get())  }
     single <SecureDataStore>{ SecureDataStoreImpl( encryptedSharedPreferences = getEncrypted(androidContext()))  }
+    single <SecureDataStoreRepository> { SecureDataStoreRepositoryImpl(secureDataStore = get())  }
     factory <UserRepository>{ UserRepositoryImpl(userRemoteDataSource = get(), userLocalDataSource = get() , secureDataStore = get() ) }
 
     single <MessagingDataSource>{ MessagingDataSourceImpl() }
@@ -43,12 +46,16 @@ val baseDataModules = module {
 }
 
 val baseDomainModules = module {
-    factory { GetLoggedUserUseCase(userRepository = get()) }
+    factory { GetLoggedUserUseCase(userRepository = get(), updateStepsUseCase = get(), getStepsUseCase = get()) }
     factory { SendMessageUseCase(messagingRepository = get()) }
     factory { InitMessagingUseCase(userRepository = get(), messagingRepository = get()) }
-    factory { StoreAppletUseCase(appletRepository = get()) }
+    factory { StoreAppletUseCase(appletRepository = get(), updateStepsUseCase = get(), getStepsUseCase = get()) }
     factory { OnSMSReceivedUseCase(messagingRepository = get(), appletRepository = get()) }
     factory { RefreshUserDataUseCase(userRepository = get()) }
+    factory { IsAlreadyOnboardedUseCase(dataStoreRepository = get()) }
+    factory { UpdateStepsUseCase(dataStoreRepository = get()) }
+    factory { GetOnBoardingStepsUseCase(dataStoreRepository = get()) }
+    factory { StoreAlreadyOnBoarderUseCase(dataStoreRepository = get()) }
 }
 
 fun getEncrypted(context: Context): SharedPreferences {

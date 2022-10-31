@@ -4,16 +4,19 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.sms.pipe.domain.usecases.DeleteAppletUseCase
+import com.sms.pipe.domain.usecases.GetAppletsUseCase
 import com.sms.pipe.domain.usecases.GetLoggedUserUseCase
 import com.sms.pipe.domain.usecases.RefreshUserDataUseCase
 import com.sms.pipe.view.base.BaseActivityViewModel
+import com.sms.pipe.view.model.AppletUi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class MainActivityViewModel(
     private val getLoggedUserUseCase: GetLoggedUserUseCase,
     private val refreshUserDataUseCase: RefreshUserDataUseCase,
-    private val deleteAppletUseCase : DeleteAppletUseCase
+    private val deleteAppletUseCase : DeleteAppletUseCase,
+    private val getAppletsUseCase: GetAppletsUseCase
 ) : BaseActivityViewModel() {
 
     private val _hasSlack  = MutableLiveData<Boolean> ()
@@ -21,6 +24,18 @@ class MainActivityViewModel(
 
     val refresh = MutableLiveData(false)
 
+    private val _appletUi = MutableLiveData<AppletUi?>()
+    val appletUi: LiveData<AppletUi?> = _appletUi
+
+    fun getApplet() {
+        viewModelScope.launch(Dispatchers.Default) {
+            getAppletsUseCase().collect { list ->
+                list.firstOrNull().let {
+                    _appletUi.postValue(it)
+                }
+            }
+        }
+    }
     init {
         getUser()
     }

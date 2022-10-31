@@ -1,8 +1,6 @@
 package com.sms.pipe.di
 
-import com.sms.pipe.domain.usecases.DeleteAppletUseCase
-import com.sms.pipe.domain.usecases.GetListChannelsUseCase
-import com.sms.pipe.domain.usecases.LoginUseCase
+import com.sms.pipe.domain.usecases.*
 import com.sms.pipe.view.MainActivityViewModel
 import com.sms.pipe.view.addApplet.CreateAppletViewModel
 import com.sms.pipe.view.base.BaseFragmentViewModel
@@ -12,12 +10,11 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 
-val vmLoginModule = module{
-    viewModel { LoginActivityViewModel(loginUseCase = get()) }
-}
-
-val domainLoginModules = module {
+val loginModule = module{
+    viewModel { BaseFragmentViewModel() }
+    viewModel { LoginActivityViewModel(loginUseCase = get() , initMessagingUseCase = get(), signUpUseCase =get()) }
     factory { LoginUseCase(userRepository = get()) }
+    factory { SignUpUseCase(userRepository = get()) }
 }
 
 
@@ -27,8 +24,9 @@ val vmSplashModule= module {
 
 
 val mainActivityModule = module {
-    viewModel { MainActivityViewModel(getLoggedUserUseCase = get(), refreshUserDataUseCase = get(), deleteAppletUseCase = get()) }
+    viewModel { MainActivityViewModel(getLoggedUserUseCase = get(), refreshUserDataUseCase = get(), deleteAppletUseCase = get(), getAppletsUseCase = get()) }
     factory { DeleteAppletUseCase(appletRepository = get()) }
+    factory { GetAppletsUseCase(appletRepository = get()) }
 }
 
 val vmChooseSlackModule = module {

@@ -15,8 +15,8 @@ ext {
     //App versions
     versionCode = 1
     minSdkVersion = 24
-    compileSdkVersion = 30
-    targetSdkVersion = 30
+    compileSdkVersion = 31
+    targetSdkVersion = 31
     buildToolsVersion = "32.0.0"
     kotlin_version = '1.6.21'
     core_ktx = "1.8.0"

@@ -34,6 +34,8 @@ class MainActivity : BaseActivity<MainActivityViewModel, ActivityMainBinding>() 
         val navView: BottomNavigationView = binding.navView
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
         navView.setupWithNavController(navController)
+        activityViewModel.getApplet()
+        activityViewModel.refresh()
     }
 
     override fun onResume() {
@@ -83,7 +85,7 @@ class MainActivity : BaseActivity<MainActivityViewModel, ActivityMainBinding>() 
     }
 
 
-    private fun createNewApplet() {
+    fun createNewApplet() {
         if (allPermissionsAreGranted().isEmpty()) {
             if (activityViewModel.hasSlack.value == true) {
                 openCreateAppletActivity()
@@ -137,7 +139,11 @@ class MainActivity : BaseActivity<MainActivityViewModel, ActivityMainBinding>() 
                     // Permission is granted. Continue the action or workflow
                     // in your app.
                 } else {
+                    val icon = ContextCompat.getDrawable(this,R.drawable.ic_sms)
+                        icon?.setTint(ContextCompat.getColor(this,R.color.bar_nav_color))
                     AlertDialog.Builder(this)
+                        .setIcon(icon)
+                        .setTitle(getString(R.string.sms_permission))
                         .setMessage(getString(R.string.need_permission))
                         .setPositiveButton("OK") { _, _ ->
                             askPermission()

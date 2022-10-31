@@ -1,7 +1,10 @@
 package com.sms.pipe.view.home
 
 import android.os.Bundle
+import android.util.DisplayMetrics
 import android.view.View
+import androidx.core.content.ContextCompat
+import androidx.core.view.setPadding
 import androidx.fragment.app.activityViewModels
 import com.sms.pipe.R
 import com.sms.pipe.databinding.FragmentHomeBinding
@@ -11,9 +14,7 @@ import com.sms.pipe.view.BottomSheetDeleteApplet
 import com.sms.pipe.view.MainActivity
 import com.sms.pipe.view.MainActivityViewModel
 import com.sms.pipe.view.base.BaseFragment
-import com.sms.pipe.view.model.AppletFilterContent
-import com.sms.pipe.view.model.AppletFilterSender
-import com.sms.pipe.view.model.AppletUi
+import com.sms.pipe.view.model.*
 import org.koin.core.module.Module
 
 
@@ -22,7 +23,8 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>() {
     private val mActivity: MainActivity by lazy {
         requireActivity() as MainActivity
     }
-    private val mainViewModel: MainActivityViewModel by activityViewModels()
+
+    private  val mainViewModel: MainActivityViewModel by activityViewModels()
 
     override val moduleList: List<Module> = listOf(homeModules)
 
@@ -30,34 +32,43 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        fragmentViewModel.getApplet()
     }
 
+    override fun onResume() {
+        super.onResume()
+        fragmentViewModel.getSteps()
+    }
     override fun initViews() {
-        binding.card.setOnLongClickListener {
-            binding.card.isChecked = !binding.card.isChecked
-            true
-        }
 
         binding.card.setOnClickListener {
-            fragmentViewModel.appletUi.value?.id?.let {
+            mainViewModel.appletUi.value?.id?.let {
                 onAppletSelected(it)
             }
         }
 
         binding.cardEmpty.setOnClickListener {
         }
+
+        binding.steps.next.setOnClickListener {
+            onNextClicked()
+        }
     }
 
+    private fun onNextClicked() {
+        mActivity.createNewApplet()
+    }
+
+
     override fun initObservers() {
-        fragmentViewModel.appletUi.observe(viewLifecycleOwner){applet->
+        mainViewModel.appletUi.observe(viewLifecycleOwner){applet->
             applet?.let {
                 setAppletUi(it)
             }?:run{
                 setDefaultCard()
             }
-
         }
+
+        fragmentViewModel.steps.observe(viewLifecycleOwner,::setOnBoarding)
     }
 
     private fun setAppletUi(applet: AppletUi) {
@@ -76,9 +87,33 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>() {
 
     }
 
+    private fun setOnBoarding(steps:List<Step>){
+        if(steps.none { it.status != StepStatus.DONE }){
+            binding.steps.root.visibility = View.GONE
+        }else{
+            binding.steps.iconFirstStep.setImageResource(steps[0].getIcon())
+            binding.steps.iconFirstStep.background = ContextCompat.getDrawable(requireContext(), steps[0].getBackground())
+            binding.steps.iconFirstStep.setPadding(steps[0].getPadding().dpToPx().toInt())
+
+            binding.steps.iconSecondStep.setImageResource(steps[1].getIcon())
+            binding.steps.iconSecondStep.background = ContextCompat.getDrawable(requireContext(), steps[1].getBackground())
+            binding.steps.iconSecondStep.setPadding(steps[1].getPadding().dpToPx().toInt())
+
+            binding.steps.iconThirdStep.setImageResource(steps[2].getIcon())
+            binding.steps.iconThirdStep.background = ContextCompat.getDrawable(requireContext(), steps[2].getBackground())
+            binding.steps.iconThirdStep.setPadding(steps[2].getPadding().dpToPx().toInt())
+
+        }
+    }
+
     private fun setDefaultCard(){
-        binding.cardEmpty.visibility = View.VISIBLE
         binding.card.visibility = View.GONE
+        if(fragmentViewModel.steps.value?.none { it.status != StepStatus.DONE } == true){
+            binding.cardEmpty.visibility = View.VISIBLE
+        }else{
+            binding.cardEmpty.visibility = View.INVISIBLE
+        }
+
     }
 
     private fun onAppletSelected(id:Long){
@@ -88,5 +123,9 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>() {
             this.putLong(ARG_SELECTED_APPLET,id)
         }
         deleteAppletBottom.show(mActivity.supportFragmentManager,"DeleteApplet")
+    }
+
+    private fun Int.dpToPx(): Float {
+        return this * (requireContext().resources.displayMetrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT)
     }
 }

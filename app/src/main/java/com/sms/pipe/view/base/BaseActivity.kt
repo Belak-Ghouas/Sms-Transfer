@@ -30,10 +30,10 @@ abstract class BaseActivity <VM : BaseActivityViewModel,B : ViewBinding> : AppCo
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = getViewBinding()
-        setContentView(binding.root)
         loadKoinModules(moduleList)
         activityViewModel = getViewModel(clazz = getViewModelClass())
+        binding = getViewBinding()
+        setContentView(binding.root)
         initViews()
         initObservers()
     }

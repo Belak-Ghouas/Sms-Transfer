@@ -48,4 +48,6 @@
     <color name="delete_applet_background">#F6F6F6</color>
 
     <color name="on_boarding_color">#43296C</color>
+
+    <color name="error_color">#CA2A2A</color>
 </resources>

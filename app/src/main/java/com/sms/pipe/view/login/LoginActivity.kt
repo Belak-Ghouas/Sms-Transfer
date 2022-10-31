@@ -1,24 +1,31 @@
 package com.sms.pipe.view.login
 
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.core.content.ContextCompat
+import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
+import com.sms.pipe.R
 import com.sms.pipe.databinding.LoginActivityBinding
-import com.sms.pipe.di.domainLoginModules
-import com.sms.pipe.di.vmLoginModule
-import com.sms.pipe.view.MainActivity
+import com.sms.pipe.di.loginModule
 import com.sms.pipe.view.base.BaseActivity
 import org.koin.core.module.Module
 
+
 class LoginActivity: BaseActivity<LoginActivityViewModel, LoginActivityBinding>() {
     override val moduleList: List<Module>
-        get() = listOf(vmLoginModule, domainLoginModules)
+        get() = listOf(loginModule)
 
 
     override fun getViewModelClass() = LoginActivityViewModel::class
     override fun getViewBinding()= LoginActivityBinding.inflate(layoutInflater)
+
+    private lateinit var pagerAdapter: ViewPagerFragmentAdapter
+
+    private val listOfTitles = listOf("Login","Sign Up")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,44 +37,44 @@ class LoginActivity: BaseActivity<LoginActivityViewModel, LoginActivityBinding>(
     }
 
     override fun initViews() {
-        binding.loginBtn.setOnClickListener{
-            binding.inputEmail.text.toString().ifEmpty {
-                binding.inputEmail.error ="Required field"
-                return@setOnClickListener
-            }
-            binding.inputPassword.text.toString().ifEmpty {
-                binding.inputPassword.error ="Required field"
-                return@setOnClickListener
-            }
-           activityViewModel.login(binding.inputEmail.text.toString(),binding.inputPassword.text.toString())
-        }
+        pagerAdapter = ViewPagerFragmentAdapter(this)
+        pagerAdapter.addFragment(LoginFragment())
+        pagerAdapter.addFragment(SignUpFragment())
 
-        binding.createAccount.setOnClickListener {
-            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://sms-pipe-web.web.app/register"))
-            startActivity(browserIntent)
-        }
+        // set Orientation in your ViewPager2
+        binding.pager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
+        binding.pager.adapter = pagerAdapter
+        TabLayoutMediator(binding.tabLayout, binding.pager) { tab: TabLayout.Tab, position: Int ->
+            tab.text = listOfTitles[position]
+        }.attach()
+
     }
 
     override fun initObservers() {
 
-        activityViewModel.isLogged.observe(this){
-            loggedIn(it)
-        }
-
         activityViewModel.loading.observe(this){
             showOverlayProgress(it)
         }
+
+        activityViewModel.isRegistered.observe(this){
+            if(it){
+              binding.pager.currentItem =0
+                signUpSuccess()
+            }
+        }
     }
 
-    private fun loggedIn(isLoggedIn: Boolean) {
-       if(isLoggedIn){
-           val intent = Intent(this, MainActivity::class.java)
-           startActivity(intent)
-       }else{
-            binding.inputEmail.text?.clear()
-            binding.inputPassword.text?.clear()
-       }
+    private fun signUpSuccess() {
+        val snack = Snackbar.make(
+            binding.root,
+            "Signed Up successfully",
+            Snackbar.LENGTH_LONG
+        ).setActionTextColor(ContextCompat.getColor(this, R.color.white))
+            .setBackgroundTint(ContextCompat.getColor(this,R.color.green))
+        snack.anchorView = binding.guideline
+        snack.show()
     }
+
 
     private fun showOverlayProgress(isActivate :Boolean){
         if(isActivate){

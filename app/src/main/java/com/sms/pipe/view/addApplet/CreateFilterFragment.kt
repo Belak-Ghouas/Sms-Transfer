@@ -15,6 +15,9 @@ import com.sms.pipe.view.model.AppletFilterSender
 import com.sms.pipe.view.model.AppletUi
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.core.module.Module
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class CreateFilterFragment : BaseFragment<CreateFilterViewModel, FragmentCreateFilterBinding>() {
 
@@ -89,10 +92,18 @@ class CreateFilterFragment : BaseFragment<CreateFilterViewModel, FragmentCreateF
         if(binding.chipSmsContentFilter.isChecked && binding.senderSmsContent.text?.isNotEmpty() == true){
             myAppletFilter.add(AppletFilterContent(binding.senderSmsContent.text.toString()))
         }
+        val appletName =binding.appletName.text?.toString()?.let {
+            it.ifEmpty { "Default" }
+        }?:run{
+            "Default"
+        }
+        val sdf = SimpleDateFormat("dd/M/yyyy hh:mm:ss",Locale.getDefault())
+        val currentDate = sdf.format(Date())
 
         val myApplet = AppletUi(
-            appletName = "Default",
+            appletName = appletName,
             filters = myAppletFilter,
+            creationDate = currentDate,
             isEnabled = true
         )
         createAppletViewModel.newApplet = myApplet

@@ -2,30 +2,21 @@ package com.sms.pipe.view.home
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
-import com.sms.pipe.domain.usecases.GetAppletsUseCase
+import com.sms.pipe.domain.usecases.GetOnBoardingStepsUseCase
 import com.sms.pipe.view.base.BaseFragmentViewModel
-import com.sms.pipe.view.model.AppletUi
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import com.sms.pipe.view.model.Step
 
 class HomeViewModel(
-    private val getAppletsUseCase: GetAppletsUseCase
+    private val getOnBoardingStepsUseCase : GetOnBoardingStepsUseCase,
 ) : BaseFragmentViewModel() {
 
-    private val _appletUi = MutableLiveData<AppletUi?>()
-    val appletUi: LiveData<AppletUi?> = _appletUi
+
+    private val _steps = MutableLiveData<List<Step>>()
+    val steps: LiveData<List<Step>> = _steps
 
 
-    fun getApplet() {
-        viewModelScope.launch(Dispatchers.Default) {
-            getAppletsUseCase().collect { list ->
-                list.firstOrNull().let {
-                    _appletUi.postValue(it)
-                }
-            }
-        }
+    fun getSteps(){
+        _steps.value = getOnBoardingStepsUseCase()
     }
-
 
 }

@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
         android:layout_marginTop="20dp"
-        android:text="Choose your slack channel"
+        android:text="Create applet 2/2"
         android:textAppearance="?attr/textAppearanceHeadline6"
         android:textSize="26sp"
         app:layout_constraintStart_toStartOf="parent"

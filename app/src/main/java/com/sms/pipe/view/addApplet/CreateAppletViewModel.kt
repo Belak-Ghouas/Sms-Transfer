@@ -27,7 +27,8 @@ class CreateAppletViewModel(private val getListChannelsUseCase : GetListChannels
     fun storeApplet() {
         newApplet?.let {
             viewModelScope.launch(Dispatchers.IO){
-                _appletStored.postValue(storeAppletUseCase(it))
+                val stored = storeAppletUseCase(it)
+                _appletStored.postValue(stored)
             }
 
         }?: run {

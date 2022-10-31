@@ -8,7 +8,15 @@ class SecureDataStoreImpl(private val encryptedSharedPreferences : SharedPrefere
       encryptedSharedPreferences.edit().putString(key,value).apply()
     }
 
-    override fun get(key: String): String {
+    override fun store(key: String, value: Boolean) {
+        encryptedSharedPreferences.edit().putBoolean(key,value).apply()
+    }
+
+    override fun getString(key: String): String {
         return encryptedSharedPreferences.getString(key,"") ?: ""
+    }
+
+    override fun getBoolean(key: String): Boolean {
+        return encryptedSharedPreferences.getBoolean(key,false)
     }
 }

@@ -19,4 +19,7 @@ interface UserDao {
 
     @Query("UPDATE UserEntity SET logged = 0 WHERE logged =1")
     fun logout():Int
+
+    @Query("SELECT * FROM UserEntity WHERE logged = 1 LIMIT 1")
+    fun getUser():UserEntity?
 }
