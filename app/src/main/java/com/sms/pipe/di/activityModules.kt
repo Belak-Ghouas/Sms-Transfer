@@ -36,7 +36,7 @@ val mainActivityModule = module {
     factory { GetUserTokenUseCase(dataStoreRepository = get()) }
 }
 
-val vmChooseSlackModule = module {
+val vmChooseSlackModule = module(override = true) {
     viewModel { BaseFragmentViewModel() }
 }
 

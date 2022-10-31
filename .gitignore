@@ -15,3 +15,4 @@
 /.idea/*
 local.properties
 /.idea/
+/app/release/
