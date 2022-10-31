@@ -3,10 +3,7 @@ package com.sms.pipe.view
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.sms.pipe.domain.usecases.DeleteAppletUseCase
-import com.sms.pipe.domain.usecases.GetAppletsUseCase
-import com.sms.pipe.domain.usecases.GetLoggedUserUseCase
-import com.sms.pipe.domain.usecases.RefreshUserDataUseCase
+import com.sms.pipe.domain.usecases.*
 import com.sms.pipe.view.base.BaseActivityViewModel
 import com.sms.pipe.view.model.AppletUi
 import kotlinx.coroutines.Dispatchers
@@ -16,7 +13,8 @@ class MainActivityViewModel(
     private val getLoggedUserUseCase: GetLoggedUserUseCase,
     private val refreshUserDataUseCase: RefreshUserDataUseCase,
     private val deleteAppletUseCase : DeleteAppletUseCase,
-    private val getAppletsUseCase: GetAppletsUseCase
+    private val getAppletsUseCase: GetAppletsUseCase,
+    private val getUserToken : GetUserTokenUseCase
 ) : BaseActivityViewModel() {
 
     private val _hasSlack  = MutableLiveData<Boolean> ()
@@ -62,5 +60,9 @@ class MainActivityViewModel(
 
     suspend fun deleteApplet(id: Long): Boolean {
           return deleteAppletUseCase(id)
+    }
+
+    fun getToken(): String {
+       return getUserToken()
     }
 }

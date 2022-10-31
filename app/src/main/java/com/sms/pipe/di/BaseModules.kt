@@ -46,7 +46,7 @@ val baseDataModules = module {
 }
 
 val baseDomainModules = module {
-    factory { GetLoggedUserUseCase(userRepository = get(), updateStepsUseCase = get(), getStepsUseCase = get()) }
+    factory { GetLoggedUserUseCase(userRepository = get(), updateStepsUseCase = get(), getStepsUseCase = get(), initMessagingUseCase = get()) }
     factory { SendMessageUseCase(messagingRepository = get()) }
     factory { InitMessagingUseCase(userRepository = get(), messagingRepository = get()) }
     factory { StoreAppletUseCase(appletRepository = get(), updateStepsUseCase = get(), getStepsUseCase = get()) }

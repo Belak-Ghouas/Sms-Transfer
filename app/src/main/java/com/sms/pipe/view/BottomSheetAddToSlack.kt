@@ -4,16 +4,20 @@ import android.content.Intent
 import android.content.res.Resources
 import android.net.Uri
 import android.os.Bundle
+import android.provider.Browser
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.sms.pipe.databinding.BottomSheetAddToSlackBinding
 
+
 class BottomSheetAddToSlack : BottomSheetDialogFragment() {
 
     private lateinit var binding: BottomSheetAddToSlackBinding
+    private val mainViewModel : MainActivityViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,8 +46,13 @@ class BottomSheetAddToSlack : BottomSheetDialogFragment() {
     }
 
     private fun openWebView() {
-        val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://sms-pipe-web.web.app/login"))
-        startActivity(browserIntent)
+        val browserIntent = Intent(
+            Intent.ACTION_VIEW, Uri.parse("https://sms-pipe-web.web.app/mobile/slack")
+        )
+        val bundle = Bundle()
+        bundle.putString("Authorization", "bearer ${mainViewModel.getToken()}")
+        browserIntent.putExtra(Browser.EXTRA_HEADERS, bundle)
+        requireActivity().startActivity(browserIntent)
         dismiss()
     }
 

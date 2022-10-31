@@ -88,5 +88,4 @@ abstract class BaseActivity <VM : BaseActivityViewModel,B : ViewBinding> : AppCo
             PackageManager.DONT_KILL_APP)
     }
 
-
 }

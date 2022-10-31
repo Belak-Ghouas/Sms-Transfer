@@ -24,9 +24,16 @@ val vmSplashModule= module {
 
 
 val mainActivityModule = module {
-    viewModel { MainActivityViewModel(getLoggedUserUseCase = get(), refreshUserDataUseCase = get(), deleteAppletUseCase = get(), getAppletsUseCase = get()) }
+    viewModel { MainActivityViewModel(getLoggedUserUseCase = get(),
+        refreshUserDataUseCase = get(),
+        deleteAppletUseCase = get(),
+        getAppletsUseCase = get(),
+        getUserToken = get())
+    }
+
     factory { DeleteAppletUseCase(appletRepository = get()) }
     factory { GetAppletsUseCase(appletRepository = get()) }
+    factory { GetUserTokenUseCase(dataStoreRepository = get()) }
 }
 
 val vmChooseSlackModule = module {

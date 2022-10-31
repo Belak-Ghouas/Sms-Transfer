@@ -6,6 +6,7 @@ import com.sms.pipe.domain.repositories.MessagingRepository
 import com.sms.pipe.utils.Result
 
 class MessagingRepositoryImpl(private val messagingDataSource: MessagingDataSource) :MessagingRepository{
+
     override fun initialize(token: String) = messagingDataSource.initialize(token)
 
     override suspend fun sendMessage(message: String, channelId: String) = messagingDataSource.sendMessage(message,channelId)
