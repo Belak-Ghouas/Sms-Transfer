@@ -22,10 +22,6 @@ class BottomSheetDeleteApplet : BottomSheetDialogFragment() {
     private val mainViewModel: MainActivityViewModel by activityViewModels()
     private var id: Long? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -54,7 +50,11 @@ class BottomSheetDeleteApplet : BottomSheetDialogFragment() {
     }
 
     private fun initObservers() {
-        mainViewModel.appletUi.observe(viewLifecycleOwner, ::bindApplet)
+        mainViewModel.appletUi.observe(viewLifecycleOwner){
+            it.find {applet-> applet.id == id }.apply {
+                bindApplet(this)
+            }
+        }
     }
 
     fun initViews() {

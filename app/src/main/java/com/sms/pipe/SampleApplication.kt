@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import com.sms.pipe.di.baseDataModules
 import com.sms.pipe.di.baseDomainModules
+import com.sms.pipe.di.viewModule
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -31,7 +32,7 @@ class SampleApplication : Application() {
             androidLogger(Level.INFO)
             androidContext(context)
         }
-        loadKoinModules(listOf(baseDataModules, baseDomainModules))
+        loadKoinModules(listOf(viewModule,baseDataModules, baseDomainModules))
     }
 
     override fun onLowMemory() {

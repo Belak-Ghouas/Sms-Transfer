@@ -20,11 +20,16 @@ import com.sms.pipe.domain.repositoriesImpl.AppletRepositoryImpl
 import com.sms.pipe.domain.repositoriesImpl.SecureDataStoreRepositoryImpl
 import com.sms.pipe.domain.usecases.*
 import com.sms.pipe.utils.PhoneUtils
+import com.sms.pipe.view.base.BaseFragmentViewModel
 import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
+import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 
+val viewModule = module{
+   viewModel { BaseFragmentViewModel()}
+}
 
 val baseDataModules = module {
     single { AppDataBase.getInstance(androidApplication()).userDao()  }

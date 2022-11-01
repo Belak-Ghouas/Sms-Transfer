@@ -6,7 +6,6 @@ import androidx.fragment.app.activityViewModels
 import com.sms.pipe.R
 import com.sms.pipe.data.models.ChannelModel
 import com.sms.pipe.databinding.FragmentCreateSlackBinding
-import com.sms.pipe.di.vmChooseSlackModule
 import com.sms.pipe.view.MainActivity
 import com.sms.pipe.view.base.BaseFragment
 import com.sms.pipe.view.base.BaseFragmentViewModel
@@ -22,7 +21,7 @@ class CreateSlackFragment : BaseFragment<BaseFragmentViewModel, FragmentCreateSl
 
     private val createAppletViewModel : CreateAppletViewModel by activityViewModels()
 
-    override val moduleList: List<Module> get() = listOf(vmChooseSlackModule)
+    override val moduleList: List<Module> get() = listOf()
 
     override fun getViewBinding() = FragmentCreateSlackBinding.inflate(layoutInflater)
 

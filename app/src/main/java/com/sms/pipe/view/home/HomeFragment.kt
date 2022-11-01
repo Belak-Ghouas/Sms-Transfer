@@ -6,7 +6,7 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.view.setPadding
 import androidx.fragment.app.activityViewModels
-import com.sms.pipe.R
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.sms.pipe.databinding.FragmentHomeBinding
 import com.sms.pipe.di.homeModules
 import com.sms.pipe.utils.ARG_SELECTED_APPLET
@@ -14,7 +14,9 @@ import com.sms.pipe.view.BottomSheetDeleteApplet
 import com.sms.pipe.view.MainActivity
 import com.sms.pipe.view.MainActivityViewModel
 import com.sms.pipe.view.base.BaseFragment
-import com.sms.pipe.view.model.*
+import com.sms.pipe.view.model.AppletUi
+import com.sms.pipe.view.model.Step
+import com.sms.pipe.view.model.StepStatus
 import org.koin.core.module.Module
 
 
@@ -28,6 +30,10 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>() {
 
     override val moduleList: List<Module> = listOf(homeModules)
 
+    private val appletAdapter : AppletAdapter by lazy {
+        AppletAdapter(::onAppletSelected)
+    }
+
     override fun getViewBinding() = FragmentHomeBinding.inflate(layoutInflater)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,11 +45,12 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>() {
         fragmentViewModel.getSteps()
     }
     override fun initViews() {
-
-        binding.card.setOnClickListener {
-            mainViewModel.appletUi.value?.id?.let {
-                onAppletSelected(it)
-            }
+        binding.recycler.apply {
+            val linearLayoutManager = LinearLayoutManager(context)
+            linearLayoutManager.orientation = LinearLayoutManager.VERTICAL
+            layoutManager = linearLayoutManager
+            setHasFixedSize(true)
+            this.adapter = appletAdapter
         }
 
         binding.cardEmpty.setOnClickListener {
@@ -60,31 +67,16 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>() {
 
 
     override fun initObservers() {
-        mainViewModel.appletUi.observe(viewLifecycleOwner){applet->
-            applet?.let {
-                setAppletUi(it)
-            }?:run{
+        mainViewModel.appletUi.observe(viewLifecycleOwner){applets->
+                appletAdapter.setData(applets)
+            if(applets.isEmpty()){
                 setDefaultCard()
+            }else{
+                binding.cardEmpty.visibility = View.GONE
             }
         }
 
         fragmentViewModel.steps.observe(viewLifecycleOwner,::setOnBoarding)
-    }
-
-    private fun setAppletUi(applet: AppletUi) {
-        binding.cardEmpty.visibility = View.GONE
-        binding.card.visibility = View.VISIBLE
-        binding.cardTitle.text = applet.appletName
-        binding.cardDescription.text = getString(R.string.card_description, applet.channelName)
-        applet.filters.forEach {
-            when (it) {
-                is AppletFilterSender -> binding.icSender.visibility = View.VISIBLE
-                is AppletFilterContent -> binding.icSms.visibility = View.VISIBLE
-            }
-        }
-        binding.rules.text =
-            getString(R.string.card_rules, applet.filters.map { it.toString() }.toString())
-
     }
 
     private fun setOnBoarding(steps:List<Step>){
@@ -107,7 +99,6 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>() {
     }
 
     private fun setDefaultCard(){
-        binding.card.visibility = View.GONE
         if(fragmentViewModel.steps.value?.none { it.status != StepStatus.DONE } == true){
             binding.cardEmpty.visibility = View.VISIBLE
         }else{
@@ -116,11 +107,11 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>() {
 
     }
 
-    private fun onAppletSelected(id:Long){
+    private fun onAppletSelected(applet: AppletUi){
 
         val deleteAppletBottom = BottomSheetDeleteApplet()
         deleteAppletBottom.arguments = Bundle().apply {
-            this.putLong(ARG_SELECTED_APPLET,id)
+            this.putLong(ARG_SELECTED_APPLET,applet.id)
         }
         deleteAppletBottom.show(mActivity.supportFragmentManager,"DeleteApplet")
     }

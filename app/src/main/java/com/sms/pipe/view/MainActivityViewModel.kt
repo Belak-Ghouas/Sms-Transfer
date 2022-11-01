@@ -22,21 +22,23 @@ class MainActivityViewModel(
 
     val refresh = MutableLiveData(false)
 
-    private val _appletUi = MutableLiveData<AppletUi?>()
-    val appletUi: LiveData<AppletUi?> = _appletUi
+    private val _appletUi = MutableLiveData<List<AppletUi>>()
+    val appletUi: LiveData<List<AppletUi>> = _appletUi
+
+    init {
+        getUser()
+    }
+
 
     fun getApplet() {
         viewModelScope.launch(Dispatchers.Default) {
             getAppletsUseCase().collect { list ->
-                list.firstOrNull().let {
-                    _appletUi.postValue(it)
-                }
+                    _appletUi.postValue(list)
             }
         }
     }
-    init {
-        getUser()
-    }
+
+
 
     fun refresh() {
         viewModelScope.launch(Dispatchers.IO){

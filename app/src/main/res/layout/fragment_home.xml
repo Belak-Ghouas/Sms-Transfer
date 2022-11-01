@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -26,111 +27,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/card"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="30dp"
         android:layout_marginTop="40dp"
-        android:checkable="true"
-        android:clickable="true"
-        android:focusable="true"
-        android:visibility="gone"
-        app:cardCornerRadius="6dp"
-        app:cardElevation="6dp"
-        app:checkedIconGravity="TOP_END"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/title_home"
-        tools:visibility="visible">
-
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/bar_status_color"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="50dp"
-                android:orientation="vertical"
-                android:padding="8dp">
-
-                <!-- Title, secondary and supporting text -->
-                <TextView
-                    android:id="@+id/card_title"
-                    style="@style/home_card_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Title" />
-
-                <TextView
-                    android:id="@+id/card_description"
-                    style="@style/home_card_description"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:text="@string/card_description"
-                    android:textColor="?android:attr/textColorSecondary" />
-            </LinearLayout>
-
-            <!-- Buttons -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="10dp">
-
-                <TextView
-                    android:id="@+id/rules"
-                    style="@style/home_card_description"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="start"
-                    android:singleLine="false"
-                    android:text="@string/card_rules"
-                    android:textColor="@color/black" />
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:id="@+id/ic_sms"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_sms"
-                        android:visibility="gone"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        tools:visibility="visible" />
-
-                    <ImageView
-                        android:id="@+id/ic_slack"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_gravity="end|bottom"
-                        android:layout_marginEnd="15dp"
-                        android:src="@drawable/ic_slack"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@id/ic_sms" />
-
-                    <ImageView
-                        android:id="@+id/ic_sender"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="15dp"
-                        android:src="@drawable/ic_phone"
-                        android:visibility="gone"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@id/ic_slack"
-                        tools:visibility="visible" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-            </LinearLayout>
-        </androidx.appcompat.widget.LinearLayoutCompat>
-    </com.google.android.material.card.MaterialCardView>
+        tools:listitem="@layout/item_applet"/>
 
 
     <com.google.android.material.card.MaterialCardView
@@ -138,7 +42,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="30dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="40dp"
         android:checkable="true"
         android:clickable="true"
         android:focusable="true"
@@ -147,7 +51,7 @@
         app:cardElevation="8dp"
         app:checkedIconGravity="TOP_END"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/card"
+        app:layout_constraintTop_toBottomOf="@id/title_home"
         tools:visibility="visible">
 
         <androidx.appcompat.widget.LinearLayoutCompat
