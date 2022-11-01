@@ -56,7 +56,7 @@
                 android:drawablePadding="20dp"
                 android:drawableStart="@drawable/ic_mail"
                 android:hint="email@example.com"
-                android:imeOptions="actionDone"
+                android:imeOptions="actionNext"
                 android:inputType="textEmailAddress"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
@@ -79,7 +79,7 @@
                     android:drawablePadding="20dp"
                     android:drawableStart="@drawable/ic_person"
                     android:hint="username"
-                    android:imeOptions="actionDone"
+                    android:imeOptions="actionNext"
                     android:inputType="textEmailAddress"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />

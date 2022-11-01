@@ -38,6 +38,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:drawablePadding="10dp"
+            android:imeOptions="actionDone"
             android:inputType="textShortMessage" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -123,7 +124,8 @@
             android:layout_height="match_parent"
             android:drawableStart="@drawable/ic_phone"
             android:drawablePadding="10dp"
-            android:inputType="number|text" />
+            android:imeOptions="actionDone"
+            android:inputType="textShortMessage" />
     </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -160,6 +162,7 @@
             android:layout_height="match_parent"
             android:drawableStart="@drawable/ic_sms"
             android:drawablePadding="10dp"
+            android:imeOptions="actionDone"
             android:inputType="textLongMessage" />
     </com.google.android.material.textfield.TextInputLayout>
 

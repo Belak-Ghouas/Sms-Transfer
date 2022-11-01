@@ -1,5 +1,6 @@
 package com.sms.pipe.view.login
 
+import android.util.Patterns
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import com.sms.pipe.databinding.SignUpFragmentBinding
@@ -7,6 +8,7 @@ import com.sms.pipe.utils.ErrorCodes
 import com.sms.pipe.view.base.BaseFragment
 import com.sms.pipe.view.base.BaseFragmentViewModel
 import org.koin.core.module.Module
+import java.util.regex.Pattern
 
 class SignUpFragment:BaseFragment<BaseFragmentViewModel,SignUpFragmentBinding>() {
     override val moduleList: List<Module>
@@ -34,6 +36,10 @@ class SignUpFragment:BaseFragment<BaseFragmentViewModel,SignUpFragmentBinding>()
                 return@setOnClickListener
             }
 
+            if(!Patterns.EMAIL_ADDRESS.matcher((binding.inputEmail.text.toString())).matches()){
+                binding.inputEmail.error ="Incorrect email address"
+                return@setOnClickListener
+            }
 
 
             loginViewModel.signUp(binding.inputEmail.text.toString(),binding.inputUsername.text.toString(),binding.inputPassword.text.toString())
