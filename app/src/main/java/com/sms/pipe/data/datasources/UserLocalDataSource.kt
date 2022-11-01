@@ -11,6 +11,6 @@ interface UserLocalDataSource {
 
     suspend fun logout(): Boolean
 
-    suspend fun getUser():UserModel?
+    fun getUser():UserModel?
 
 }

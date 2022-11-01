@@ -9,9 +9,9 @@ interface AppletDataSource {
 
     suspend fun getApplet(id: Long): AppletUi
 
-    suspend fun getAllApplet(): Flow<List<AppletUi>>
+    suspend fun getAllApplet(username:String): Flow<List<AppletUi>>
 
-    suspend fun getEnabledApplets(): List<AppletUi>
+    suspend fun getEnabledApplets(username:String): List<AppletUi>
 
     suspend fun deleteApplet(id: Long): Boolean
 

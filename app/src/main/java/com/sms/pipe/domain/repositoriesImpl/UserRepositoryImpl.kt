@@ -38,21 +38,16 @@ class UserRepositoryImpl(
         return userLocalDataSource.getLoggedUser()
     }
 
-    override suspend fun getUser(): UserModel? {
+    override fun getUser(): UserModel? {
         return userLocalDataSource.getUser()
     }
 
     override suspend fun logout() = userLocalDataSource.logout()
 
-    override suspend fun refreshData() {
-        secureDataStore.getString(KEY_TOKEN).apply {
-            if (this.isNotEmpty()) {
-                userRemoteDataSource.refreshData(this).doIfSuccess {
-                    saveUserOnLocal(it)
-                }
-            }
+    override suspend fun refreshData(token:String) {
+       userRemoteDataSource.refreshData(token).doIfSuccess {
+                        saveUserOnLocal(it)
         }
-
     }
 
     private fun saveUserOnLocal(user: UserModel) {

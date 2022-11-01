@@ -7,13 +7,17 @@ import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import com.sms.pipe.data.models.ChannelModel
 import com.sms.pipe.domain.usecases.GetListChannelsUseCase
+import com.sms.pipe.domain.usecases.GetUserUseCase
 import com.sms.pipe.domain.usecases.StoreAppletUseCase
 import com.sms.pipe.view.base.BaseActivityViewModel
 import com.sms.pipe.view.model.AppletUi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class CreateAppletViewModel(private val getListChannelsUseCase : GetListChannelsUseCase , private val storeAppletUseCase : StoreAppletUseCase) : BaseActivityViewModel() {
+class CreateAppletViewModel(private val getListChannelsUseCase : GetListChannelsUseCase ,
+                            private val storeAppletUseCase : StoreAppletUseCase,
+                            private val getUserUseCase : GetUserUseCase) : BaseActivityViewModel() {
+
     var newApplet: AppletUi? = null
 
     val channels : LiveData<List<ChannelModel>> =  liveData(Dispatchers.IO) {
@@ -34,6 +38,10 @@ class CreateAppletViewModel(private val getListChannelsUseCase : GetListChannels
         }?: run {
             Log.e("CreateAppletViewModel", "The applet is null")
         }
+    }
+
+    fun getUserId(): String{
+       return getUserUseCase()?.email?:""
     }
 
 }

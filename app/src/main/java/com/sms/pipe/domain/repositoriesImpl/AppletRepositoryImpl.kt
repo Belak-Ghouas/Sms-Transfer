@@ -14,12 +14,12 @@ class AppletRepositoryImpl(private val appletDataSource: AppletDataSource):Apple
        return appletDataSource.getApplet(id)
     }
 
-    override suspend fun getAllApplet(): Flow<List<AppletUi>> {
-        return appletDataSource.getAllApplet()
+    override suspend fun getAllApplet(username:String): Flow<List<AppletUi>> {
+        return appletDataSource.getAllApplet(username)
     }
 
-    override suspend fun getEnabledApplets(): List<AppletUi> {
-        return appletDataSource.getEnabledApplets()
+    override suspend fun getEnabledApplets(username:String): List<AppletUi> {
+        return appletDataSource.getEnabledApplets(username)
     }
 
     override suspend fun deleteApplet(id: Long):Boolean = appletDataSource.deleteApplet(id)

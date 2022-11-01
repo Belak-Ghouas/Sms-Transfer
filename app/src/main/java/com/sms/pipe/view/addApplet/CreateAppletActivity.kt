@@ -2,14 +2,14 @@ package com.sms.pipe.view.addApplet
 
 import androidx.fragment.app.FragmentTransaction
 import com.sms.pipe.databinding.ActivityCreateAppletBinding
-import com.sms.pipe.di.vmCreateAppletModule
+import com.sms.pipe.di.createAppletModule
 import com.sms.pipe.view.base.BaseActivity
 import org.koin.core.module.Module
 
 
 class CreateAppletActivity : BaseActivity<CreateAppletViewModel, ActivityCreateAppletBinding>() {
     override val moduleList: List<Module>
-        get() = listOf(vmCreateAppletModule)
+        get() = listOf(createAppletModule)
 
     override fun initViews() {
         val createFilterFragment = CreateFilterFragment()

@@ -20,14 +20,14 @@ class AppletDataSourceImpl(private val appletDao: AppletDao): AppletDataSource {
         return appletDao.getApplet(id).toModel()
     }
 
-    override suspend fun getAllApplet(): Flow<List<AppletUi>> {
-        return appletDao.getAllApplet().map {
+    override suspend fun getAllApplet(username:String): Flow<List<AppletUi>> {
+        return appletDao.getAllApplet(username).map {
             it.map { entity-> entity.toModel() }
         }
     }
 
-    override suspend fun getEnabledApplets(): List<AppletUi> {
-        return appletDao.getEnabledApplets().map{it.toModel()}
+    override suspend fun getEnabledApplets(username:String): List<AppletUi> {
+        return appletDao.getEnabledApplets(username).map{it.toModel()}
     }
 
     override suspend fun deleteApplet(id: Long): Boolean = appletDao.deleteById(id)!=0
@@ -39,7 +39,8 @@ class AppletDataSourceImpl(private val appletDao: AppletDao): AppletDataSource {
             creationDate = this.creationDate,
             channelName = this.channelName,
             filters = this.filters.mapNotNull{ it.toEntity() },
-            isEnabled = this.isEnabled
+            isEnabled = this.isEnabled,
+            userId = this.userId
         )
     }
 
@@ -50,7 +51,8 @@ class AppletDataSourceImpl(private val appletDao: AppletDao): AppletDataSource {
             creationDate = this.creationDate,
             channelName = this.channelName,
             filters = this.filters.map { it.toModel() },
-            isEnabled = this.isEnabled
+            isEnabled = this.isEnabled,
+            userId = this.userId
         )
     }
 

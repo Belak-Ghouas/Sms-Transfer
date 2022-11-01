@@ -18,15 +18,18 @@ class UserLocalDataSourceImpl(private val userDao: UserDao): UserLocalDataSource
     }
 
     override suspend fun getLoggedUser(): Flow<UserModel?> {
-        return userDao.getLoggedUser().map { it?.toModel() }
+        return userDao.getLoggedUser().map {
+            user = it?.toModel()
+            user
+        }
     }
 
     override suspend fun logout(): Boolean {
         return userDao.logout()>0
     }
 
-    override suspend fun getUser(): UserModel? {
-        return userDao.getUser()?.toModel()
+    override fun getUser(): UserModel? {
+       return user
     }
 
 

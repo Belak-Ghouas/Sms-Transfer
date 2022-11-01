@@ -17,11 +17,11 @@ interface AppletDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(applet: AppletEntity):Long
 
-    @Query("SELECT * FROM AppletEntity")
-    fun getAllApplet():Flow<List<AppletEntity>>
+    @Query("SELECT * FROM AppletEntity WHERE user_id = :username ")
+    fun getAllApplet(username:String):Flow<List<AppletEntity>>
 
-    @Query("SELECT * FROM AppletEntity WHERE isEnabled = 1")
-    suspend fun getEnabledApplets():List<AppletEntity>
+    @Query("SELECT * FROM AppletEntity WHERE isEnabled = 1 AND user_id = :username")
+    suspend fun getEnabledApplets(username:String):List<AppletEntity>
 
     @Query("DELETE FROM AppletEntity WHERE applet_id = :id")
     suspend fun deleteById(id: Long): Int

@@ -21,7 +21,9 @@ data class AppletEntity(
 
     @ColumnInfo(name = "filters") val filters: List<AppletFilterEntity> = listOf(),
 
-    @ColumnInfo(name = "isEnabled") val isEnabled :Boolean
+    @ColumnInfo(name = "isEnabled") val isEnabled :Boolean,
+
+    @ColumnInfo(name = "user_id") val userId : String
 )
 
 

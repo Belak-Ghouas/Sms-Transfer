@@ -2,20 +2,22 @@ package com.sms.pipe.view.login
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
 import com.sms.pipe.SampleApplication.Companion.applicationScope
-import com.sms.pipe.domain.usecases.InitMessagingUseCase
-import com.sms.pipe.domain.usecases.LoginUseCase
-import com.sms.pipe.domain.usecases.SignUpUseCase
+import com.sms.pipe.domain.usecases.*
 import com.sms.pipe.utils.doIfFailure
 import com.sms.pipe.utils.doIfSuccess
 import com.sms.pipe.view.base.BaseActivityViewModel
+import com.sms.pipe.view.model.Step
+import com.sms.pipe.view.model.StepStatus
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class LoginActivityViewModel(private val loginUseCase: LoginUseCase,
                              private val initMessagingUseCase: InitMessagingUseCase,
-                             private val signUpUseCase : SignUpUseCase
+                             private val signUpUseCase : SignUpUseCase,
+                             private val isAlreadyOnboardedUseCase: IsAlreadyOnboardedUseCase,
+                             private val storeAlreadyOnBoarderUseCase: StoreAlreadyOnBoarderUseCase,
+                             private val updateStepsUseCase: UpdateStepsUseCase
                              ): BaseActivityViewModel() {
 
     private val _isLogged=MutableLiveData<Boolean>()
@@ -45,6 +47,7 @@ class LoginActivityViewModel(private val loginUseCase: LoginUseCase,
             result.doIfSuccess {
                 applicationScope.launch {
                     initMessagingUseCase()
+                   isFirstTime()
                 }
                 _isLogged.postValue(true)
             }.doIfFailure{ errorCode, _ ->
@@ -64,6 +67,19 @@ class LoginActivityViewModel(private val loginUseCase: LoginUseCase,
                 _loading.postValue(false)
                 _errorSignUp.postValue(errorCode)
             }
+        }
+    }
+
+    private fun isFirstTime() {
+        if(!isAlreadyOnboardedUseCase()){
+            storeAlreadyOnBoarderUseCase()
+            updateStepsUseCase(
+                listOf(
+                    Step(0, StepStatus.DONE),
+                    Step(1, StepStatus.IN_PROGRESS),
+                    Step(2, StepStatus.NOT_DONE)
+                )
+            )
         }
     }
 }

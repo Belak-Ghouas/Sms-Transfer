@@ -12,9 +12,9 @@ interface UserRepository {
 
     suspend fun getLoggedUser(): Flow<UserModel?>
 
-    suspend fun getUser():UserModel?
+    fun getUser():UserModel?
 
     suspend fun logout(): Boolean
 
-    suspend fun refreshData()
+    suspend fun refreshData(token: String)
 }

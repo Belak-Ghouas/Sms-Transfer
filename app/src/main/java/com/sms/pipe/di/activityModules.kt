@@ -12,7 +12,12 @@ import org.koin.dsl.module
 
 val loginModule = module{
     viewModel { BaseFragmentViewModel() }
-    viewModel { LoginActivityViewModel(loginUseCase = get() , initMessagingUseCase = get(), signUpUseCase =get()) }
+    viewModel { LoginActivityViewModel(loginUseCase = get() ,
+        initMessagingUseCase = get(),
+        signUpUseCase =get(),
+        isAlreadyOnboardedUseCase =get(),
+        storeAlreadyOnBoarderUseCase = get(),
+        updateStepsUseCase = get()) }
     factory { LoginUseCase(userRepository = get()) }
     factory { SignUpUseCase(userRepository = get()) }
 }
@@ -32,7 +37,7 @@ val mainActivityModule = module {
     }
 
     factory { DeleteAppletUseCase(appletRepository = get()) }
-    factory { GetAppletsUseCase(appletRepository = get()) }
+    factory { GetAppletsUseCase(appletRepository = get(), userRepository = get()) }
     factory { GetUserTokenUseCase(dataStoreRepository = get()) }
 }
 
@@ -40,7 +45,8 @@ val vmChooseSlackModule = module(override = true) {
     viewModel { BaseFragmentViewModel() }
 }
 
-val vmCreateAppletModule = module {
-    viewModel { CreateAppletViewModel(getListChannelsUseCase = get() , storeAppletUseCase = get()) }
+val createAppletModule = module {
+    viewModel { CreateAppletViewModel(getListChannelsUseCase = get() , storeAppletUseCase = get(), getUserUseCase = get()) }
     factory { GetListChannelsUseCase(messagingRepository = get()) }
+    factory { GetUserUseCase(userRepository = get()) }
 }

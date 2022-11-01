@@ -9,6 +9,7 @@ data class AppletUi(
     var channelName: String = "otp_paradise",
     var filters: List<AppletFilter> = listOf(),
     var relation: AppletFilterRelation? = null,
+    var userId : String,
     var isEnabled : Boolean){
     fun match(messageModel: MessageModel):Boolean{
         filters.forEach{

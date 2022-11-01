@@ -86,11 +86,18 @@ class CreateFilterFragment : BaseFragment<CreateFilterViewModel, FragmentCreateF
 
     private fun createApplet() {
         if(binding.chipNumberFilter.isChecked && binding.senderPhoneNumber.text?.isNotEmpty() == true){
-            myAppletFilter.add(AppletFilterSender(binding.senderPhoneNumber.text.toString()))
+            val filter  = AppletFilterSender(binding.senderPhoneNumber.text.toString())
+           if(!myAppletFilter.contains(filter)){
+               myAppletFilter.add(filter)
+           }
+
         }
 
         if(binding.chipSmsContentFilter.isChecked && binding.senderSmsContent.text?.isNotEmpty() == true){
-            myAppletFilter.add(AppletFilterContent(binding.senderSmsContent.text.toString()))
+            val filter  = AppletFilterContent(binding.senderSmsContent.text.toString())
+            if(!myAppletFilter.contains(filter)){
+                myAppletFilter.add(filter)
+            }
         }
         val appletName =binding.appletName.text?.toString()?.let {
             it.ifEmpty { "Default" }
@@ -104,7 +111,8 @@ class CreateFilterFragment : BaseFragment<CreateFilterViewModel, FragmentCreateF
             appletName = appletName,
             filters = myAppletFilter,
             creationDate = currentDate,
-            isEnabled = true
+            isEnabled = true,
+            userId = createAppletViewModel.getUserId()
         )
         createAppletViewModel.newApplet = myApplet
         activity.navigateToChooseSlack()

@@ -34,7 +34,7 @@ val baseDataModules = module {
     single { applicationScope }
     single <UserRemoteDataSource>{ UserRemoteDataSourceImpl(userApi = get(), phoneUtils = get())  }
     single <UserLocalDataSource>  { UserLocalDataSourceImpl(userDao = get())  }
-    single <SecureDataStore>{ SecureDataStoreImpl( encryptedSharedPreferences = getEncrypted(androidContext()))  }
+    single <SecureDataStore>{ SecureDataStoreImpl( encryptedSharedPreferences = getEncrypted(androidContext()) , userLocalDataSource = get())  }
     single <SecureDataStoreRepository> { SecureDataStoreRepositoryImpl(secureDataStore = get())  }
     factory <UserRepository>{ UserRepositoryImpl(userRemoteDataSource = get(), userLocalDataSource = get() , secureDataStore = get() ) }
 
@@ -50,8 +50,8 @@ val baseDomainModules = module {
     factory { SendMessageUseCase(messagingRepository = get()) }
     factory { InitMessagingUseCase(userRepository = get(), messagingRepository = get()) }
     factory { StoreAppletUseCase(appletRepository = get(), updateStepsUseCase = get(), getStepsUseCase = get()) }
-    factory { OnSMSReceivedUseCase(messagingRepository = get(), appletRepository = get()) }
-    factory { RefreshUserDataUseCase(userRepository = get()) }
+    factory { OnSMSReceivedUseCase(messagingRepository = get(), appletRepository = get(), userRepository = get()) }
+    factory { RefreshUserDataUseCase(userRepository = get() , getUserTokenUseCase = get()) }
     factory { IsAlreadyOnboardedUseCase(dataStoreRepository = get()) }
     factory { UpdateStepsUseCase(dataStoreRepository = get()) }
     factory { GetOnBoardingStepsUseCase(dataStoreRepository = get()) }
