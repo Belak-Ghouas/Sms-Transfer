@@ -44,9 +44,7 @@ abstract class BaseActivity <VM : BaseActivityViewModel,B : ViewBinding> : AppCo
     abstract fun getViewBinding(): B
 
     fun allPermissionsAreGranted():List<String>{
-        val permissions = arrayOf(
-            Manifest.permission.RECEIVE_SMS,
-            Manifest.permission.READ_SMS)
+        val permissions = arrayOf(Manifest.permission.RECEIVE_SMS)
         val listToAsk = arrayListOf<String>()
         for (permission in permissions){
             if(ContextCompat.checkSelfPermission(this,permission) != PackageManager.PERMISSION_GRANTED){
