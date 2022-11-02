@@ -50,7 +50,7 @@ class MessagingDataSourceImpl : MessagingDataSource {
         val types: MutableList<ConversationType> = ArrayList()
         types.add(ConversationType.PUBLIC_CHANNEL)
         types.add(ConversationType.PRIVATE_CHANNEL)
-        val builder = ConversationsListRequest.builder().types(types).limit(5)
+        val builder = ConversationsListRequest.builder().types(types)
         slack?.let { methodsClient ->
             try {
                 val listResponse = methodsClient.conversationsList(builder.build())
