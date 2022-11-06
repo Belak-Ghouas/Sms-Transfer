@@ -12,55 +12,57 @@ import com.sms.pipe.view.model.StepStatus
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class LoginActivityViewModel(private val loginUseCase: LoginUseCase,
-                             private val initMessagingUseCase: InitMessagingUseCase,
-                             private val signUpUseCase : SignUpUseCase,
-                             private val isAlreadyOnboardedUseCase: IsAlreadyOnboardedUseCase,
-                             private val storeAlreadyOnBoarderUseCase: StoreAlreadyOnBoarderUseCase,
-                             private val updateStepsUseCase: UpdateStepsUseCase
-                             ): BaseActivityViewModel() {
+class LoginActivityViewModel(
+    private val loginUseCase: LoginUseCase,
+    private val initMessagingUseCase: InitMessagingUseCase,
+    private val signUpUseCase: SignUpUseCase,
+    private val isAlreadyOnboardedUseCase: IsAlreadyOnboardedUseCase,
+    private val storeAlreadyOnBoarderUseCase: StoreAlreadyOnBoarderUseCase,
+    private val updateStepsUseCase: UpdateStepsUseCase,
+    private val didAcceptTerms: DidAcceptTermsUseCase,
+    private val onTermsAcceptedUseCase: OnTermsAcceptedUseCase
+) : BaseActivityViewModel() {
 
-    private val _isLogged=MutableLiveData<Boolean>()
-    val isLogged :LiveData<Boolean> = _isLogged
+    private val _isLogged = MutableLiveData<Boolean>()
+    val isLogged: LiveData<Boolean> = _isLogged
 
     private val _loading = MutableLiveData<Boolean>()
-    val loading:LiveData<Boolean> = _loading
+    val loading: LiveData<Boolean> = _loading
 
     private val _error = MutableLiveData<Int>()
-    val error:LiveData<Int> = _error
+    val error: LiveData<Int> = _error
 
     private val _errorSignUp = MutableLiveData<Int>()
-    val errorSignUp:LiveData<Int> = _errorSignUp
+    val errorSignUp: LiveData<Int> = _errorSignUp
 
-    private val _isRegistered=MutableLiveData<Boolean>()
-    val isRegistered :LiveData<Boolean> = _isRegistered
+    private val _isRegistered = MutableLiveData<Boolean>()
+    val isRegistered: LiveData<Boolean> = _isRegistered
 
 
-
-    fun login(email:String, password:String){
-        _loading.value=true
+    fun login(email: String, password: String) {
+        _loading.value = true
         applicationScope.launch(Dispatchers.IO) {
 
-            val result  = loginUseCase(email, password)
+            val result = loginUseCase(email, password)
             _loading.postValue(false)
 
             result.doIfSuccess {
                 applicationScope.launch {
                     initMessagingUseCase()
-                   isFirstTime()
+                    isFirstTime()
                 }
                 _isLogged.postValue(true)
-            }.doIfFailure{ errorCode, _ ->
+            }.doIfFailure { errorCode, _ ->
                 _error.postValue(errorCode)
             }
         }
     }
 
 
-    fun signUp(email:String,username:String, password:String){
-        _loading.value=true
-        applicationScope.launch(Dispatchers.IO){
-            signUpUseCase(email,username,password).doIfSuccess {
+    fun signUp(email: String, username: String, password: String) {
+        _loading.value = true
+        applicationScope.launch(Dispatchers.IO) {
+            signUpUseCase(email, username, password).doIfSuccess {
                 _loading.postValue(false)
                 _isRegistered.postValue(true)
             }.doIfFailure { errorCode, _ ->
@@ -71,7 +73,7 @@ class LoginActivityViewModel(private val loginUseCase: LoginUseCase,
     }
 
     private fun isFirstTime() {
-        if(!isAlreadyOnboardedUseCase()){
+        if (!isAlreadyOnboardedUseCase()) {
             storeAlreadyOnBoarderUseCase()
             updateStepsUseCase(
                 listOf(
@@ -82,4 +84,9 @@ class LoginActivityViewModel(private val loginUseCase: LoginUseCase,
             )
         }
     }
+
+    fun didUserAcceptTerms() = didAcceptTerms()
+    fun onTermsAccepted() = onTermsAcceptedUseCase()
+
+
 }

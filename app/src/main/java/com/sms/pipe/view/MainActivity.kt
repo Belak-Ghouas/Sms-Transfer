@@ -2,7 +2,9 @@ package com.sms.pipe.view
 
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
+import android.provider.Settings
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -24,6 +26,7 @@ const val PERMISSION_REQUEST_CODE = 99
 class MainActivity : BaseActivity<MainActivityViewModel, ActivityMainBinding>() {
 
     private var needRefresh = false
+    private var isFirstTime = true
 
     override fun getViewModelClass() = MainActivityViewModel::class
     override fun getViewBinding() = ActivityMainBinding.inflate(layoutInflater)
@@ -139,25 +142,31 @@ class MainActivity : BaseActivity<MainActivityViewModel, ActivityMainBinding>() 
                     // Permission is granted. Continue the action or workflow
                     // in your app.
                 } else {
-                    val icon = ContextCompat.getDrawable(this,R.drawable.ic_sms)
-                        icon?.setTint(ContextCompat.getColor(this,R.color.bar_nav_color))
-                    AlertDialog.Builder(this)
-                        .setIcon(icon)
-                        .setTitle(getString(R.string.sms_permission))
-                        .setMessage(getString(R.string.need_permission))
-                        .setPositiveButton("OK") { _, _ ->
-                            askPermission()
-                        }
-                        .setNegativeButton("cancel"){_,_->
 
-                        }
-                        .create()
-                        .show()
-                    // Explain to the user that the feature is unavailable because
-                    // the features requires a permission that the user has denied.
-                    // At the same time, respect the user's decision. Don't link to
-                    // system settings in an effort to convince the user to change
-                    // their decision.
+                        val icon = ContextCompat.getDrawable(this,R.drawable.ic_sms)
+                        icon?.setTint(ContextCompat.getColor(this,R.color.bar_nav_color))
+                        AlertDialog.Builder(this)
+                            .setIcon(icon)
+                            .setTitle(getString(R.string.sms_permission))
+                            .setMessage(getString(R.string.need_permission))
+                            .setPositiveButton("OK") { _, _ ->
+                                if(isFirstTime){
+                                    askPermission()
+                                }else{
+                                    val intent =
+                                        Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                                    val uri = Uri.fromParts("package", packageName, null)
+                                    intent.data = uri
+                                    startActivity(intent)
+                                }
+
+                            }
+                            .setNegativeButton("cancel"){_,_->
+
+                            }
+                            .create()
+                            .show()
+                    isFirstTime = false
                 }
                 return
             }

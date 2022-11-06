@@ -54,6 +54,7 @@
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:paddingHorizontal="20dp"
             android:orientation="vertical">
 
             <com.google.android.material.textfield.TextInputLayout
@@ -61,7 +62,6 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="20dp"
                 app:errorEnabled="true"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -84,7 +84,6 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="20dp"
                 app:passwordToggleEnabled="true"
                 app:errorEnabled="true"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -108,7 +107,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/error_color"
-                android:layout_marginHorizontal="20dp"
                 android:textSize="14sp"
                 android:visibility="gone"
                 android:paddingVertical="2dp"
@@ -119,7 +117,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/rounded_corner"
                 android:enabled="true"
@@ -127,9 +124,26 @@
                 android:textAllCaps="false"
                 android:textColor="@android:color/white"/>
 
+            <TextView
+                android:id="@+id/terms_conditions"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:layout_marginTop="12dp"
+                android:layout_gravity="start"
+                android:textColor="@color/black"
+                android:text="@string/terms_and_conditions_login"/>
+
         </androidx.appcompat.widget.LinearLayoutCompat>
 
 
     </androidx.cardview.widget.CardView>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.80"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

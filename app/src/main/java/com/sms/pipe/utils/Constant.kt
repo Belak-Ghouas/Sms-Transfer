@@ -8,3 +8,5 @@ const val KEY_ALREADY_ONBOARDED =" already onBoarded"
 const val KEY_STEPS = "onBoarding step"
 
 const val KEY_TOKEN = "user token"
+
+const val KEY_TERMS_CONDITIONS =" terms and conditions"

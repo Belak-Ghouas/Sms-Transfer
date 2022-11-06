@@ -43,6 +43,8 @@
     <color name="m_grey">#7C7C7C</color>
     <color name="disabled_grey">#3CAEAEAE</color>
 
+    <color name="disabled_button">#E6989898</color>
+
     <color name="bottom_sheet_bar">#9F9F9F</color>
 
     <color name="delete_applet_background">#F6F6F6</color>

@@ -9,29 +9,40 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 
-val loginModule = module{
-    viewModel { LoginActivityViewModel(loginUseCase = get() ,
-        initMessagingUseCase = get(),
-        signUpUseCase =get(),
-        isAlreadyOnboardedUseCase =get(),
-        storeAlreadyOnBoarderUseCase = get(),
-        updateStepsUseCase = get()) }
+val loginModule = module {
+    viewModel {
+        LoginActivityViewModel(
+            loginUseCase = get(),
+            initMessagingUseCase = get(),
+            signUpUseCase = get(),
+            isAlreadyOnboardedUseCase = get(),
+            storeAlreadyOnBoarderUseCase = get(),
+            updateStepsUseCase = get(),
+            didAcceptTerms = get(),
+            onTermsAcceptedUseCase = get()
+        )
+    }
     factory { LoginUseCase(userRepository = get()) }
     factory { SignUpUseCase(userRepository = get()) }
+    factory { DidAcceptTermsUseCase(storeRepository = get()) }
+    factory { OnTermsAcceptedUseCase(dataStoreRepository = get()) }
 }
 
 
-val vmSplashModule= module {
+val vmSplashModule = module {
     viewModel { SplashScreenActivityViewModel(getLoggedUserUseCase = get()) }
 }
 
 
 val mainActivityModule = module {
-    viewModel { MainActivityViewModel(getLoggedUserUseCase = get(),
-        refreshUserDataUseCase = get(),
-        deleteAppletUseCase = get(),
-        getAppletsUseCase = get(),
-        getUserToken = get())
+    viewModel {
+        MainActivityViewModel(
+            getLoggedUserUseCase = get(),
+            refreshUserDataUseCase = get(),
+            deleteAppletUseCase = get(),
+            getAppletsUseCase = get(),
+            getUserToken = get()
+        )
     }
 
     factory { DeleteAppletUseCase(appletRepository = get()) }
@@ -41,7 +52,13 @@ val mainActivityModule = module {
 
 
 val createAppletModule = module {
-    viewModel { CreateAppletViewModel(getListChannelsUseCase = get() , storeAppletUseCase = get(), getUserUseCase = get()) }
+    viewModel {
+        CreateAppletViewModel(
+            getListChannelsUseCase = get(),
+            storeAppletUseCase = get(),
+            getUserUseCase = get()
+        )
+    }
     factory { GetListChannelsUseCase(messagingRepository = get()) }
     factory { GetUserUseCase(userRepository = get()) }
 }

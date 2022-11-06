@@ -5,7 +5,10 @@ import android.content.Intent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
+import com.google.android.material.snackbar.Snackbar
+import com.sms.pipe.R
 import com.sms.pipe.databinding.LoginFragmentBinding
 import com.sms.pipe.utils.ErrorCodes
 import com.sms.pipe.view.MainActivity
@@ -17,13 +20,16 @@ class LoginFragment:BaseFragment<BaseFragmentViewModel,LoginFragmentBinding>() {
 
     private val loginViewModel  :LoginActivityViewModel by activityViewModels()
 
+    private val loginActivity : LoginActivity by lazy {
+        requireActivity() as LoginActivity
+    }
+
     override val moduleList: List<Module> = listOf()
 
     override fun getViewBinding() = LoginFragmentBinding.inflate(layoutInflater)
 
     override fun initViews() {
         binding.loginBtn.setOnClickListener{
-
             hideKeyboardFrom(requireContext(),binding.root)
             binding.inputEmail.text.toString().ifEmpty {
                 binding.inputEmail.error ="Required field"
@@ -34,7 +40,29 @@ class LoginFragment:BaseFragment<BaseFragmentViewModel,LoginFragmentBinding>() {
                 binding.inputPassword
                 return@setOnClickListener
             }
-            loginViewModel.login(binding.inputEmail.text.toString(),binding.inputPassword.text.toString())
+            onLoginClicked(binding.inputEmail.text.toString(),binding.inputPassword.text.toString())
+        }
+
+        binding.termsConditions.setOnClickListener {
+            loginActivity.showTermsAndConditionsView()
+        }
+    }
+
+    private fun onLoginClicked(username:String , password:String){
+        if (loginViewModel.didUserAcceptTerms()){
+            loginViewModel.login(username,password)
+        }else{
+            val snack = Snackbar.make(
+                binding.root,
+                "You need to read and accept Terms & and conditions",
+                Snackbar.LENGTH_INDEFINITE
+            )
+            snack.setAction("OK") {
+                loginActivity.showTermsAndConditionsView()
+                snack.dismiss()
+            }.setActionTextColor(ContextCompat.getColor(requireContext(), R.color.bar_nav_color))
+            snack.anchorView = binding.guideline
+            snack.show()
         }
     }
 

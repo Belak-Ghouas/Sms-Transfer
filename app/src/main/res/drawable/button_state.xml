@@ -1,0 +1,7 @@
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Disable background -->
+    <item android:state_enabled="false" android:color="@color/disabled_button"/>
+
+    <!-- Enabled background -->
+    <item android:color="@color/black"/>
+</selector>
