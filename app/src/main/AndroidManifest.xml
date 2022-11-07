@@ -39,18 +39,6 @@
             android:name=".view.login.LoginActivity"
             android:screenOrientation="portrait"
             android:exported="true">
-
-            <!-- deep linking -->
-            <intent-filter android:autoVerify="true">
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data android:scheme="http" />
-                <data android:scheme="https" />
-                <data android:host="sms-pipe-web.web.app" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".view.addApplet.CreateAppletActivity"

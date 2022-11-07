@@ -84,21 +84,19 @@ class MainActivity : BaseActivity<MainActivityViewModel, ActivityMainBinding>() 
             // The method calls setRefreshing(false) when it's finished.
            activityViewModel.refresh()
         }
-        askPermission()
     }
 
 
     fun createNewApplet() {
-        if (allPermissionsAreGranted().isEmpty()) {
-            if (activityViewModel.hasSlack.value == true) {
+        if (activityViewModel.hasSlack.value == true) {
+            if (allPermissionsAreGranted().isEmpty()) {
                 openCreateAppletActivity()
             } else {
-                openAddToSlackBottomSheet()
+                askPermission()
             }
         } else {
-            askPermission()
+            openAddToSlackBottomSheet()
         }
-
     }
 
     private fun openCreateAppletActivity() {
