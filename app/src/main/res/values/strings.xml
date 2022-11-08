@@ -31,6 +31,8 @@
     <string name="description_access_slack">Click on the button bellow , a Web Browser will be opened select your preferred slack group and authorize the app access</string>
     <string name="sms_permission">Permission to access SMS</string>
     <string name="terms_and_conditions_login"> <u>Terms &amp; conditions</u>.</string>
+    <string name="permission_dialog">The service provided by the application need SMS RECEIVED permission in order to allow your application the access on SMS</string>
+
     <string name="terms_and_conditions_content"><![CDATA[
     I built the Sms pipe app as a Free app. This SERVICE is provided by  <b> Cgnu </b> at no cost and is intended for use as is.</p>
     <p>This page is used to inform visitors regarding my policies with the collection, use, and disclosure of Personal Information if anyone decided to use my Service.</p>

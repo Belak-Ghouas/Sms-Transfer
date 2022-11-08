@@ -3,6 +3,7 @@ package com.sms.pipe.view.login
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.snackbar.Snackbar
@@ -47,9 +48,24 @@ class LoginActivity: BaseActivity<LoginActivityViewModel, LoginActivityBinding>(
         TabLayoutMediator(binding.tabLayout, binding.pager) { tab: TabLayout.Tab, position: Int ->
             tab.text = listOfTitles[position]
         }.attach()
+
+        showDialogPermission()
     }
 
-   fun showTermsAndConditionsView() {
+    private fun showDialogPermission() {
+        if(!activityViewModel.didUserAcceptTerms()){
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle("Information!")
+            builder.setMessage(R.string.permission_dialog)
+                .setPositiveButton("Ok") { dialog, _ ->
+                    dialog.dismiss()
+                }
+            builder.create().show()
+        }
+
+    }
+
+    fun showTermsAndConditionsView() {
         BottomSheetTermsConditions().apply {
             isCancelable = false
             show(supportFragmentManager,"Terms&Conditions")

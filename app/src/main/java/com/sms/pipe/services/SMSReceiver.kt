@@ -9,7 +9,6 @@ import android.util.Log
 import com.sms.pipe.data.models.MessageModel
 import com.sms.pipe.domain.usecases.InitMessagingUseCase
 import com.sms.pipe.domain.usecases.OnSMSReceivedUseCase
-import com.sms.pipe.domain.usecases.SendMessageUseCase
 import com.sms.pipe.utils.Result
 import com.sms.pipe.utils.doIfSuccess
 import kotlinx.coroutines.CoroutineScope

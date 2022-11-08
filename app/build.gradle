@@ -11,7 +11,7 @@ android {
         applicationId = "com.sms.pipe"
         minSdk = rootProject.ext.minSdkVersion
         targetSdk = rootProject.ext.targetSdkVersion
-        versionCode = 7
+        versionCode = 8
         versionName = rootProject.ext.versionName
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
