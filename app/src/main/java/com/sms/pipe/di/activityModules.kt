@@ -56,9 +56,9 @@ val createAppletModule = module {
         CreateAppletViewModel(
             getListChannelsUseCase = get(),
             storeAppletUseCase = get(),
-            getUserUseCase = get()
+            getUserSessionUseCase = get()
         )
     }
     factory { GetListChannelsUseCase(messagingRepository = get()) }
-    factory { GetUserUseCase(userRepository = get()) }
+    factory { GetUserSessionUseCase(userRepository = get()) }
 }

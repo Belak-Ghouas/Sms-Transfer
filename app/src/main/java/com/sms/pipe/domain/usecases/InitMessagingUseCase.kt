@@ -12,6 +12,7 @@ class InitMessagingUseCase(private val userRepository: UserRepository , private 
                   Log.d("InitMessagingUseCase","Initialization is done with this result  $result")
               }?: kotlin.run {
                   result = false
+                  Log.e("Init Messaging","Failed to initMessaging due to slack token is null")
               }
 
         return result

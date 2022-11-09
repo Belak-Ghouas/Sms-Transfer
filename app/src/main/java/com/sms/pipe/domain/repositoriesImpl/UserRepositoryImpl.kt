@@ -18,8 +18,8 @@ class UserRepositoryImpl(
     private val userRemoteDataSource: UserRemoteDataSource,
     private val userLocalDataSource: UserLocalDataSource,
     private val secureDataStore: SecureDataStore
-) :
-    UserRepository {
+) : UserRepository {
+
     private val scope = CoroutineScope(Job() + Dispatchers.IO)
 
     override suspend fun login(email: String, password: String): Result<UserModel> {
@@ -31,22 +31,28 @@ class UserRepositoryImpl(
         }
     }
 
-    override suspend fun signUp(email: String, username: String, password: String) = userRemoteDataSource.signUp(email,username,password)
+    override suspend fun signUp(email: String, username: String, password: String) =
+        userRemoteDataSource.signUp(email, username, password)
 
 
     override suspend fun getLoggedUser(): Flow<UserModel?> {
         return userLocalDataSource.getLoggedUser()
     }
 
-    override fun getUser(): UserModel? {
+    override suspend fun getUser(): UserModel? {
         return userLocalDataSource.getUser()
+    }
+
+    override fun getUserSession(): UserModel? {
+        return userLocalDataSource.userSession()
     }
 
     override suspend fun logout() = userLocalDataSource.logout()
 
-    override suspend fun refreshData(token:String) {
-       userRemoteDataSource.refreshData(token).doIfSuccess {
-                        saveUserOnLocal(it)
+
+    override suspend fun refreshData(token: String) {
+        userRemoteDataSource.refreshData(token).doIfSuccess {
+            saveUserOnLocal(it)
         }
     }
 

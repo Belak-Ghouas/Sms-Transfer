@@ -10,7 +10,7 @@ class SecureDataStoreImpl(
 ) : SecureDataStore {
 
     private val email: String by lazy {
-        userLocalDataSource.getUser()?.email ?: ""
+        userLocalDataSource.userSession()?.email ?: ""
     }
 
     override fun store(key: String, value: String) {

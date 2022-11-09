@@ -25,6 +25,7 @@ class SMSReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context?, intent: Intent?) {
         CoroutineScope(Dispatchers.IO).launch {
+            Log.d(tag,"On SMS received")
             if(initMessagingUseCase()){
             intent?.let {
                 if (intent.action == Telephony.Sms.Intents.SMS_RECEIVED_ACTION ) {

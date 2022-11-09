@@ -28,8 +28,18 @@ class UserLocalDataSourceImpl(private val userDao: UserDao): UserLocalDataSource
         return userDao.logout()>0
     }
 
-    override fun getUser(): UserModel? {
-       return user
+    override suspend fun getUser(): UserModel? {
+        user?.let {
+            return it
+        }?:run{
+            user = userDao.getUser()?.toModel()
+            return user
+        }
+
+    }
+
+    override fun userSession(): UserModel? {
+        return user
     }
 
 
