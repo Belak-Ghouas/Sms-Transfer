@@ -9,6 +9,7 @@ import com.sms.pipe.databinding.FragmentCreateSlackBinding
 import com.sms.pipe.view.MainActivity
 import com.sms.pipe.view.base.BaseFragment
 import com.sms.pipe.view.base.BaseFragmentViewModel
+import com.sms.pipe.view.model.AppletType
 import org.koin.core.module.Module
 import android.R as AnR
 
@@ -52,6 +53,7 @@ class CreateSlackFragment : BaseFragment<BaseFragmentViewModel, FragmentCreateSl
     private fun onItemSelected(channel:String) {
         binding.selectedChannel.text = getString(R.string.selected_channel,channel)
         createAppletViewModel.newApplet?.channelName = channel
+        createAppletViewModel.newApplet?.type = AppletType.SLACK
         binding.validateBtn.isEnabled = true
     }
 

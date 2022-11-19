@@ -40,7 +40,9 @@ class AppletDataSourceImpl(private val appletDao: AppletDao): AppletDataSource {
             channelName = this.channelName,
             filters = this.filters.mapNotNull{ it.toEntity() },
             isEnabled = this.isEnabled,
-            userId = this.userId
+            userId = this.userId,
+            appletType = this.type
+
         )
     }
 
@@ -52,7 +54,8 @@ class AppletDataSourceImpl(private val appletDao: AppletDao): AppletDataSource {
             channelName = this.channelName,
             filters = this.filters.map { it.toModel() },
             isEnabled = this.isEnabled,
-            userId = this.userId
+            userId = this.userId,
+            type = this.appletType
         )
     }
 

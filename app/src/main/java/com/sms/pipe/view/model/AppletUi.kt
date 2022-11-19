@@ -6,15 +6,16 @@ data class AppletUi(
     var id :Long = 0,
     var appletName:String,
     var creationDate:String = "",
-    var channelName: String = "otp_paradise",
+    var channelName: String = "",
     var filters: List<AppletFilter> = listOf(),
     var relation: AppletFilterRelation? = null,
     var userId : String,
-    var isEnabled : Boolean){
-    fun match(messageModel: MessageModel):Boolean{
+    var isEnabled : Boolean,
+    var type :AppletType){
+    fun match(messageModel: MessageModel):AppletUi?{
         filters.forEach{
-            if(it.match(messageModel)) return true
+            if(it.match(messageModel)) return this
         }
-        return false
+        return null
     }
 }

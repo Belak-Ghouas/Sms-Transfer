@@ -48,8 +48,7 @@ class LoginActivity: BaseActivity<LoginActivityViewModel, LoginActivityBinding>(
         TabLayoutMediator(binding.tabLayout, binding.pager) { tab: TabLayout.Tab, position: Int ->
             tab.text = listOfTitles[position]
         }.attach()
-
-        showDialogPermission()
+        showTermsAndConditionsView()
     }
 
     private fun showDialogPermission() {
@@ -66,9 +65,11 @@ class LoginActivity: BaseActivity<LoginActivityViewModel, LoginActivityBinding>(
     }
 
     fun showTermsAndConditionsView() {
-        BottomSheetTermsConditions().apply {
-            isCancelable = false
-            show(supportFragmentManager,"Terms&Conditions")
+        if(!activityViewModel.didUserAcceptTerms()) {
+            PrivacyPoliciesBottomSheet().apply {
+                isCancelable = false
+                show(supportFragmentManager, "Terms&Conditions")
+            }
         }
     }
 

@@ -8,8 +8,6 @@
        <item name="colorSecondary">@color/colorSecondary</item>
        <item name="colorSecondaryVariant">@color/colorSecondaryVariant</item>
        <item name="colorOnSecondary">@color/colorOnSecondary</item>
-       <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>
-
 
        <!-- Status bar color. -->
        <item name="windowNoTitle">true</item>
@@ -50,9 +48,10 @@
 
 
     <style name="AppBottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/bottom_sheet_custom</item>
     </style>
 
-    <style name="MyApp.bottomSheet" parent="Widget.Design.BottomSheet.Modal">
+    <style name="bottom_sheet_custom" parent="Widget.Design.BottomSheet.Modal">
         <item name="android:background">@drawable/bottom_sheet_rounded</item>
     </style>
 </resources>

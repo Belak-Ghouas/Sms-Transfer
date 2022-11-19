@@ -19,16 +19,19 @@
             android:scaleType="centerCrop"
             android:src="@drawable/ic_close"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent"
+            android:visibility="gone"/>
 
         <TextView
             android:id="@+id/screen_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
-            android:text="Terms &amp;  Conditions"
+            android:text="Privacy policy &amp; data security"
             android:textColor="@color/black"
-            android:textSize="25sp"
+            android:textStyle="bold"
+            android:textAllCaps="true"
+            android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -38,7 +41,7 @@
             android:id="@+id/scroll_view"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginHorizontal="8dp"
+            android:layout_marginHorizontal="12dp"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginTop="8dp"
             app:layout_constraintTop_toBottomOf="@id/screen_title"
@@ -66,7 +69,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:text="Accept Terms &amp; conditions" />
+            android:text="I confirm read and understood document" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

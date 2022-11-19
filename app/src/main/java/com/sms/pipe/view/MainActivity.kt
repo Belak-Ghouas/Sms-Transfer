@@ -12,12 +12,14 @@ import androidx.core.view.forEach
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.snackbar.Snackbar
 import com.sms.pipe.R
 import com.sms.pipe.databinding.ActivityMainBinding
 import com.sms.pipe.di.mainActivityModule
+import com.sms.pipe.utils.ARG_APPLET_TYPE
+import com.sms.pipe.view.addApplet.ChooseReceiverBottomSheet
 import com.sms.pipe.view.addApplet.CreateAppletActivity
 import com.sms.pipe.view.base.BaseActivity
+import com.sms.pipe.view.model.AppletType
 import org.koin.core.module.Module
 
 
@@ -45,31 +47,16 @@ class MainActivity : BaseActivity<MainActivityViewModel, ActivityMainBinding>() 
         super.onResume()
         if (needRefresh) {
             needRefresh = false
-            showSnackBarRefresh()
+            showIndefiniteSnackBar("Need to refresh after adding you app to slack ", "refresh")
         }
     }
 
-
-    private fun showSnackBarRefresh() {
-        val snack = Snackbar.make(
-            binding.root,
-            "Need to refresh after adding you app to slack ",
-            Snackbar.LENGTH_INDEFINITE
-        )
-
-        snack.setAction("Refresh") {
-            activityViewModel.refresh()
-            snack.dismiss()
-        }.setActionTextColor(ContextCompat.getColor(this, R.color.bar_nav_color))
-        snack.anchorView = binding.guideline
-        snack.show()
-    }
-
     override fun initObservers() {
-     activityViewModel.refresh.observe(this){
-         binding.swiperefresh.isRefreshing = it
-     }
+        activityViewModel.refresh.observe(this) {
+            binding.swiperefresh.isRefreshing = it
+        }
     }
+
     override fun initViews() {
         binding.navView.menu.forEach {
             if (it.itemId == R.id.navigation_dashboard) {
@@ -82,39 +69,35 @@ class MainActivity : BaseActivity<MainActivityViewModel, ActivityMainBinding>() 
         binding.swiperefresh.setOnRefreshListener {
             // This method performs the actual data-refresh operation.
             // The method calls setRefreshing(false) when it's finished.
-           activityViewModel.refresh()
+            activityViewModel.refresh()
         }
     }
 
 
     fun createNewApplet() {
-        if (activityViewModel.hasSlack.value == true) {
-            if (allPermissionsAreGranted().isEmpty()) {
-                openCreateAppletActivity()
-            } else {
-                askPermission()
-            }
-        } else {
-            openAddToSlackBottomSheet()
-        }
+        openChooser()
     }
 
-    private fun openCreateAppletActivity() {
+    fun openCreateAppletActivity(appletType: AppletType) {
         val intent = Intent(this, CreateAppletActivity::class.java)
+        intent.putExtra(ARG_APPLET_TYPE, appletType.name)
         startActivity(intent)
     }
 
 
-    private fun openAddToSlackBottomSheet(){
+    fun openAddToSlackBottomSheet() {
         needRefresh = true
         val bottomSheet = BottomSheetAddToSlack()
         bottomSheet.show(supportFragmentManager, "BottomSheetAddToSlack")
     }
 
+    private fun openChooser() {
+        val bottomSheet = ChooseReceiverBottomSheet()
+        bottomSheet.show(supportFragmentManager, "ChooseReceiverBottomSheet")
+    }
 
 
-
-    fun askPermission() {
+    private fun askPermission() {
         allPermissionsAreGranted().apply {
             if (this.isNotEmpty()) {
                 ActivityCompat.requestPermissions(
@@ -141,29 +124,10 @@ class MainActivity : BaseActivity<MainActivityViewModel, ActivityMainBinding>() 
                     // in your app.
                 } else {
 
-                        val icon = ContextCompat.getDrawable(this,R.drawable.ic_sms)
-                        icon?.setTint(ContextCompat.getColor(this,R.color.bar_nav_color))
-                        AlertDialog.Builder(this)
-                            .setIcon(icon)
-                            .setTitle(getString(R.string.sms_permission))
-                            .setMessage(getString(R.string.need_permission))
-                            .setPositiveButton("OK") { _, _ ->
-                                if(isFirstTime){
-                                    askPermission()
-                                }else{
-                                    val intent =
-                                        Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-                                    val uri = Uri.fromParts("package", packageName, null)
-                                    intent.data = uri
-                                    startActivity(intent)
-                                }
-
-                            }
-                            .setNegativeButton("cancel"){_,_->
-
-                            }
-                            .create()
-                            .show()
+                    showIndefiniteSnackBar(
+                        "We don't guarantee that the application will be functional without access to Received SMS",
+                        "Ok"
+                    )
                     isFirstTime = false
                 }
                 return
@@ -178,6 +142,36 @@ class MainActivity : BaseActivity<MainActivityViewModel, ActivityMainBinding>() 
 
     fun navigateTo(fragmentId: Int) {
         findNavController(R.id.nav_host_fragment_activity_main).navigate(fragmentId)
+    }
+
+
+    fun askUserPermissionWithDialog() {
+        val icon = ContextCompat.getDrawable(this, R.drawable.ic_sms)
+        icon?.setTint(ContextCompat.getColor(this, R.color.bar_nav_color))
+        AlertDialog.Builder(this)
+            .setIcon(icon)
+            .setTitle(getString(R.string.sms_permission))
+            .setMessage(getString(R.string.need_permission))
+            .setPositiveButton("OK") { _, _ ->
+                if (isFirstTime) {
+                    askPermission()
+                } else {
+                    val intent =
+                        Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                    val uri = Uri.fromParts("package", packageName, null)
+                    intent.data = uri
+                    startActivity(intent)
+                }
+
+            }
+            .setNegativeButton("cancel") { _, _ ->
+                showIndefiniteSnackBar(
+                    "We don't guarantee that the application will be functional without access to Received SMS",
+                    "Ok"
+                )
+            }
+            .create()
+            .show()
     }
 
 }

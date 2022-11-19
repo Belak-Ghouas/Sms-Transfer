@@ -9,6 +9,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.sms.pipe.R
 import com.sms.pipe.databinding.BottomSheetDeleteAppletBinding
 import com.sms.pipe.utils.ARG_SELECTED_APPLET
 import com.sms.pipe.view.model.AppletUi
@@ -39,13 +40,17 @@ class BottomSheetDeleteApplet : BottomSheetDialogFragment() {
         initObservers()
     }
 
+    override fun getTheme(): Int {
+        return R.style.AppBottomSheetDialogTheme
+    }
+
 
     override fun onStart() {
         super.onStart()
-        binding.bottomSheetBiometric.let { view ->
+        binding.container.let { view ->
             val behavior = BottomSheetBehavior.from(view)
             behavior.peekHeight = Resources.getSystem().displayMetrics.heightPixels
-            behavior.state = BottomSheetBehavior.STATE_HIDDEN
+            behavior.state = BottomSheetBehavior.STATE_EXPANDED
         }
     }
 

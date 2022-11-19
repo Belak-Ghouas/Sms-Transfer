@@ -52,4 +52,6 @@
     <color name="on_boarding_color">#43296C</color>
 
     <color name="error_color">#CA2A2A</color>
+
+    <color name="choose_receiver">#DDD7E2E8</color>
 </resources>

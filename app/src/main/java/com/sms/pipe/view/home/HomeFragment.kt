@@ -2,9 +2,6 @@ package com.sms.pipe.view.home
 
 import android.os.Bundle
 import android.util.DisplayMetrics
-import android.view.View
-import androidx.core.content.ContextCompat
-import androidx.core.view.setPadding
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sms.pipe.databinding.FragmentHomeBinding
@@ -14,9 +11,9 @@ import com.sms.pipe.view.BottomSheetDeleteApplet
 import com.sms.pipe.view.MainActivity
 import com.sms.pipe.view.MainActivityViewModel
 import com.sms.pipe.view.base.BaseFragment
+import com.sms.pipe.view.model.AppletType
 import com.sms.pipe.view.model.AppletUi
 import com.sms.pipe.view.model.Step
-import com.sms.pipe.view.model.StepStatus
 import org.koin.core.module.Module
 
 
@@ -26,34 +23,32 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>() {
         requireActivity() as MainActivity
     }
 
-    private  val mainViewModel: MainActivityViewModel by activityViewModels()
+    private val mainViewModel: MainActivityViewModel by activityViewModels()
 
     override val moduleList: List<Module> = listOf(homeModules)
 
-    private val appletAdapter : AppletAdapter by lazy {
-        AppletAdapter(::onAppletSelected)
+    private val data: List<AppletType> by lazy {
+        listOf(AppletType.MAIL, AppletType.DEVICE, AppletType.SLACK)
+    }
+
+    private val homeAdapter: HomeAdapter by lazy {
+        HomeAdapter(::onAppletSelected, data)
     }
 
     override fun getViewBinding() = FragmentHomeBinding.inflate(layoutInflater)
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onResume() {
         super.onResume()
         fragmentViewModel.getSteps()
     }
+
     override fun initViews() {
         binding.recycler.apply {
             val linearLayoutManager = LinearLayoutManager(context)
             linearLayoutManager.orientation = LinearLayoutManager.VERTICAL
             layoutManager = linearLayoutManager
             setHasFixedSize(true)
-            this.adapter = appletAdapter
-        }
-
-        binding.cardEmpty.setOnClickListener {
+            this.adapter = homeAdapter
         }
 
         binding.steps.next.setOnClickListener {
@@ -67,19 +62,15 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>() {
 
 
     override fun initObservers() {
-        mainViewModel.appletUi.observe(viewLifecycleOwner){applets->
-                appletAdapter.setData(applets)
-            if(applets.isEmpty()){
-                setDefaultCard()
-            }else{
-                binding.cardEmpty.visibility = View.GONE
-            }
+        mainViewModel.appletUi.observe(viewLifecycleOwner) { applets ->
+            homeAdapter.setData(applets)
         }
 
-        fragmentViewModel.steps.observe(viewLifecycleOwner,::setOnBoarding)
+        fragmentViewModel.steps.observe(viewLifecycleOwner, ::setOnBoarding)
     }
 
-    private fun setOnBoarding(steps:List<Step>){
+    private fun setOnBoarding(steps: List<Step>) {
+        /*
         if(steps.none { it.status != StepStatus.DONE }){
             binding.steps.root.visibility = View.GONE
         }else{
@@ -95,25 +86,16 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>() {
             binding.steps.iconThirdStep.background = ContextCompat.getDrawable(requireContext(), steps[2].getBackground())
             binding.steps.iconThirdStep.setPadding(steps[2].getPadding().dpToPx().toInt())
 
-        }
+        }*/
     }
 
-    private fun setDefaultCard(){
-        if(fragmentViewModel.steps.value?.none { it.status != StepStatus.DONE } == true){
-            binding.cardEmpty.visibility = View.VISIBLE
-        }else{
-            binding.cardEmpty.visibility = View.INVISIBLE
-        }
-
-    }
-
-    private fun onAppletSelected(applet: AppletUi){
+    private fun onAppletSelected(applet: AppletUi) {
 
         val deleteAppletBottom = BottomSheetDeleteApplet()
         deleteAppletBottom.arguments = Bundle().apply {
-            this.putLong(ARG_SELECTED_APPLET,applet.id)
+            this.putLong(ARG_SELECTED_APPLET, applet.id)
         }
-        deleteAppletBottom.show(mActivity.supportFragmentManager,"DeleteApplet")
+        deleteAppletBottom.show(mActivity.supportFragmentManager, "DeleteApplet")
     }
 
     private fun Int.dpToPx(): Float {

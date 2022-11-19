@@ -39,7 +39,7 @@ class ProfileFragment : BaseFragment<ProfileViewModel, FragmentProfileBinding>()
             if(mainActivity.allPermissionsAreGranted().isEmpty()){
                mainActivity.enableService(SMSReceiver::class.java)
             }else{
-                mainActivity.askPermission()
+                mainActivity.askUserPermissionWithDialog()
                 switch.isChecked = false
             }
         }else{
