@@ -54,7 +54,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawablePadding="20dp"
-                android:drawableStart="@drawable/ic_mail_64"
+                android:drawableStart="@drawable/ic_mail_24"
                 android:hint="email@example.com"
                 android:imeOptions="actionNext"
                 android:inputType="textEmailAddress"
