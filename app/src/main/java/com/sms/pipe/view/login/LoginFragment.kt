@@ -49,9 +49,9 @@ class LoginFragment:BaseFragment<BaseFragmentViewModel,LoginFragmentBinding>() {
     }
 
     private fun onLoginClicked(username:String , password:String){
-        if (loginViewModel.didUserAcceptTerms()){
+       // if (loginViewModel.didUserAcceptTerms()){
             loginViewModel.login(username,password)
-        }else{
+      /*  }else{
             val snack = Snackbar.make(
                 binding.root,
                 "You need to read and accept Terms & and conditions",
@@ -63,7 +63,7 @@ class LoginFragment:BaseFragment<BaseFragmentViewModel,LoginFragmentBinding>() {
             }.setActionTextColor(ContextCompat.getColor(requireContext(), R.color.bar_nav_color))
             snack.anchorView = binding.guideline
             snack.show()
-        }
+        }*/
     }
 
     override fun initObservers() {

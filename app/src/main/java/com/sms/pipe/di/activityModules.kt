@@ -17,15 +17,11 @@ val loginModule = module {
             signUpUseCase = get(),
             isAlreadyOnboardedUseCase = get(),
             storeAlreadyOnBoarderUseCase = get(),
-            updateStepsUseCase = get(),
-            didAcceptTerms = get(),
-            onTermsAcceptedUseCase = get()
+            updateStepsUseCase = get()
         )
     }
     factory { LoginUseCase(userRepository = get()) }
     factory { SignUpUseCase(userRepository = get()) }
-    factory { DidAcceptTermsUseCase(storeRepository = get()) }
-    factory { OnTermsAcceptedUseCase(dataStoreRepository = get()) }
 }
 
 
@@ -41,13 +37,17 @@ val mainActivityModule = module {
             refreshUserDataUseCase = get(),
             deleteAppletUseCase = get(),
             getAppletsUseCase = get(),
-            getUserToken = get()
+            getUserToken = get(),
+            didUserReadPrivacyPolicyUseCase = get(),
+            onTermsAcceptedUseCase = get()
         )
     }
 
     factory { DeleteAppletUseCase(appletRepository = get()) }
     factory { GetAppletsUseCase(appletRepository = get(), userRepository = get()) }
     factory { GetUserTokenUseCase(dataStoreRepository = get()) }
+    factory { DidUserReadPrivacyPolicyUseCase(storeRepository = get()) }
+    factory { OnTermsAcceptedUseCase(dataStoreRepository = get()) }
 }
 
 

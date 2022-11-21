@@ -14,7 +14,9 @@ class MainActivityViewModel(
     private val refreshUserDataUseCase: RefreshUserDataUseCase,
     private val deleteAppletUseCase : DeleteAppletUseCase,
     private val getAppletsUseCase: GetAppletsUseCase,
-    private val getUserToken : GetUserTokenUseCase
+    private val getUserToken : GetUserTokenUseCase,
+    private val didUserReadPrivacyPolicyUseCase: DidUserReadPrivacyPolicyUseCase,
+    private val onTermsAcceptedUseCase: OnTermsAcceptedUseCase
 ) : BaseActivityViewModel() {
 
     private val _hasSlack  = MutableLiveData<Boolean> ()
@@ -67,4 +69,10 @@ class MainActivityViewModel(
     fun getToken(): String {
        return getUserToken()
     }
+
+    fun didUserReadPolicy(): Boolean = didUserReadPrivacyPolicyUseCase()
+
+
+    fun onTermsAccepted() = onTermsAcceptedUseCase()
+
 }

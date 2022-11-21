@@ -19,6 +19,7 @@ import com.sms.pipe.utils.ARG_APPLET_TYPE
 import com.sms.pipe.view.addApplet.ChooseReceiverBottomSheet
 import com.sms.pipe.view.addApplet.CreateAppletActivity
 import com.sms.pipe.view.base.BaseActivity
+import com.sms.pipe.view.login.PrivacyPoliciesBottomSheet
 import com.sms.pipe.view.model.AppletType
 import org.koin.core.module.Module
 
@@ -41,6 +42,7 @@ class MainActivity : BaseActivity<MainActivityViewModel, ActivityMainBinding>() 
         navView.setupWithNavController(navController)
         activityViewModel.getApplet()
         activityViewModel.refresh()
+        showPrivacyPolicy()
     }
 
     override fun onResume() {
@@ -73,6 +75,15 @@ class MainActivity : BaseActivity<MainActivityViewModel, ActivityMainBinding>() 
         }
     }
 
+    private fun showPrivacyPolicy(){
+        if(activityViewModel.didUserReadPolicy().not()){
+            PrivacyPoliciesBottomSheet().apply {
+                isCancelable = false
+                show(supportFragmentManager, "Terms&Conditions")
+            }
+        }
+
+    }
 
     fun createNewApplet() {
         openChooser()

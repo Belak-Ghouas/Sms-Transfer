@@ -18,9 +18,7 @@ class LoginActivityViewModel(
     private val signUpUseCase: SignUpUseCase,
     private val isAlreadyOnboardedUseCase: IsAlreadyOnboardedUseCase,
     private val storeAlreadyOnBoarderUseCase: StoreAlreadyOnBoarderUseCase,
-    private val updateStepsUseCase: UpdateStepsUseCase,
-    private val didAcceptTerms: DidAcceptTermsUseCase,
-    private val onTermsAcceptedUseCase: OnTermsAcceptedUseCase
+    private val updateStepsUseCase: UpdateStepsUseCase
 ) : BaseActivityViewModel() {
 
     private val _isLogged = MutableLiveData<Boolean>()
@@ -84,9 +82,6 @@ class LoginActivityViewModel(
             )
         }
     }
-
-    fun didUserAcceptTerms() = didAcceptTerms()
-    fun onTermsAccepted() = onTermsAcceptedUseCase()
 
 
 }

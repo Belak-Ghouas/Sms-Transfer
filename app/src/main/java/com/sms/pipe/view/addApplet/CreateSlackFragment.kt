@@ -46,6 +46,7 @@ class CreateSlackFragment : BaseFragment<BaseFragmentViewModel, FragmentCreateSl
             if (it){
                 val intent = Intent(requireContext(),MainActivity::class.java)
                 activity?.startActivity(intent)
+                activity?.finish()
             }
         }
     }

@@ -16,17 +16,17 @@ import com.sms.pipe.view.base.BaseActivity
 import org.koin.core.module.Module
 
 
-class LoginActivity: BaseActivity<LoginActivityViewModel, LoginActivityBinding>() {
+class LoginActivity : BaseActivity<LoginActivityViewModel, LoginActivityBinding>() {
     override val moduleList: List<Module>
         get() = listOf(loginModule)
 
 
     override fun getViewModelClass() = LoginActivityViewModel::class
-    override fun getViewBinding()= LoginActivityBinding.inflate(layoutInflater)
+    override fun getViewBinding() = LoginActivityBinding.inflate(layoutInflater)
 
     private lateinit var pagerAdapter: ViewPagerFragmentAdapter
 
-    private val listOfTitles = listOf("Login","Sign Up")
+    private val listOfTitles = listOf("Login", "Sign Up")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,7 +34,7 @@ class LoginActivity: BaseActivity<LoginActivityViewModel, LoginActivityBinding>(
     }
 
     private fun didComeFromDeepLink() {
-        Log.d("LoginActivity ","We Come from deepLink")
+        Log.d("LoginActivity ", "We Come from deepLink")
     }
 
     override fun initViews() {
@@ -48,11 +48,9 @@ class LoginActivity: BaseActivity<LoginActivityViewModel, LoginActivityBinding>(
         TabLayoutMediator(binding.tabLayout, binding.pager) { tab: TabLayout.Tab, position: Int ->
             tab.text = listOfTitles[position]
         }.attach()
-        showTermsAndConditionsView()
     }
 
     private fun showDialogPermission() {
-        if(!activityViewModel.didUserAcceptTerms()){
             val builder = AlertDialog.Builder(this)
             builder.setTitle("Information!")
             builder.setMessage(R.string.permission_dialog)
@@ -60,29 +58,25 @@ class LoginActivity: BaseActivity<LoginActivityViewModel, LoginActivityBinding>(
                     dialog.dismiss()
                 }
             builder.create().show()
-        }
-
     }
 
     fun showTermsAndConditionsView() {
-        if(!activityViewModel.didUserAcceptTerms()) {
-            PrivacyPoliciesBottomSheet().apply {
-                isCancelable = false
-                show(supportFragmentManager, "Terms&Conditions")
-            }
+        PrivacyPoliciesBottomSheet().apply {
+            isCancelable = false
+            show(supportFragmentManager, "Terms&Conditions")
         }
     }
 
 
     override fun initObservers() {
 
-        activityViewModel.loading.observe(this){
+        activityViewModel.loading.observe(this) {
             showOverlayProgress(it)
         }
 
-        activityViewModel.isRegistered.observe(this){
-            if(it){
-              binding.pager.currentItem =0
+        activityViewModel.isRegistered.observe(this) {
+            if (it) {
+                binding.pager.currentItem = 0
                 signUpSuccess()
             }
         }
@@ -94,19 +88,19 @@ class LoginActivity: BaseActivity<LoginActivityViewModel, LoginActivityBinding>(
             "Signed Up successfully",
             Snackbar.LENGTH_LONG
         ).setActionTextColor(ContextCompat.getColor(this, R.color.white))
-            .setBackgroundTint(ContextCompat.getColor(this,R.color.green))
+            .setBackgroundTint(ContextCompat.getColor(this, R.color.green))
         snack.anchorView = binding.guideline
         snack.show()
     }
 
 
-    private fun showOverlayProgress(isActivate :Boolean){
-        if(isActivate){
+    private fun showOverlayProgress(isActivate: Boolean) {
+        if (isActivate) {
             binding.loader.isIndeterminate = true
-            binding.loader.visibility =View.VISIBLE
+            binding.loader.visibility = View.VISIBLE
             binding.overlay.visibility = View.VISIBLE
-        }else{
-            binding.loader.visibility =View.INVISIBLE
+        } else {
+            binding.loader.visibility = View.INVISIBLE
             binding.overlay.visibility = View.GONE
         }
     }

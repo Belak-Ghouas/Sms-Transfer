@@ -32,7 +32,7 @@
     <string name="need_permission">The service need this permission in order to allow your application to access SMS Received to post your desired messages.</string>
     <string name="description_access_slack">Click on the button bellow to pair your app with your slack profile, a Web Browser will be opened select your preferred slack group and authorize the app access</string>
     <string name="sms_permission">Permission to access SMS</string>
-    <string name="terms_and_conditions_login"> <u>Terms &amp; conditions</u>.</string>
+    <string name="terms_and_conditions_login"> <u>Privacy policy</u>.</string>
     <string name="permission_dialog">The application need : %1$s permission to guarantee that the application will be functional in fact the feature is %2$s </string>
     <string name="permission_dialog_receive_sms">RECEIVE_SMS</string>
     <string name="permission_dialog_send_sms">SEND_SMS</string>

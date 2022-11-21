@@ -15,12 +15,13 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.sms.pipe.R
 import com.sms.pipe.databinding.BottomSheetTermsConditionsBinding
+import com.sms.pipe.view.MainActivityViewModel
 
 
 class PrivacyPoliciesBottomSheet : BottomSheetDialogFragment() {
 
     private lateinit var binding: BottomSheetTermsConditionsBinding
-    private val loginViewModel: LoginActivityViewModel by activityViewModels()
+    private val mainViewModel: MainActivityViewModel by activityViewModels()
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = BottomSheetDialog(requireContext(), theme)
@@ -98,7 +99,7 @@ class PrivacyPoliciesBottomSheet : BottomSheetDialogFragment() {
 
 
     private fun onTermsAccepted() {
-        loginViewModel.onTermsAccepted()
+        mainViewModel.onTermsAccepted()
         this.dismissNow()
     }
 

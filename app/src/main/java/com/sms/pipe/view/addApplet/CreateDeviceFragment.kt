@@ -45,6 +45,7 @@ class CreateDeviceFragment : BaseFragment<BaseFragmentViewModel, FragmentCreateD
             if (it) {
                 val intent = Intent(requireContext(), MainActivity::class.java)
                 activity?.startActivity(intent)
+                activity?.finish()
             }
         }
     }
