@@ -41,14 +41,14 @@ class OnSMSReceivedUseCase(
         return when (appletUi.type) {
             AppletType.DEVICE -> {
                 PacketSms(
-                    messageModel.messageBody,
+                    "Transferred by SMS pipe : "+messageModel.messageBody,
                     appletUi.channelName,
                     from = messageModel.sender
                 )
             }
             AppletType.SLACK -> {
                 userModel.slack_access_token?.let {
-                    PacketSlack(messageModel.messageBody, appletUi.channelName, it)
+                    PacketSlack("Transferred by SMS pipe : "+messageModel.messageBody, appletUi.channelName, it)
                 }
             }
             else -> {
