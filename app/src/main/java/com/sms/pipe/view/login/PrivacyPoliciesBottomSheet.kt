@@ -15,6 +15,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.sms.pipe.R
 import com.sms.pipe.databinding.BottomSheetTermsConditionsBinding
+import com.sms.pipe.utils.ARG_IS_TERMS_NEED_ACCEPT
 import com.sms.pipe.view.MainActivityViewModel
 
 
@@ -68,7 +69,18 @@ class PrivacyPoliciesBottomSheet : BottomSheetDialogFragment() {
     }
 
     fun initViews() {
-        binding.tvConditionsContent.text = HtmlCompat.fromHtml(getString(R.string.terms_and_conditions_content), HtmlCompat.FROM_HTML_MODE_LEGACY)
+        if (requireArguments().getBoolean(ARG_IS_TERMS_NEED_ACCEPT, true)) {
+            binding.close.visibility = View.GONE
+            binding.accept.visibility = View.VISIBLE
+        } else {
+            binding.close.visibility = View.VISIBLE
+            binding.accept.visibility = View.GONE
+        }
+
+        binding.tvConditionsContent.text = HtmlCompat.fromHtml(
+            getString(R.string.terms_and_conditions_content),
+            HtmlCompat.FROM_HTML_MODE_LEGACY
+        )
         binding.tvConditionsContent.movementMethod = LinkMovementMethod.getInstance()
         setScrollEndListener()
 

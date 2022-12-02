@@ -16,6 +16,7 @@ import com.sms.pipe.R
 import com.sms.pipe.databinding.ActivityMainBinding
 import com.sms.pipe.di.mainActivityModule
 import com.sms.pipe.utils.ARG_APPLET_TYPE
+import com.sms.pipe.utils.ARG_IS_TERMS_NEED_ACCEPT
 import com.sms.pipe.view.addApplet.ChooseReceiverBottomSheet
 import com.sms.pipe.view.addApplet.CreateAppletActivity
 import com.sms.pipe.view.base.BaseActivity
@@ -75,10 +76,11 @@ class MainActivity : BaseActivity<MainActivityViewModel, ActivityMainBinding>() 
         }
     }
 
-    private fun showPrivacyPolicy(){
-        if(activityViewModel.didUserReadPolicy().not()){
+    private fun showPrivacyPolicy() {
+        if (activityViewModel.didUserReadPolicy().not()) {
             PrivacyPoliciesBottomSheet().apply {
                 isCancelable = false
+                arguments = Bundle().apply { putBoolean(ARG_IS_TERMS_NEED_ACCEPT, true) }
                 show(supportFragmentManager, "Terms&Conditions")
             }
         }
@@ -183,6 +185,13 @@ class MainActivity : BaseActivity<MainActivityViewModel, ActivityMainBinding>() 
             }
             .create()
             .show()
+    }
+
+    fun showComingSoon() {
+        showIndefiniteSnackBar(
+            "This feature is not yet Available, Coming Soon.",
+            "OK"
+        )
     }
 
 }

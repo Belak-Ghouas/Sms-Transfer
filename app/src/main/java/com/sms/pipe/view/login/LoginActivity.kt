@@ -3,7 +3,6 @@ package com.sms.pipe.view.login
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.snackbar.Snackbar
@@ -12,6 +11,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.sms.pipe.R
 import com.sms.pipe.databinding.LoginActivityBinding
 import com.sms.pipe.di.loginModule
+import com.sms.pipe.utils.ARG_IS_TERMS_NEED_ACCEPT
 import com.sms.pipe.view.base.BaseActivity
 import org.koin.core.module.Module
 
@@ -50,19 +50,11 @@ class LoginActivity : BaseActivity<LoginActivityViewModel, LoginActivityBinding>
         }.attach()
     }
 
-    private fun showDialogPermission() {
-            val builder = AlertDialog.Builder(this)
-            builder.setTitle("Information!")
-            builder.setMessage(R.string.permission_dialog)
-                .setPositiveButton("Ok") { dialog, _ ->
-                    dialog.dismiss()
-                }
-            builder.create().show()
-    }
 
     fun showTermsAndConditionsView() {
         PrivacyPoliciesBottomSheet().apply {
             isCancelable = false
+            arguments = Bundle().apply { putBoolean(ARG_IS_TERMS_NEED_ACCEPT, false) }
             show(supportFragmentManager, "Terms&Conditions")
         }
     }

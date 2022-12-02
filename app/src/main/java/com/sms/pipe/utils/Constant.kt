@@ -9,6 +9,8 @@ const val ARG_PERMISSION_TYPE =" permission type"
 
 const val ARG_PERMISSION_CONTENT =" permission content"
 
+const val ARG_IS_TERMS_NEED_ACCEPT = "is terms need accept"
+
 const val KEY_ALREADY_ONBOARDED =" already onBoarded"
 
 const val KEY_STEPS = "onBoarding step"

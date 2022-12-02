@@ -197,6 +197,7 @@ abstract class BaseActivity<VM : BaseActivityViewModel, B : ViewBinding> : AppCo
         val view = snack.view
         val params = view.layoutParams as FrameLayout.LayoutParams
         params.gravity = Gravity.TOP
+        params.topMargin = 50
         view.layoutParams = params
         snack.show()
     }

@@ -94,8 +94,12 @@ class ChooseReceiverBottomSheet : BottomSheetDialogFragment() {
                     }
                 }
 
-                AppletType.MAIL, AppletType.DEVICE -> {
+                AppletType.DEVICE -> {
                     mActivity.openCreateAppletActivity(appletType)
+                    dismissNow()
+                }
+                AppletType.MAIL ->{
+                    mActivity.showComingSoon()
                     dismissNow()
                 }
                 else -> {
