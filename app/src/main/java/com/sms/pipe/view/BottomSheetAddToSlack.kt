@@ -4,7 +4,6 @@ import android.content.Intent
 import android.content.res.Resources
 import android.net.Uri
 import android.os.Bundle
-import android.provider.Browser
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -47,11 +46,8 @@ class BottomSheetAddToSlack : BottomSheetDialogFragment() {
 
     private fun openWebView() {
         val browserIntent = Intent(
-            Intent.ACTION_VIEW, Uri.parse("https://sms-pipe-web.web.app/mobile/slack")
+            Intent.ACTION_VIEW, Uri.parse("https://sms-pipe-web.web.app/mobile/slack/internal?my_ticket=${mainViewModel.getToken()}")
         )
-        val bundle = Bundle()
-        bundle.putString("Authorization", "bearer ${mainViewModel.getToken()}")
-        browserIntent.putExtra(Browser.EXTRA_HEADERS, bundle)
         requireActivity().startActivity(browserIntent)
         dismiss()
     }
