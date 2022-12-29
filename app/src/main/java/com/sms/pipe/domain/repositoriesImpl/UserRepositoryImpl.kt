@@ -5,9 +5,7 @@ import com.sms.pipe.data.datasources.UserLocalDataSource
 import com.sms.pipe.data.datasources.UserRemoteDataSource
 import com.sms.pipe.data.models.UserModel
 import com.sms.pipe.domain.repositories.UserRepository
-import com.sms.pipe.utils.KEY_TOKEN
-import com.sms.pipe.utils.Result
-import com.sms.pipe.utils.doIfSuccess
+import com.sms.pipe.utils.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -62,4 +60,15 @@ class UserRepositoryImpl(
             user.token?.let { secureDataStore.store(KEY_TOKEN, it) }
         }
     }
+
+    /*override suspend fun refreshToken(token: String): Result<RefreshTokenResponse> {
+        secureDataStore.getString(KEY_REFRESH_TOKEN).let {
+            val result = userRemoteDataSource.refreshToken(token)
+            result.doIfSuccess {
+                it.access_token?.let { it1 -> secureDataStore.store(KEY_TOKEN, it1) }
+                it.refresh_token?.let { it1 -> secureDataStore.store(KEY_REFRESH_TOKEN, it1) }
+            }
+            return result
+        }
+    }*/
 }

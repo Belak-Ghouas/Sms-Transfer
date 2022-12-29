@@ -17,8 +17,8 @@ class LoginFragment : BaseFragment<BaseFragmentViewModel, LoginFragmentBinding>(
 
     private val loginViewModel: LoginActivityViewModel by activityViewModels()
 
-    private val loginActivity: LoginActivity by lazy {
-        requireActivity() as LoginActivity
+    private val signActivity: SignActivity by lazy {
+        requireActivity() as SignActivity
     }
 
     override val moduleList: List<Module> = listOf()
@@ -44,7 +44,7 @@ class LoginFragment : BaseFragment<BaseFragmentViewModel, LoginFragmentBinding>(
         }
 
         binding.termsConditions.setOnClickListener {
-            loginActivity.showTermsAndConditionsView()
+            signActivity.showTermsAndConditionsView()
         }
     }
 

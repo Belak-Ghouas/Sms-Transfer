@@ -12,11 +12,12 @@ import com.sms.pipe.R
 import com.sms.pipe.databinding.LoginActivityBinding
 import com.sms.pipe.di.loginModule
 import com.sms.pipe.utils.ARG_IS_TERMS_NEED_ACCEPT
+import com.sms.pipe.utils.ARG_LOGOUT_UNAUTHORIZED
 import com.sms.pipe.view.base.BaseActivity
 import org.koin.core.module.Module
 
 
-class LoginActivity : BaseActivity<LoginActivityViewModel, LoginActivityBinding>() {
+class SignActivity : BaseActivity<LoginActivityViewModel, LoginActivityBinding>() {
     override val moduleList: List<Module>
         get() = listOf(loginModule)
 
@@ -31,10 +32,19 @@ class LoginActivity : BaseActivity<LoginActivityViewModel, LoginActivityBinding>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         didComeFromDeepLink()
+        didComeFromLogout()
     }
 
     private fun didComeFromDeepLink() {
         Log.d("LoginActivity ", "We Come from deepLink")
+    }
+
+    private fun didComeFromLogout() {
+        intent.extras?.getBoolean(ARG_LOGOUT_UNAUTHORIZED, false)?.also {
+            if (it) {
+                showIndefiniteSnackBar("Session expired , need to login", "Ok")
+            }
+        }
     }
 
     override fun initViews() {
@@ -61,7 +71,6 @@ class LoginActivity : BaseActivity<LoginActivityViewModel, LoginActivityBinding>
 
 
     override fun initObservers() {
-
         activityViewModel.loading.observe(this) {
             showOverlayProgress(it)
         }
@@ -96,5 +105,4 @@ class LoginActivity : BaseActivity<LoginActivityViewModel, LoginActivityBinding>
             binding.overlay.visibility = View.GONE
         }
     }
-
 }

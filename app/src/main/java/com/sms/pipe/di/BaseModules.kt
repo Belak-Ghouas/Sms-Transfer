@@ -7,6 +7,7 @@ import androidx.security.crypto.MasterKeys
 import com.sms.pipe.SampleApplication.Companion.applicationScope
 import com.sms.pipe.data.ApiClient
 import com.sms.pipe.data.ApiInterface
+import com.sms.pipe.data.CustomAuthenticator
 import com.sms.pipe.data.datasources.*
 import com.sms.pipe.data.datasourcesImpl.*
 import com.sms.pipe.data.db.AppDataBase
@@ -21,6 +22,8 @@ import com.sms.pipe.domain.repositoriesImpl.UserRepositoryImpl
 import com.sms.pipe.domain.usecases.*
 import com.sms.pipe.utils.PhoneUtils
 import com.sms.pipe.view.base.BaseFragmentViewModel
+import okhttp3.Authenticator
+import org.greenrobot.eventbus.EventBus
 import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -35,8 +38,9 @@ val baseDataModules = module {
     single { AppDataBase.getInstance(androidApplication()).userDao()  }
     single { AppDataBase.getInstance(androidApplication()).appletDao()  }
     single { PhoneUtils(androidApplication()) }
-    single <ApiInterface> { ApiClient.getApiClient().create(ApiInterface::class.java) }
+    single <ApiInterface> { ApiClient.getApiClient(authenticator = get()).create(ApiInterface::class.java) }
     single { applicationScope }
+    single <Authenticator>{ CustomAuthenticator( secureDataStore = get(), eventBus = EventBus.getDefault()) }
     single <UserRemoteDataSource>{ UserRemoteDataSourceImpl(userApi = get(), phoneUtils = get())  }
     single <UserLocalDataSource>  { UserLocalDataSourceImpl(userDao = get())  }
     single <SecureDataStore>{ SecureDataStoreImpl( encryptedSharedPreferences = getEncrypted(androidContext()) , userLocalDataSource = get())  }
@@ -62,6 +66,8 @@ val baseDomainModules = module {
     factory { UpdateStepsUseCase(dataStoreRepository = get()) }
     factory { GetOnBoardingStepsUseCase(dataStoreRepository = get()) }
     factory { StoreAlreadyOnBoarderUseCase(dataStoreRepository = get()) }
+    factory { LogoutUseCase(userRepository = get()) }
+    factory { GetUserOnceUseCase (userRepository = get())}
 }
 
 fun getEncrypted(context: Context): SharedPreferences {
