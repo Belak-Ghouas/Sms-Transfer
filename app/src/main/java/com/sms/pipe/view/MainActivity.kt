@@ -22,6 +22,7 @@ import com.sms.pipe.view.addApplet.CreateAppletActivity
 import com.sms.pipe.view.base.BaseActivity
 import com.sms.pipe.view.login.PrivacyPoliciesBottomSheet
 import com.sms.pipe.view.model.AppletType
+import org.greenrobot.eventbus.EventBus
 import org.koin.core.module.Module
 
 
@@ -46,6 +47,15 @@ class MainActivity : BaseActivity<MainActivityViewModel, ActivityMainBinding>() 
         showPrivacyPolicy()
     }
 
+    override fun onStart() {
+        super.onStart()
+        EventBus.getDefault().register(this)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        EventBus.getDefault().unregister(this)
+    }
     override fun onResume() {
         super.onResume()
         if (needRefresh) {
@@ -55,6 +65,7 @@ class MainActivity : BaseActivity<MainActivityViewModel, ActivityMainBinding>() 
     }
 
     override fun initObservers() {
+        super.initObservers()
         activityViewModel.refresh.observe(this) {
             binding.swiperefresh.isRefreshing = it
         }

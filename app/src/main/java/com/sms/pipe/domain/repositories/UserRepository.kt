@@ -1,5 +1,6 @@
 package com.sms.pipe.domain.repositories
 
+import com.sms.pipe.data.models.RefreshTokenResponse
 import com.sms.pipe.data.models.UserModel
 import com.sms.pipe.utils.Result
 import kotlinx.coroutines.flow.Flow
@@ -19,4 +20,6 @@ interface UserRepository {
     suspend fun refreshData(token: String)
 
     fun getUserSession():UserModel?
+
+    //suspend fun refreshToken(token: String) :Result<RefreshTokenResponse>
 }
