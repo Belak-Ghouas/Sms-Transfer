@@ -74,6 +74,7 @@ dependencies {
     api "io.insert-koin:koin-androidx-viewmodel:$koin_version"
     api "io.insert-koin:koin-androidx-fragment:$koin_version"
 
+    implementation("com.google.android.play:review-ktx:2.0.1")
 
     //slack
     implementation("com.slack.api:slack-api-client:1.25.1")

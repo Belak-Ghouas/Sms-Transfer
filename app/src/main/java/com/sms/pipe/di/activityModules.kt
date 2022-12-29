@@ -39,7 +39,9 @@ val mainActivityModule = module {
             getAppletsUseCase = get(),
             getUserToken = get(),
             didUserReadPrivacyPolicyUseCase = get(),
-            onTermsAcceptedUseCase = get()
+            onTermsAcceptedUseCase = get() ,
+            needToShowInAppReview = get(),
+            onReviewSuccessUseCase = get()
         )
     }
 
@@ -48,6 +50,8 @@ val mainActivityModule = module {
     factory { GetUserTokenUseCase(dataStoreRepository = get()) }
     factory { DidUserReadPrivacyPolicyUseCase(storeRepository = get()) }
     factory { OnTermsAcceptedUseCase(dataStoreRepository = get()) }
+    factory { NeedToShowInAppReview(dataStoreRepository = get()) }
+    factory { OnReviewSuccessUseCase(dataStoreRepository = get()) }
 }
 
 
