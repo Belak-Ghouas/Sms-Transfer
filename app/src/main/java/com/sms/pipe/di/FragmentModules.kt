@@ -1,6 +1,5 @@
 package com.sms.pipe.di
 
-import com.sms.pipe.domain.usecases.LogoutUseCase
 import com.sms.pipe.view.addApplet.CreateFilterViewModel
 import com.sms.pipe.view.dashboard.DashboardViewModel
 import com.sms.pipe.view.home.HomeViewModel
@@ -23,8 +22,7 @@ val vmNotificationModules = module {
 }
 
 val profileModules = module {
-    viewModel { ProfileViewModel(logoutUseCase = get() , getLoggedUserUseCase = get()) }
-    factory { LogoutUseCase(userRepository = get()) }
+    viewModel { ProfileViewModel(getLoggedUserUseCase = get()) }
 }
 
 val vmCreateFilterModules = module {

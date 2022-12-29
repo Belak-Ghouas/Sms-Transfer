@@ -45,12 +45,14 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
     implementation "org.jetbrains.kotlin:kotlin-reflect:1.7.10"
     implementation "com.google.code.gson:gson:$gsonVersion"
-    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.4.1'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1'
-    implementation 'androidx.navigation:navigation-fragment-ktx:2.5.2'
-    implementation 'androidx.navigation:navigation-ui-ktx:2.5.2'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.5.1'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.5.3'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.5.3'
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
     implementation("androidx.viewpager2:viewpager2:1.0.0")
+
+    implementation("org.greenrobot:eventbus:3.3.1")
 
     //encrypted
     implementation "androidx.security:security-crypto:1.0.0"
@@ -67,7 +69,6 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
 
     // Dependency injection
-    api "io.insert-koin:koin-core:$koin_version"
     api "io.insert-koin:koin-android:$koin_version"
     api "io.insert-koin:koin-androidx-scope:$koin_version"
     api "io.insert-koin:koin-androidx-viewmodel:$koin_version"

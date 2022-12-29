@@ -1,6 +1,8 @@
 package com.sms.pipe.data
 
+import com.sms.pipe.data.models.RefreshTokenResponse
 import com.sms.pipe.data.models.UserLoginResponse
+import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -17,4 +19,8 @@ interface ApiInterface {
     @FormUrlEncoded
     @POST("/api/auth/register")
     suspend fun signUp(@Field("email") email:String , @Field("password") password:String ,@Field("username") username:String): Response<Unit>
+
+    @FormUrlEncoded
+    @POST("/api/auth/refresh")
+    suspend fun refreshToken(@Field("refresh_token") refresh:String ) : Response<RefreshTokenResponse>
 }

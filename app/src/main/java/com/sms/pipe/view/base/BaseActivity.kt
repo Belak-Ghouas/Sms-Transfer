@@ -2,8 +2,10 @@ package com.sms.pipe.view.base
 
 import android.Manifest
 import android.content.ComponentName
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
@@ -12,13 +14,19 @@ import androidx.core.content.ContextCompat
 import androidx.viewbinding.ViewBinding
 import com.google.android.material.snackbar.Snackbar
 import com.sms.pipe.R
+import com.sms.pipe.data.models.LogoutEvent
 import com.sms.pipe.services.SMSReceiver
+import com.sms.pipe.utils.ARG_LOGOUT_UNAUTHORIZED
+import com.sms.pipe.utils.ifNotEmpty
 import com.sms.pipe.view.PERMISSION_REQUEST_CODE
 import com.sms.pipe.view.PermissionDialog
+import com.sms.pipe.view.login.SignActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancelChildren
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.context.loadKoinModules
 import org.koin.core.module.Module
@@ -33,9 +41,12 @@ abstract class BaseActivity<VM : BaseActivityViewModel, B : ViewBinding> : AppCo
     lateinit var binding: B
     abstract val moduleList: List<Module>
 
+    var logoutReason :String =""
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Log.d(this.javaClass.toString(), "OnCreate")
         loadKoinModules(moduleList)
         activityViewModel = getViewModel(clazz = getViewModelClass())
         binding = getViewBinding()
@@ -45,7 +56,12 @@ abstract class BaseActivity<VM : BaseActivityViewModel, B : ViewBinding> : AppCo
     }
 
     abstract fun initViews()
-    abstract fun initObservers()
+    open fun initObservers() {
+        activityViewModel.loggedOut.observe(this) {
+            if (it) logout()
+        }
+    }
+
     abstract fun getViewModelClass(): KClass<VM>
     abstract fun getViewBinding(): B
 
@@ -125,7 +141,7 @@ abstract class BaseActivity<VM : BaseActivityViewModel, B : ViewBinding> : AppCo
                 showSnackBarPermission()
                 onDismissed?.invoke()
             }
-        }.show(supportFragmentManager,"Ask Send")
+        }.show(supportFragmentManager, "Ask Send")
     }
 
     fun askReceiveSMSPermission(onDismissed: (() -> Unit)? = null) {
@@ -141,7 +157,7 @@ abstract class BaseActivity<VM : BaseActivityViewModel, B : ViewBinding> : AppCo
                 showSnackBarPermission()
                 onDismissed?.invoke()
             }
-        }.show(supportFragmentManager,"Ask Receive")
+        }.show(supportFragmentManager, "Ask Receive")
     }
 
     private fun askPermission(permission: List<String>) {
@@ -166,7 +182,7 @@ abstract class BaseActivity<VM : BaseActivityViewModel, B : ViewBinding> : AppCo
                 ) {
                     // Permission is granted. Continue the action or workflow
                     // in your app.
-                }else{
+                } else {
                     showSnackBarPermission()
                 }
             }
@@ -177,7 +193,7 @@ abstract class BaseActivity<VM : BaseActivityViewModel, B : ViewBinding> : AppCo
         }
     }
 
-    fun showSnackBarPermission(){
+    fun showSnackBarPermission() {
         showIndefiniteSnackBar(
             "We don't guarantee that the application will be functional without this permission",
             "Ok"
@@ -185,7 +201,7 @@ abstract class BaseActivity<VM : BaseActivityViewModel, B : ViewBinding> : AppCo
     }
 
 
-    fun showIndefiniteSnackBar(content:String, actionButton:String) {
+    fun showIndefiniteSnackBar(content: String, actionButton: String) {
         val snack = Snackbar.make(
             binding.root,
             content,
@@ -200,5 +216,27 @@ abstract class BaseActivity<VM : BaseActivityViewModel, B : ViewBinding> : AppCo
         params.topMargin = 50
         view.layoutParams = params
         snack.show()
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    open fun onMessageEvent(event: LogoutEvent) {
+        logoutReason = ARG_LOGOUT_UNAUTHORIZED
+        activityViewModel.logout()
+    }
+
+    open fun logout() {
+        Log.e(this.javaClass.toString(), "Logout called ")
+        val intent = Intent(this, SignActivity::class.java)
+        logoutReason.ifNotEmpty {
+            Bundle().apply {
+                this.putBoolean(ARG_LOGOUT_UNAUTHORIZED, true)
+                intent.putExtras(this)
+            }
+        }
+        logoutReason =""
+        intent.flags =
+            Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
+        finish()
     }
 }
