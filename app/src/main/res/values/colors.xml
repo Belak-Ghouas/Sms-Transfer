@@ -54,4 +54,6 @@
     <color name="error_color">#CA2A2A</color>
 
     <color name="choose_receiver">#DDD7E2E8</color>
+
+    <color name="button_like">#248FDF</color>
 </resources>

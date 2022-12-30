@@ -22,3 +22,13 @@ const val KEY_TOKEN = "user token"
 const val KEY_REFRESH_TOKEN ="user refresh token"
 
 const val KEY_TERMS_CONDITIONS =" terms and conditions"
+
+const val KEY_IN_APP_REVIEW = " in app review "
+
+
+/**
+ * Base url for  a Play store app
+ */
+const val PLAY_STORE_BASE_URL = "http://play.google.com/store/apps/details?id=com.sms.pipe"
+
+const val WEEK_IN_MILLIS = 60480000

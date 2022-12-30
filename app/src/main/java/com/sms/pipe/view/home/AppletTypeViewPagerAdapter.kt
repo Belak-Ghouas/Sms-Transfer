@@ -1,10 +1,13 @@
 package com.sms.pipe.view.home
 
 import android.annotation.SuppressLint
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.ViewPager2
 import com.sms.pipe.R
 import com.sms.pipe.databinding.AppletTypeItemBinding
 import com.sms.pipe.view.model.AppletType
@@ -74,4 +77,36 @@ class AppletTypeViewPagerAdapter(private val onClick: Visitor? = null) :
         }
 
     }
+}
+
+
+fun ViewPager2.autoScroll(interval: Long) {
+
+    val handler = Handler(Looper.getMainLooper())
+    var scrollPosition = 0
+
+    val runnable = object : Runnable {
+
+        override fun run() {
+
+            /**
+             * Calculate "scroll position" with
+             * adapter pages count and current
+             * value of scrollPosition.
+             */
+            scrollPosition = ++scrollPosition % (adapter?.itemCount ?: 0)
+            setCurrentItem(scrollPosition, true)
+
+            handler.postDelayed(this, interval)
+        }
+    }
+
+    registerOnPageChangeCallback(object:ViewPager2.OnPageChangeCallback(){
+
+        override fun onPageSelected(position: Int) {
+            super.onPageSelected(position)
+            scrollPosition = position
+        }
+    })
+    handler.post(runnable)
 }

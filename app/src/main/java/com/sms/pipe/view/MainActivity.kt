@@ -12,11 +12,13 @@ import androidx.core.view.forEach
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.play.core.review.ReviewManagerFactory
 import com.sms.pipe.R
 import com.sms.pipe.databinding.ActivityMainBinding
 import com.sms.pipe.di.mainActivityModule
 import com.sms.pipe.utils.ARG_APPLET_TYPE
 import com.sms.pipe.utils.ARG_IS_TERMS_NEED_ACCEPT
+import com.sms.pipe.utils.PLAY_STORE_BASE_URL
 import com.sms.pipe.view.addApplet.ChooseReceiverBottomSheet
 import com.sms.pipe.view.addApplet.CreateAppletActivity
 import com.sms.pipe.view.base.BaseActivity
@@ -45,6 +47,7 @@ class MainActivity : BaseActivity<MainActivityViewModel, ActivityMainBinding>() 
         activityViewModel.getApplet()
         activityViewModel.refresh()
         showPrivacyPolicy()
+        checkReviews()
     }
 
     override fun onStart() {
@@ -56,6 +59,7 @@ class MainActivity : BaseActivity<MainActivityViewModel, ActivityMainBinding>() 
         super.onStop()
         EventBus.getDefault().unregister(this)
     }
+
     override fun onResume() {
         super.onResume()
         if (needRefresh) {
@@ -96,6 +100,43 @@ class MainActivity : BaseActivity<MainActivityViewModel, ActivityMainBinding>() 
             }
         }
 
+    }
+
+    private fun checkReviews() {
+        if (activityViewModel.needToShowReview()) {
+            BottomSheetReview().apply {
+                this.onReviewClicked = ::showInAppReview
+            }.show(supportFragmentManager, "BottomSheetReview")
+        }
+
+    }
+
+
+    private fun showInAppReview() {
+        val manager = ReviewManagerFactory.create(this)
+        val request = manager.requestReviewFlow()
+        request.addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                // We got the ReviewInfo object
+                val reviewInfo = task.result
+                val flow = manager.launchReviewFlow(this, reviewInfo)
+                flow.addOnFailureListener {
+                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(PLAY_STORE_BASE_URL)).apply {
+                        flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                    }
+                    this.startActivity(intent)
+                }
+                flow.addOnSuccessListener {
+                    activityViewModel.onReviewSuccess()
+                }
+            } else {
+                // There was some problem, log or handle the error code.
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(PLAY_STORE_BASE_URL)).apply {
+                    flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                }
+                this.startActivity(intent)
+            }
+        }
     }
 
     fun createNewApplet() {
@@ -162,12 +203,6 @@ class MainActivity : BaseActivity<MainActivityViewModel, ActivityMainBinding>() 
             }
         }
     }
-
-
-    fun navigateTo(fragmentId: Int) {
-        findNavController(R.id.nav_host_fragment_activity_main).navigate(fragmentId)
-    }
-
 
     fun askUserPermissionWithDialog() {
         val icon = ContextCompat.getDrawable(this, R.drawable.ic_sms)

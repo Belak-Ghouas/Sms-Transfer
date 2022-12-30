@@ -16,7 +16,9 @@ class MainActivityViewModel(
     private val getAppletsUseCase: GetAppletsUseCase,
     private val getUserToken : GetUserTokenUseCase,
     private val didUserReadPrivacyPolicyUseCase: DidUserReadPrivacyPolicyUseCase,
-    private val onTermsAcceptedUseCase: OnTermsAcceptedUseCase
+    private val onTermsAcceptedUseCase: OnTermsAcceptedUseCase,
+    private val needToShowInAppReview : NeedToShowInAppReview,
+    private val onReviewSuccessUseCase : OnReviewSuccessUseCase
 ) : BaseActivityViewModel() {
 
     private val _hasSlack  = MutableLiveData<Boolean> ()
@@ -74,5 +76,10 @@ class MainActivityViewModel(
 
 
     fun onTermsAccepted() = onTermsAcceptedUseCase()
+
+
+    fun needToShowReview() = needToShowInAppReview()
+
+    fun onReviewSuccess()  = onReviewSuccessUseCase()
 
 }
