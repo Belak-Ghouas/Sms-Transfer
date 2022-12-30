@@ -10,7 +10,7 @@ class NeedToShowInAppReview(private val dataStoreRepository: SecureDataStoreRepo
 
    operator fun invoke(): Boolean {
        dataStoreRepository.getString(KEY_IN_APP_REVIEW).ifNotEmpty {
-           return if( Date().time - it.toLong() >=  1000){
+           return if( Date().time - it.toLong() >= WEEK_IN_MILLIS){
                dataStoreRepository.store(KEY_IN_APP_REVIEW,(Date().time+WEEK_IN_MILLIS).toString())
                true
            }else{
