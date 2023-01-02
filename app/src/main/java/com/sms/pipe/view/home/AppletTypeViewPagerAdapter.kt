@@ -3,6 +3,7 @@ package com.sms.pipe.view.home
 import android.annotation.SuppressLint
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.sms.pipe.R
 import com.sms.pipe.databinding.AppletTypeItemBinding
+import com.sms.pipe.utils.classTag
 import com.sms.pipe.view.model.AppletType
 
 
@@ -58,20 +60,30 @@ class AppletTypeViewPagerAdapter(private val onClick: Visitor? = null) :
                 AppletType.SLACK -> {
                     binding.icon.setImageResource(R.drawable.ic_slack_64)
                     binding.title.text = binding.root.context.getString(R.string.transfer_to_slack)
-                    binding.description.text = binding.root.context.getString(R.string.applet_type_slack_description)
-                    binding.container.background = ContextCompat.getDrawable(binding.root.context,R.drawable.gradient_slack)
+                    binding.description.text =
+                        binding.root.context.getString(R.string.applet_type_slack_description)
+                    binding.container.background =
+                        ContextCompat.getDrawable(binding.root.context, R.drawable.gradient_slack)
                 }
                 AppletType.MAIL -> {
                     binding.icon.setImageResource(R.drawable.ic_mail_64)
                     binding.title.text = binding.root.context.getString(R.string.transfer_to_mail)
-                    binding.description.text = binding.root.context.getString(R.string.applet_type_email_description)
-                    binding.container.background = ContextCompat.getDrawable(binding.root.context,R.drawable.gradient_mail)
+                    binding.description.text =
+                        binding.root.context.getString(R.string.applet_type_email_description)
+                    binding.container.background =
+                        ContextCompat.getDrawable(binding.root.context, R.drawable.gradient_mail)
                 }
                 AppletType.DEVICE -> {
                     binding.icon.setImageResource(R.drawable.ic_mobile_64)
                     binding.title.text = binding.root.context.getString(R.string.transfer_to_device)
-                    binding.description.text = binding.root.context.getString(R.string.applet_type_device_description)
-                    binding.container.background = ContextCompat.getDrawable(binding.root.context,R.drawable.gradient_device)
+                    binding.description.text =
+                        binding.root.context.getString(R.string.applet_type_device_description)
+                    binding.container.background =
+                        ContextCompat.getDrawable(binding.root.context, R.drawable.gradient_device)
+                }
+
+                else -> {
+                    Log.e(this.classTag,"bindApplet not match on when")
                 }
             }
         }
@@ -101,12 +113,12 @@ fun ViewPager2.autoScroll(interval: Long) {
         }
     }
 
-    registerOnPageChangeCallback(object:ViewPager2.OnPageChangeCallback(){
+    registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
 
         override fun onPageSelected(position: Int) {
             super.onPageSelected(position)
             scrollPosition = position
         }
     })
-    handler.post(runnable)
+    handler.postDelayed(runnable, 3000)
 }
