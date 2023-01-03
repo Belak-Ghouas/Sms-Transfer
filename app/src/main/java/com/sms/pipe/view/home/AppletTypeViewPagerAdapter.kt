@@ -120,5 +120,6 @@ fun ViewPager2.autoScroll(interval: Long) {
             scrollPosition = position
         }
     })
+    handler.removeCallbacks(runnable)
     handler.postDelayed(runnable, 3000)
 }

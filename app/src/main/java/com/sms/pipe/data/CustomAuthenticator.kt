@@ -1,5 +1,6 @@
 package com.sms.pipe.data
 
+import com.sms.pipe.BuildConfig
 import com.sms.pipe.data.models.LogoutEvent
 import com.sms.pipe.data.models.RefreshTokenResponse
 import com.sms.pipe.domain.repositories.SecureDataStoreRepository
@@ -29,7 +30,7 @@ class CustomAuthenticator(
 
 
             val service: ApiToken =  Retrofit.Builder()
-                .baseUrl(BASEURL)
+                .baseUrl(BuildConfig.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build().create(ApiToken::class.java)
             try {

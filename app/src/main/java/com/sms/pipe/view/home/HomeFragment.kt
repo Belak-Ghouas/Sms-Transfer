@@ -13,7 +13,6 @@ import com.sms.pipe.view.MainActivityViewModel
 import com.sms.pipe.view.base.BaseFragment
 import com.sms.pipe.view.model.AppletType
 import com.sms.pipe.view.model.AppletUi
-import com.sms.pipe.view.model.Step
 import org.koin.core.module.Module
 
 
@@ -39,7 +38,7 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>() {
 
     override fun onResume() {
         super.onResume()
-        fragmentViewModel.getSteps()
+        mActivity.binding.swiperefresh.isEnabled = true
     }
 
     override fun initViews() {
@@ -65,28 +64,6 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>() {
         mainViewModel.appletUi.observe(viewLifecycleOwner) { applets ->
             homeAdapter.setData(applets)
         }
-
-        fragmentViewModel.steps.observe(viewLifecycleOwner, ::setOnBoarding)
-    }
-
-    private fun setOnBoarding(steps: List<Step>) {
-        /*
-        if(steps.none { it.status != StepStatus.DONE }){
-            binding.steps.root.visibility = View.GONE
-        }else{
-            binding.steps.iconFirstStep.setImageResource(steps[0].getIcon())
-            binding.steps.iconFirstStep.background = ContextCompat.getDrawable(requireContext(), steps[0].getBackground())
-            binding.steps.iconFirstStep.setPadding(steps[0].getPadding().dpToPx().toInt())
-
-            binding.steps.iconSecondStep.setImageResource(steps[1].getIcon())
-            binding.steps.iconSecondStep.background = ContextCompat.getDrawable(requireContext(), steps[1].getBackground())
-            binding.steps.iconSecondStep.setPadding(steps[1].getPadding().dpToPx().toInt())
-
-            binding.steps.iconThirdStep.setImageResource(steps[2].getIcon())
-            binding.steps.iconThirdStep.background = ContextCompat.getDrawable(requireContext(), steps[2].getBackground())
-            binding.steps.iconThirdStep.setPadding(steps[2].getPadding().dpToPx().toInt())
-
-        }*/
     }
 
     private fun onAppletSelected(applet: AppletUi) {

@@ -10,7 +10,7 @@ import org.koin.dsl.module
 
 
 val homeModules = module {
-    viewModel { HomeViewModel(getOnBoardingStepsUseCase = get()) }
+    viewModel { HomeViewModel() }
 }
 
 val vmDashboardModules = module {

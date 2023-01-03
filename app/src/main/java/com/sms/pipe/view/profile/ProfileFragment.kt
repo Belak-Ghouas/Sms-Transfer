@@ -32,6 +32,10 @@ class ProfileFragment : BaseFragment<ProfileViewModel, FragmentProfileBinding>()
         }
     }
 
+    override fun onStart() {
+        super.onStart()
+        mainActivity.binding.swiperefresh.isEnabled = false
+    }
     private fun enableServiceOnClick(switch: SwitchCompat) {
         val checked = switch.isChecked
         if (checked) {

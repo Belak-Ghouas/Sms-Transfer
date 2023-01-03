@@ -15,6 +15,11 @@ android {
         versionName = rootProject.ext.versionName
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        def apikeyPropertiesFile = rootProject.file("apikeys.properties")
+        def apikeyProperties = new Properties()
+        apikeyProperties.load(new FileInputStream(apikeyPropertiesFile))
+        buildConfigField "String", "BASE_URL", apikeyProperties['BASE_URL']
     }
 
     buildTypes {

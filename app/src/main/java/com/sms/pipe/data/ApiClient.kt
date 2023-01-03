@@ -1,13 +1,12 @@
 package com.sms.pipe.data
 
 import com.google.gson.GsonBuilder
+import com.sms.pipe.BuildConfig
 import okhttp3.Authenticator
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
-
-const val BASEURL = "https://sms-pipe-web.web.app"
 
 class ApiClient {
     companion object {
@@ -26,7 +25,7 @@ class ApiClient {
                     .build()
 
                 retrofit = Retrofit.Builder()
-                    .baseUrl(BASEURL)
+                    .baseUrl(BuildConfig.BASE_URL)
                     .client(okHttpClient)
                     .addConverterFactory(GsonConverterFactory.create(gson))
                     .build()
