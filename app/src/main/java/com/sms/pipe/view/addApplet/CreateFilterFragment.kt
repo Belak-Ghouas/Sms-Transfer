@@ -1,11 +1,13 @@
 package com.sms.pipe.view.addApplet
 
-import android.os.Bundle
 import android.text.Editable
+import android.text.Spannable
+import android.text.SpannableString
 import android.text.TextWatcher
-import android.view.LayoutInflater
+import android.text.style.ImageSpan
 import android.view.View
-import android.view.ViewGroup
+import androidx.appcompat.content.res.AppCompatResources
+import com.sms.pipe.R
 import com.sms.pipe.databinding.FragmentCreateFilterBinding
 import com.sms.pipe.di.vmCreateFilterModules
 import com.sms.pipe.view.base.BaseFragment
@@ -14,6 +16,7 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.core.module.Module
 import java.text.SimpleDateFormat
 import java.util.*
+
 
 class CreateFilterFragment : BaseFragment<CreateFilterViewModel, FragmentCreateFilterBinding>() {
 
@@ -26,16 +29,6 @@ class CreateFilterFragment : BaseFragment<CreateFilterViewModel, FragmentCreateF
         get() = listOf(vmCreateFilterModules)
 
     override fun getViewBinding() = FragmentCreateFilterBinding.inflate(layoutInflater)
-
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentCreateFilterBinding.inflate(requireActivity().layoutInflater)
-        return binding.root
-    }
 
     override fun initObservers() {
     }
@@ -71,7 +64,7 @@ class CreateFilterFragment : BaseFragment<CreateFilterViewModel, FragmentCreateF
             }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                binding.senderNumberInput.error=""
+                binding.senderNumberInput.error = ""
             }
 
             override fun afterTextChanged(p0: Editable?) {
@@ -81,13 +74,21 @@ class CreateFilterFragment : BaseFragment<CreateFilterViewModel, FragmentCreateF
 
         binding.senderSmsContent.addTextChangedListener(textWatcher)
         binding.senderPhoneNumber.addTextChangedListener(textWatcher)
+
+        val span: Spannable = SpannableString("Some text that you want to add")
+        val android = AppCompatResources.getDrawable(requireContext(), R.drawable.ic_sms)
+        android?.setBounds(0, 0, 32, 32)
+        val image = ImageSpan(android!!, ImageSpan.ALIGN_BASELINE)
+        span.setSpan(image, 3, 4, Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
+        binding.testInput.setText(span)
     }
 
     private fun createApplet() {
         val senderPhoneNumber = binding.senderPhoneNumber.text.toString()
         val senderContent = binding.senderSmsContent.text.toString()
-        if(senderPhoneNumber.length > 1 && senderPhoneNumber[0]!='+' && senderPhoneNumber[1].isDigit()){
-            binding.senderNumberInput.error="must start with + (international phone number) ex : +33987654321"
+        if (senderPhoneNumber.length > 1 && senderPhoneNumber[0] != '+' && senderPhoneNumber[1].isDigit()) {
+            binding.senderNumberInput.error =
+                "must start with + (international phone number) ex : +33987654321"
             return
         }
 
