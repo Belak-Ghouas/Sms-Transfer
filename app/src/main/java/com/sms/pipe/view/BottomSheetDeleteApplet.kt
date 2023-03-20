@@ -1,27 +1,24 @@
 package com.sms.pipe.view
 
-import android.content.res.Resources
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
-import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.sms.pipe.R
 import com.sms.pipe.databinding.BottomSheetDeleteAppletBinding
 import com.sms.pipe.utils.ARG_SELECTED_APPLET
+import com.sms.pipe.view.base.BaseBottomSheet
 import com.sms.pipe.view.model.AppletUi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class BottomSheetDeleteApplet : BottomSheetDialogFragment() {
+class BottomSheetDeleteApplet : BaseBottomSheet() {
 
     private lateinit var binding: BottomSheetDeleteAppletBinding
     private val mainViewModel: MainActivityViewModel by activityViewModels()
-    private var id: Long? = null
+    private var appletUi: AppletUi? = null
 
 
     override fun onCreateView(
@@ -30,44 +27,16 @@ class BottomSheetDeleteApplet : BottomSheetDialogFragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = BottomSheetDeleteAppletBinding.inflate(requireActivity().layoutInflater)
-        id = arguments?.getLong(ARG_SELECTED_APPLET)
-        initViews()
+        appletUi = arguments?.getParcelable(ARG_SELECTED_APPLET)
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        initObservers()
-    }
-
-    override fun getTheme(): Int {
-        return R.style.AppBottomSheetDialogTheme
-    }
-
-
-    override fun onStart() {
-        super.onStart()
-        binding.container.let { view ->
-            val behavior = BottomSheetBehavior.from(view)
-            behavior.peekHeight = Resources.getSystem().displayMetrics.heightPixels
-            behavior.state = BottomSheetBehavior.STATE_EXPANDED
-        }
-    }
-
-    private fun initObservers() {
-        mainViewModel.appletUi.observe(viewLifecycleOwner){
-            it.find {applet-> applet.id == id }.apply {
-                bindApplet(this)
-            }
-        }
-    }
-
-    fun initViews() {
-
+    override fun initViews() {
+        bindApplet(appletUi)
         binding.deleteBtn.setOnClickListener {
-            id?.let {
+            appletUi?.let {
                 lifecycleScope.launch(Dispatchers.IO) {
-                    val result = mainViewModel.deleteApplet(it)
+                    val result = mainViewModel.deleteApplet(it.id)
                     withContext(Dispatchers.Main) {
                         holdDeleteReturn(result)
                     }

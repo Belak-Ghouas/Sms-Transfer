@@ -62,4 +62,10 @@ class PermissionDialog private constructor() : AppCompatDialogFragment() {
     }
 
 
+    override fun onDestroy() {
+        super.onDestroy()
+        onAcceptClicked = null
+        onDenyClicked = null
+    }
+
 }

@@ -1,27 +1,31 @@
 package com.sms.pipe.view.addApplet
 
-import android.content.res.Resources
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.sms.pipe.R
 import com.sms.pipe.databinding.BottomSheetChooseReceiverBinding
+import com.sms.pipe.utils.ARG_APPLET_TYPE
 import com.sms.pipe.utils.CircularRecyclerViewListener
 import com.sms.pipe.view.MainActivity
 import com.sms.pipe.view.MainActivityViewModel
+import com.sms.pipe.view.base.BaseBottomSheet
 import com.sms.pipe.view.model.AppletType
 
 
-class ChooseReceiverBottomSheet : BottomSheetDialogFragment() {
+class ChooseReceiverBottomSheet : BaseBottomSheet() {
 
     private lateinit var binding: BottomSheetChooseReceiverBinding
     private val mainViewModel: MainActivityViewModel by activityViewModels()
+
+    private val navController by lazy {
+        findNavController()
+    }
 
     private val mActivity by lazy {
         requireActivity() as MainActivity
@@ -44,23 +48,7 @@ class ChooseReceiverBottomSheet : BottomSheetDialogFragment() {
         return binding.root
     }
 
-    override fun getTheme(): Int {
-        return R.style.AppBottomSheetDialogTheme
-    }
-
-    override fun onStart() {
-        super.onStart()
-        binding.container.let { view ->
-            val behavior = BottomSheetBehavior.from(view)
-            behavior.peekHeight = Resources.getSystem().displayMetrics.heightPixels
-            behavior.state = BottomSheetBehavior.STATE_EXPANDED
-        }
-        initViews()
-    }
-
-
-    fun initViews() {
-
+    override fun initViews() {
         binding.recycler.apply {
             val linearLayoutManager = LinearLayoutManager(context)
             linearLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
@@ -77,28 +65,24 @@ class ChooseReceiverBottomSheet : BottomSheetDialogFragment() {
         receiverAdapter.setData(data)
     }
 
-    private fun openWebView() {
-    }
-
     private fun onAppletTypeSelected(appletType: AppletType) {
-        Log.d("Abdelhak", "onclick applet : $appletType")
         if (mActivity.isReceiveSMSGranted()) {
             when (appletType) {
                 AppletType.SLACK -> {
                     if (mainViewModel.hasSlack.value == true) {
-                        mActivity.openCreateAppletActivity(appletType)
+                        navigateToCreateApplet(appletType)
                         dismissNow()
                     } else {
-                        mActivity.openAddToSlackBottomSheet()
-                        dismissNow()
+                        mActivity.needRefresh = true
+                        navController.navigate(R.id.action_bottomSheetChooser_to_bottomSheetAddToSlack)
                     }
                 }
 
                 AppletType.DEVICE -> {
-                    mActivity.openCreateAppletActivity(appletType)
+                    navigateToCreateApplet(appletType)
                     dismissNow()
                 }
-                AppletType.MAIL ->{
+                AppletType.MAIL -> {
                     mActivity.showComingSoon()
                     dismissNow()
                 }
@@ -110,6 +94,12 @@ class ChooseReceiverBottomSheet : BottomSheetDialogFragment() {
             mActivity.askReceiveSMSPermission()
         }
 
+    }
+
+    private fun navigateToCreateApplet(appletType:AppletType){
+        val args = Bundle()
+        args.putString(ARG_APPLET_TYPE, appletType.name)
+        navController.navigate(R.id.action_bottomSheetChooser_to_createAppletActivity,args)
     }
 
 }
