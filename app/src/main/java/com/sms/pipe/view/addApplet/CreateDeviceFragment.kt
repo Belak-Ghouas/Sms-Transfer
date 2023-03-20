@@ -1,11 +1,11 @@
 package com.sms.pipe.view.addApplet
 
-import android.content.Intent
 import android.text.Editable
 import android.text.TextWatcher
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
+import com.sms.pipe.R
 import com.sms.pipe.databinding.FragmentCreateDeviceBinding
-import com.sms.pipe.view.MainActivity
 import com.sms.pipe.view.base.BaseFragment
 import com.sms.pipe.view.base.BaseFragmentViewModel
 import org.koin.core.module.Module
@@ -15,6 +15,10 @@ class CreateDeviceFragment : BaseFragment<BaseFragmentViewModel, FragmentCreateD
 
 
     private val createAppletViewModel: CreateAppletViewModel by activityViewModels()
+
+    private val navController by lazy {
+        findNavController()
+    }
 
     override val moduleList: List<Module> get() = listOf()
 
@@ -43,9 +47,8 @@ class CreateDeviceFragment : BaseFragment<BaseFragmentViewModel, FragmentCreateD
     override fun initObservers() {
         createAppletViewModel.appletStored.observe(viewLifecycleOwner) {
             if (it) {
-                val intent = Intent(requireContext(), MainActivity::class.java)
-                activity?.startActivity(intent)
-                activity?.finish()
+                navController.navigate(R.id.action_CreateDeviceFragment_to_mainActivity)
+                requireActivity().finish()
             }
         }
     }

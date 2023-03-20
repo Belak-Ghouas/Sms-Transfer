@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/add_applet_navigation"
+    app:startDestination="@id/CreateFilterFragment">
+
+
+    <fragment
+        android:id="@+id/CreateFilterFragment"
+        android:name="com.sms.pipe.view.addApplet.CreateFilterFragment"
+        tools:layout="@layout/fragment_create_filter" >
+        <action
+            android:id="@+id/action_CreateFilterFragment_to_CreateSlackFragment"
+            app:destination="@id/CreateSlackFragment" />
+        <action
+            android:id="@+id/action_CreateFilterFragment_to_CreateDeviceFragment"
+            app:destination="@id/CreateDeviceFragment" />
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/CreateSlackFragment"
+        android:name="com.sms.pipe.view.addApplet.CreateSlackFragment"
+        tools:layout="@layout/fragment_create_slack" >
+        <action
+            android:id="@+id/action_CreateSlackFragment_to_mainActivity"
+            app:destination="@id/mainActivity" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/CreateDeviceFragment"
+        android:name="com.sms.pipe.view.addApplet.CreateDeviceFragment"
+        tools:layout="@layout/fragment_create_device" >
+        <action
+            android:id="@+id/action_CreateDeviceFragment_to_mainActivity"
+            app:destination="@id/mainActivity" />
+    </fragment>
+
+    <activity
+        android:id="@+id/mainActivity"
+        android:name="com.sms.pipe.view.MainActivity"
+        tools:layout="@layout/activity_main" />
+</navigation>

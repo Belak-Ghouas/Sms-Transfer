@@ -1,6 +1,10 @@
 package com.sms.pipe.view.addApplet
 
-import androidx.fragment.app.FragmentTransaction
+import android.os.Bundle
+import androidx.navigation.PopUpToBuilder
+import androidx.navigation.findNavController
+import androidx.navigation.navOptions
+import com.sms.pipe.R
 import com.sms.pipe.databinding.ActivityCreateAppletBinding
 import com.sms.pipe.di.createAppletModule
 import com.sms.pipe.utils.ARG_APPLET_TYPE
@@ -13,64 +17,34 @@ class CreateAppletActivity : BaseActivity<CreateAppletViewModel, ActivityCreateA
     override val moduleList: List<Module>
         get() = listOf(createAppletModule)
 
-    private val argAppletType : AppletType by lazy {
-      enumValueOf(intent.extras?.getString(ARG_APPLET_TYPE)?:AppletType.UNKNOWN.name) //intent.extras!!.getString(ARG_APPLET_TYPE)
+    private val argAppletType: String by lazy {
+        intent.extras?.getString(ARG_APPLET_TYPE) ?: AppletType.UNKNOWN.name
+    }
+
+    private val navController by lazy {
+        findNavController(R.id.nav_host_fragment_activity_add_applet)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val navGraph = navController.navInflater.inflate(R.navigation.add_applet_navigation)
+        navGraph.setStartDestination(R.id.CreateFilterFragment)
+        navController.setGraph(navGraph,Bundle().also {
+            it.putString(ARG_APPLET_TYPE, argAppletType)
+        })
+        navController.navigate(R.id.CreateFilterFragment, Bundle().also {
+            it.putString(ARG_APPLET_TYPE, argAppletType)
+        },navOptions = navOptions {
+            popUpTo(R.id.CreateFilterFragment) {
+                inclusive = true
+            }
+        })
     }
 
     override fun initViews() {
-        val createFilterFragment = CreateFilterFragment()
-        supportFragmentManager.beginTransaction()
-            .add(binding.fragmentContainer.id, createFilterFragment)
-            .commit()
-    }
-
-    override fun initObservers() {
     }
 
     override fun getViewModelClass() = CreateAppletViewModel::class
     override fun getViewBinding() = ActivityCreateAppletBinding.inflate(layoutInflater)
-
-
-    fun navigateToReceiver() {
-        activityViewModel.newApplet?.type = argAppletType
-        when(argAppletType){
-            AppletType.SLACK ->{
-                navigateToSlackView()
-            }
-            AppletType.MAIL->{
-
-            }
-
-            AppletType.DEVICE->{
-                if(isSendSMSGranted()){
-                    navigateToDeviceView()
-                }else{
-                    askSendSMSPermission()
-                }
-
-            }
-        }
-
-    }
-
-    private fun navigateToSlackView(){
-        val chooseSlack = CreateSlackFragment()
-        val fragmentTransaction: FragmentTransaction = supportFragmentManager.beginTransaction()
-        fragmentTransaction.replace(binding.fragmentContainer.id, chooseSlack)
-        if (!fragmentTransaction.isEmpty) {
-            fragmentTransaction.addToBackStack(chooseSlack.javaClass.simpleName)
-        }
-        fragmentTransaction.commit()
-    }
-
-    private fun navigateToDeviceView(){
-        val chooseContact = CreateDeviceFragment()
-        val fragmentTransaction: FragmentTransaction = supportFragmentManager.beginTransaction()
-        fragmentTransaction.replace(binding.fragmentContainer.id, chooseContact)
-        if (!fragmentTransaction.isEmpty) {
-            fragmentTransaction.addToBackStack(chooseContact.javaClass.simpleName)
-        }
-        fragmentTransaction.commit()
-    }
 
 }
