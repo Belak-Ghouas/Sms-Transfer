@@ -1,53 +1,25 @@
 package com.sms.pipe.view.login
 
-import android.app.Dialog
 import android.os.Bundle
 import android.text.method.LinkMovementMethod
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
 import android.widget.ScrollView
 import androidx.core.text.HtmlCompat
 import androidx.fragment.app.activityViewModels
-import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.sms.pipe.R
 import com.sms.pipe.databinding.BottomSheetTermsConditionsBinding
 import com.sms.pipe.utils.ARG_IS_TERMS_NEED_ACCEPT
 import com.sms.pipe.view.MainActivityViewModel
+import com.sms.pipe.view.base.BaseBottomSheet
 
 
-class PrivacyPoliciesBottomSheet : BottomSheetDialogFragment() {
+class PrivacyPoliciesBottomSheet : BaseBottomSheet() {
 
     private lateinit var binding: BottomSheetTermsConditionsBinding
     private val mainViewModel: MainActivityViewModel by activityViewModels()
 
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val dialog = BottomSheetDialog(requireContext(), theme)
-        dialog.setOnShowListener {
-
-            val bottomSheetDialog = it as BottomSheetDialog
-            val parentLayout =
-                bottomSheetDialog.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
-            parentLayout?.let { parent ->
-                val behaviour = BottomSheetBehavior.from(parent)
-                setupFullHeight(parent)
-                behaviour.state = BottomSheetBehavior.STATE_EXPANDED
-                behaviour.skipCollapsed = true
-                behaviour.isDraggable = false
-            }
-        }
-        return dialog
-    }
-
-
-    private fun setupFullHeight(bottomSheet: View) {
-        val layoutParams = bottomSheet.layoutParams
-        layoutParams.height = WindowManager.LayoutParams.MATCH_PARENT
-        bottomSheet.layoutParams = layoutParams
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -59,16 +31,8 @@ class PrivacyPoliciesBottomSheet : BottomSheetDialogFragment() {
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        initObservers()
-    }
 
-
-    private fun initObservers() {
-    }
-
-    fun initViews() {
+    override fun initViews() {
         if (requireArguments().getBoolean(ARG_IS_TERMS_NEED_ACCEPT, true)) {
             binding.close.visibility = View.GONE
             binding.accept.visibility = View.VISIBLE

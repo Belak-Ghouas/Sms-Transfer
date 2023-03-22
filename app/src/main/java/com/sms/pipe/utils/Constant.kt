@@ -31,4 +31,4 @@ const val KEY_IN_APP_REVIEW = " in app review "
  */
 const val PLAY_STORE_BASE_URL = "http://play.google.com/store/apps/details?id=com.sms.pipe"
 
-const val WEEK_IN_MILLIS = 604800000
+const val WEEK_IN_MILLIS = 604800000L

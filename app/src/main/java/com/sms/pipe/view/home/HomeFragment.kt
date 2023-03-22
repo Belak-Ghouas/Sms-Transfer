@@ -3,13 +3,16 @@ package com.sms.pipe.view.home
 import android.os.Bundle
 import android.util.DisplayMetrics
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.sms.pipe.R
 import com.sms.pipe.databinding.FragmentHomeBinding
 import com.sms.pipe.di.homeModules
 import com.sms.pipe.utils.ARG_SELECTED_APPLET
-import com.sms.pipe.view.BottomSheetDeleteApplet
 import com.sms.pipe.view.MainActivity
 import com.sms.pipe.view.MainActivityViewModel
+import com.sms.pipe.view.base.BaseBottomSheet.Companion.ARG_HEIGHT_WRAP_CONTENT
+import com.sms.pipe.view.base.BaseBottomSheet.Companion.ARG_IS_DRAGGABLE
 import com.sms.pipe.view.base.BaseFragment
 import com.sms.pipe.view.model.AppletType
 import com.sms.pipe.view.model.AppletUi
@@ -20,6 +23,10 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>() {
 
     private val mActivity: MainActivity by lazy {
         requireActivity() as MainActivity
+    }
+
+    private val navController by lazy {
+        findNavController()
     }
 
     private val mainViewModel: MainActivityViewModel by activityViewModels()
@@ -49,16 +56,7 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>() {
             setHasFixedSize(true)
             this.adapter = homeAdapter
         }
-
-        binding.steps.next.setOnClickListener {
-            onNextClicked()
-        }
     }
-
-    private fun onNextClicked() {
-        mActivity.createNewApplet()
-    }
-
 
     override fun initObservers() {
         mainViewModel.appletUi.observe(viewLifecycleOwner) { applets ->
@@ -67,12 +65,11 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>() {
     }
 
     private fun onAppletSelected(applet: AppletUi) {
-
-        val deleteAppletBottom = BottomSheetDeleteApplet()
-        deleteAppletBottom.arguments = Bundle().apply {
-            this.putLong(ARG_SELECTED_APPLET, applet.id)
-        }
-        deleteAppletBottom.show(mActivity.supportFragmentManager, "DeleteApplet")
+        val args = Bundle()
+        args.putParcelable(ARG_SELECTED_APPLET, applet)
+        args.putBoolean(ARG_IS_DRAGGABLE,false)
+        args.putBoolean(ARG_HEIGHT_WRAP_CONTENT,true)
+        navController.navigate(R.id.action_navigation_home_to_bottomSheetDeleteApplet,args)
     }
 
     private fun Int.dpToPx(): Float {

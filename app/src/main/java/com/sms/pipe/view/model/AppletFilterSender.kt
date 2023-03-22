@@ -1,10 +1,13 @@
 package com.sms.pipe.view.model
 
 import com.sms.pipe.data.models.MessageModel
+import kotlinx.parcelize.Parcelize
 
-data class AppletFilterSender(var value :String):AppletFilter {
+
+@Parcelize
+data class AppletFilterSender(var value: String) : AppletFilter {
     override fun match(messageModel: MessageModel): Boolean {
-        return messageModel.sender.equals(value,true)
+        return messageModel.sender.equals(value, true)
     }
 
     override fun toString(): String {
@@ -12,10 +15,11 @@ data class AppletFilterSender(var value :String):AppletFilter {
     }
 }
 
-data class AppletFilterContent(var value: String):AppletFilter{
+@Parcelize
+data class AppletFilterContent(var value: String) : AppletFilter {
 
     override fun match(messageModel: MessageModel): Boolean {
-        return messageModel.messageBody.contains(value,true)
+        return messageModel.messageBody.contains(value, true)
     }
 
     override fun toString(): String {
@@ -23,7 +27,7 @@ data class AppletFilterContent(var value: String):AppletFilter{
     }
 }
 
-enum class AppletFilterRelation{
+enum class AppletFilterRelation {
     AND,
     OR
 }

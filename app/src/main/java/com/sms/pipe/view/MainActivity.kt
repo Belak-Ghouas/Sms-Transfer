@@ -16,14 +16,12 @@ import com.google.android.play.core.review.ReviewManagerFactory
 import com.sms.pipe.R
 import com.sms.pipe.databinding.ActivityMainBinding
 import com.sms.pipe.di.mainActivityModule
-import com.sms.pipe.utils.ARG_APPLET_TYPE
 import com.sms.pipe.utils.ARG_IS_TERMS_NEED_ACCEPT
 import com.sms.pipe.utils.PLAY_STORE_BASE_URL
-import com.sms.pipe.view.addApplet.ChooseReceiverBottomSheet
-import com.sms.pipe.view.addApplet.CreateAppletActivity
 import com.sms.pipe.view.base.BaseActivity
-import com.sms.pipe.view.login.PrivacyPoliciesBottomSheet
-import com.sms.pipe.view.model.AppletType
+import com.sms.pipe.view.base.BaseBottomSheet.Companion.ARG_HEIGHT_WRAP_CONTENT
+import com.sms.pipe.view.base.BaseBottomSheet.Companion.ARG_IS_CANCELLABLE
+import com.sms.pipe.view.base.BaseBottomSheet.Companion.ARG_IS_DRAGGABLE
 import org.greenrobot.eventbus.EventBus
 import org.koin.core.module.Module
 
@@ -32,17 +30,20 @@ const val PERMISSION_REQUEST_CODE = 99
 
 class MainActivity : BaseActivity<MainActivityViewModel, ActivityMainBinding>() {
 
-    private var needRefresh = false
+    var needRefresh = false
     private var isFirstTime = true
 
     override fun getViewModelClass() = MainActivityViewModel::class
     override fun getViewBinding() = ActivityMainBinding.inflate(layoutInflater)
     override val moduleList: List<Module> = listOf(mainActivityModule)
 
+    private val navController by lazy {
+        findNavController(R.id.nav_host_fragment_activity_main)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val navView: BottomNavigationView = binding.navView
-        val navController = findNavController(R.id.nav_host_fragment_activity_main)
         navView.setupWithNavController(navController)
         activityViewModel.getApplet()
         activityViewModel.refresh()
@@ -93,13 +94,13 @@ class MainActivity : BaseActivity<MainActivityViewModel, ActivityMainBinding>() 
 
     private fun showPrivacyPolicy() {
         if (activityViewModel.didUserReadPolicy().not()) {
-            PrivacyPoliciesBottomSheet().apply {
-                isCancelable = false
-                arguments = Bundle().apply { putBoolean(ARG_IS_TERMS_NEED_ACCEPT, true) }
-                show(supportFragmentManager, "Terms&Conditions")
-            }
+            val args = Bundle()
+            args.putBoolean(ARG_IS_CANCELLABLE, false)
+            args.putBoolean(ARG_IS_DRAGGABLE, false)
+            args.putBoolean(ARG_IS_TERMS_NEED_ACCEPT, true)
+            args.putBoolean(ARG_HEIGHT_WRAP_CONTENT, false)
+            navController.navigate(R.id.action_navigation_home_to_privacyPolicy, args)
         }
-
     }
 
     private fun checkReviews() {
@@ -139,26 +140,8 @@ class MainActivity : BaseActivity<MainActivityViewModel, ActivityMainBinding>() 
         }
     }
 
-    fun createNewApplet() {
-        openChooser()
-    }
-
-    fun openCreateAppletActivity(appletType: AppletType) {
-        val intent = Intent(this, CreateAppletActivity::class.java)
-        intent.putExtra(ARG_APPLET_TYPE, appletType.name)
-        startActivity(intent)
-    }
-
-
-    fun openAddToSlackBottomSheet() {
-        needRefresh = true
-        val bottomSheet = BottomSheetAddToSlack()
-        bottomSheet.show(supportFragmentManager, "BottomSheetAddToSlack")
-    }
-
-    private fun openChooser() {
-        val bottomSheet = ChooseReceiverBottomSheet()
-        bottomSheet.show(supportFragmentManager, "ChooseReceiverBottomSheet")
+    private fun createNewApplet() {
+        navController.navigate(R.id.action_navigation_home_to_bottomSheetChooser)
     }
 
 

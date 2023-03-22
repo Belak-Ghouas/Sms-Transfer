@@ -4,7 +4,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 
-class ViewPagerFragmentAdapter(private val activity: FragmentActivity) : FragmentStateAdapter(activity) {
+class ViewPagerFragmentAdapter(activity: FragmentActivity) : FragmentStateAdapter(activity) {
 
     private val list: ArrayList<Fragment> = ArrayList()
     private val pageIds = list.map { it.hashCode().toLong() }
@@ -31,7 +31,7 @@ class ViewPagerFragmentAdapter(private val activity: FragmentActivity) : Fragmen
 
     fun addFragment(fragment: Fragment, position: Int) {
         list.add(position, fragment)
-        notifyDataSetChanged()
+        notifyItemInserted(position)
     }
 
     /**

@@ -49,8 +49,8 @@ class SignActivity : BaseActivity<LoginActivityViewModel, LoginActivityBinding>(
 
     override fun initViews() {
         pagerAdapter = ViewPagerFragmentAdapter(this)
-        pagerAdapter.addFragment(LoginFragment())
-        pagerAdapter.addFragment(SignUpFragment())
+        pagerAdapter.addFragment(LoginFragment(),0)
+        pagerAdapter.addFragment(SignUpFragment(),1)
 
         // set Orientation in your ViewPager2
         binding.pager.orientation = ViewPager2.ORIENTATION_HORIZONTAL

@@ -1,7 +1,11 @@
 package com.sms.pipe.view.model
 
+import android.os.Parcelable
 import com.sms.pipe.data.models.MessageModel
 
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class AppletUi(
     var id :Long = 0,
     var appletName:String,
@@ -11,7 +15,7 @@ data class AppletUi(
     var relation: AppletFilterRelation? = null,
     var userId : String,
     var isEnabled : Boolean,
-    var type :AppletType){
+    var type :AppletType):Parcelable{
     fun match(messageModel: MessageModel):AppletUi?{
         filters.forEach{
             if(it.match(messageModel)) return this

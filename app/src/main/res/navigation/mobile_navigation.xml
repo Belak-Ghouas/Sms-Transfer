@@ -4,34 +4,64 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
     app:startDestination="@+id/navigation_home">
-
-    <fragment
-        android:id="@+id/navigation_home"
-        android:name="com.sms.pipe.view.home.HomeFragment"
-        android:label="@string/fragment_title_home"
-        tools:layout="@layout/fragment_home" />
-
-    <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="com.sms.pipe.view.notifications.NotificationsFragment"
-        android:label="@string/fragment_title_notifications"
-        tools:layout="@layout/fragment_notifications" />
-
     <fragment
         android:id="@+id/navigation_profile"
         android:name="com.sms.pipe.view.profile.ProfileFragment"
         android:label="@string/fragment_title_profile"
         tools:layout="@layout/fragment_profile" />
     <fragment
-        android:id="@+id/chooseSlackFragment"
-        android:name="com.sms.pipe.view.addApplet.CreateSlackFragment"
-        android:label="ChooseSlackFragment"
-        tools:layout="@layout/fragment_create_slack"/>
-    <fragment
-        android:id="@+id/createFilterFragment"
-        android:name="com.sms.pipe.view.addApplet.CreateFilterFragment"
-        android:label="CreateFilterFragment"
-        tools:layout="@layout/fragment_create_filter"/>
+        android:id="@+id/navigation_home"
+        android:name="com.sms.pipe.view.home.HomeFragment"
+        android:label="@string/fragment_title_home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_navigation_home_to_privacyPolicy"
+            app:destination="@id/privacyPolicy" />
+        <action
+            android:id="@+id/action_navigation_home_to_bottomSheetDeleteApplet"
+            app:destination="@id/bottomSheetDeleteApplet" />
+        <action
+            android:id="@+id/action_navigation_home_to_bottomSheetChooser"
+            app:destination="@id/bottomSheetChooser" />
+    </fragment>
 
+
+    <dialog
+        android:id="@+id/privacyPolicy"
+        android:name="com.sms.pipe.view.login.PrivacyPoliciesBottomSheet"
+        android:label="PrivacyPolicy"
+        tools:layout="@layout/bottom_sheet_terms_conditions"/>
+
+    <dialog
+        android:id="@+id/bottomSheetDeleteApplet"
+        android:name="com.sms.pipe.view.BottomSheetDeleteApplet"
+        android:label="bottomSheetDeleteApplet"
+        tools:layout="@layout/bottom_sheet_delete_applet"/>
+
+    <dialog
+        android:id="@+id/bottomSheetAddToSlack"
+        android:name="com.sms.pipe.view.BottomSheetAddToSlack"
+        android:label="bottomSheetAddToSlack"
+        tools:layout="@layout/bottom_sheet_add_to_slack"/>
+
+    <dialog
+        android:id="@+id/bottomSheetChooser"
+        android:name="com.sms.pipe.view.addApplet.ChooseReceiverBottomSheet"
+        android:label="bottomSheetChooser"
+        tools:layout="@layout/bottom_sheet_choose_receiver">
+        <action
+            android:id="@+id/action_bottomSheetChooser_to_createAppletActivity"
+            app:destination="@id/createAppletActivity" />
+        <action
+            android:id="@+id/action_bottomSheetChooser_to_bottomSheetAddToSlack"
+            app:destination="@id/bottomSheetAddToSlack" />
+
+    </dialog>
+
+    <activity
+        android:id="@+id/createAppletActivity"
+        android:name="com.sms.pipe.view.addApplet.CreateAppletActivity"
+        android:label="createAppletActivity"
+        tools:layout="@layout/activity_create_applet"/>
 
 </navigation>

@@ -3,6 +3,7 @@ package com.sms.pipe.view.addApplet
 import android.content.Intent
 import android.widget.ArrayAdapter
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import com.sms.pipe.R
 import com.sms.pipe.data.models.ChannelModel
 import com.sms.pipe.databinding.FragmentCreateSlackBinding
@@ -19,6 +20,10 @@ class CreateSlackFragment : BaseFragment<BaseFragmentViewModel, FragmentCreateSl
     private val channelAdapter :ArrayAdapter<String> by lazy {
       ArrayAdapter(requireContext(),AnR.layout.simple_spinner_item)
    }
+
+    private val navController by lazy {
+        findNavController()
+    }
 
     private val createAppletViewModel : CreateAppletViewModel by activityViewModels()
 
@@ -44,9 +49,8 @@ class CreateSlackFragment : BaseFragment<BaseFragmentViewModel, FragmentCreateSl
 
         createAppletViewModel.appletStored.observe(viewLifecycleOwner){
             if (it){
-                val intent = Intent(requireContext(),MainActivity::class.java)
-                activity?.startActivity(intent)
-                activity?.finish()
+                navController.navigate(R.id.action_CreateSlackFragment_to_mainActivity)
+                requireActivity().finish()
             }
         }
     }

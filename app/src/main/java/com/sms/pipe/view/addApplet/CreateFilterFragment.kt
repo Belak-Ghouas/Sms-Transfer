@@ -6,8 +6,11 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
+import com.sms.pipe.R
 import com.sms.pipe.databinding.FragmentCreateFilterBinding
 import com.sms.pipe.di.vmCreateFilterModules
+import com.sms.pipe.utils.ARG_APPLET_TYPE
 import com.sms.pipe.view.base.BaseFragment
 import com.sms.pipe.view.model.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
@@ -19,6 +22,11 @@ class CreateFilterFragment : BaseFragment<CreateFilterViewModel, FragmentCreateF
 
     private val myAppletFilter: ArrayList<AppletFilter> = ArrayList()
     private val createAppletViewModel by sharedViewModel<CreateAppletViewModel>()
+
+    private val navController by lazy {
+        findNavController()
+    }
+
     private val activity: CreateAppletActivity by lazy {
         requireActivity() as CreateAppletActivity
     }
@@ -27,6 +35,11 @@ class CreateFilterFragment : BaseFragment<CreateFilterViewModel, FragmentCreateF
 
     override fun getViewBinding() = FragmentCreateFilterBinding.inflate(layoutInflater)
 
+    private val argAppletType: AppletType by lazy {
+        enumValueOf(
+            arguments?.getString(ARG_APPLET_TYPE) ?: AppletType.UNKNOWN.name
+        )
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -119,10 +132,30 @@ class CreateFilterFragment : BaseFragment<CreateFilterViewModel, FragmentCreateF
             creationDate = currentDate,
             isEnabled = true,
             userId = createAppletViewModel.getUserId(),
-            type = AppletType.UNKNOWN
+            type = argAppletType
         )
         createAppletViewModel.newApplet = myApplet
-        activity.navigateToReceiver()
+       navigateToNextScreen()
+    }
+
+    private fun navigateToNextScreen(){
+        when (argAppletType) {
+            AppletType.SLACK -> {
+                navController.navigate(R.id.action_CreateFilterFragment_to_CreateSlackFragment)
+            }
+            AppletType.MAIL -> {
+                //todo
+            }
+
+            AppletType.DEVICE -> {
+                if (activity.isSendSMSGranted()) {
+                    navController.navigate(R.id.action_CreateFilterFragment_to_CreateDeviceFragment)
+                } else {
+                    activity.askSendSMSPermission()
+                }
+            }
+            AppletType.UNKNOWN ->{}
+        }
     }
 
 
