@@ -15,7 +15,7 @@ android {
         versionCode = 23
         versionName = rootProject.ext.versionName
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "com.sms.pipe.RoboTestRunner"
 
         def apikeyPropertiesFile = rootProject.file("apikeys.properties")
         def apikeyProperties = new Properties()
@@ -39,6 +39,14 @@ android {
     }
     buildFeatures {
         viewBinding true
+    }
+
+    testOptions {
+        unitTests.returnDefaultValues = true
+
+        unitTests {
+            includeAndroidResources = true
+        }
     }
 }
 
@@ -90,7 +98,7 @@ dependencies {
     implementation "androidx.work:work-runtime-ktx:$work_version"
     // Unit Tests
     testImplementation "junit:junit:$junit_version"
-    testImplementation "androidx.test.ext:junit:$androidxtestext_version"
+    testImplementation "androidx.test.ext:junit:1.1.5"
     testImplementation "org.junit.jupiter:junit-jupiter:$junitjupiter_version"
     testImplementation "androidx.test:core:$androidxtest_version"
     testImplementation "androidx.test:runner:$androidxtest_version"
@@ -98,5 +106,18 @@ dependencies {
     testImplementation "androidx.test.ext:junit:$androidxtestext_version"
     testImplementation "androidx.arch.core:core-testing:$androidxcoretesting_version"
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesTest"
-    androidTestImplementation "androidx.test.espresso:espresso-core:$espreso_test"
+    testImplementation "io.mockk:mockk:1.10.2"
+
+
+    //UI tests
+    androidTestImplementation "androidx.test.espresso:espresso-core:3.5.1"
+    androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesTest"
+    androidTestImplementation "androidx.test:core:$androidxtest_version"
+    androidTestImplementation 'io.mockk:mockk-android:1.11.0'
+    androidTestImplementation "androidx.test.ext:junit:$rootProject.ext.junitAndroidX_version"
+    androidTestImplementation "androidx.test:runner:$rootProject.ext.androidxtest_version"
+    androidTestImplementation "androidx.test:rules:$rootProject.ext.androidxtest_version"
+    androidTestImplementation "androidx.arch.core:core-testing:$androidxcoretesting_version"
+    debugImplementation 'androidx.fragment:fragment-testing:1.5.6'
+    debugImplementation "androidx.test:monitor:1.6.1"
 }
