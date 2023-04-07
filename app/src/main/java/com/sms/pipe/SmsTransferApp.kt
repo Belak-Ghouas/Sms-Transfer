@@ -15,7 +15,7 @@ import org.koin.core.context.loadKoinModules
 import org.koin.core.context.startKoin
 import org.koin.core.logger.Level
 
-class SampleApplication : Application() {
+class SmsTransferApp : Application() {
 
     companion object{
         val applicationScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)

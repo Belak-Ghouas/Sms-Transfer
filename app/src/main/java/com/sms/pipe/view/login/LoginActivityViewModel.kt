@@ -2,7 +2,7 @@ package com.sms.pipe.view.login
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.sms.pipe.SampleApplication.Companion.applicationScope
+import com.sms.pipe.SmsTransferApp.Companion.applicationScope
 import com.sms.pipe.domain.usecases.*
 import com.sms.pipe.utils.doIfFailure
 import com.sms.pipe.utils.doIfSuccess

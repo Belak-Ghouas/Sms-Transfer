@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKeys
-import com.sms.pipe.SampleApplication.Companion.applicationScope
+import com.sms.pipe.SmsTransferApp.Companion.applicationScope
 import com.sms.pipe.data.ApiClient
 import com.sms.pipe.data.ApiInterface
 import com.sms.pipe.data.CustomAuthenticator
