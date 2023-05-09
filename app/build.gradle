@@ -3,6 +3,8 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'org.jetbrains.kotlin.kapt'
     id 'kotlin-parcelize'
+    id 'com.google.gms.google-services'
+    id 'com.google.firebase.crashlytics'
 }
 
 android {
@@ -59,6 +61,11 @@ dependencies {
     implementation("androidx.viewpager2:viewpager2:1.0.0")
 
     implementation("org.greenrobot:eventbus:3.3.1")
+
+
+    // firebase
+    implementation "com.google.gms:google-services:4.3.15"
+    implementation "com.google.firebase:firebase-crashlytics:18.3.7"
 
     //encrypted
     implementation "androidx.security:security-crypto:1.0.0"

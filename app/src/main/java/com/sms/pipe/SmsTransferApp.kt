@@ -2,6 +2,8 @@ package com.sms.pipe
 
 import android.app.Application
 import android.content.Context
+import com.google.firebase.FirebaseApp
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.sms.pipe.di.baseDataModules
 import com.sms.pipe.di.baseDomainModules
 import com.sms.pipe.di.viewModule
@@ -23,6 +25,13 @@ class SmsTransferApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        FirebaseApp.initializeApp(this)
+        FirebaseCrashlytics.getInstance().apply {
+            setCustomKey(
+                "VERSION_CODE",
+                BuildConfig.VERSION_CODE
+            )
+        }
         initKoin(this)
     }
 
