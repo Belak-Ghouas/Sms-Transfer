@@ -99,7 +99,7 @@ class MainActivity : BaseActivity<MainActivityViewModel, ActivityMainBinding>() 
             args.putBoolean(ARG_IS_DRAGGABLE, false)
             args.putBoolean(ARG_IS_TERMS_NEED_ACCEPT, true)
             args.putBoolean(ARG_HEIGHT_WRAP_CONTENT, false)
-            navController.navigate(R.id.action_navigation_home_to_privacyPolicy, args)
+            navController.navigate(R.id.action_navigation_main_to_privacyPolicy, args)
         }
     }
 
@@ -141,7 +141,7 @@ class MainActivity : BaseActivity<MainActivityViewModel, ActivityMainBinding>() 
     }
 
     private fun createNewApplet() {
-        navController.navigate(R.id.action_navigation_home_to_bottomSheetChooser)
+        navController.navigate(R.id.action_navigation_main_to_bottomSheetChooser)
     }
 
 

@@ -15,15 +15,9 @@
         android:label="@string/fragment_title_home"
         tools:layout="@layout/fragment_home" >
         <action
-            android:id="@+id/action_navigation_home_to_privacyPolicy"
-            app:destination="@id/privacyPolicy" />
-        <action
             android:id="@+id/action_navigation_home_to_bottomSheetDeleteApplet"
             app:destination="@id/bottomSheetDeleteApplet" />
-        <action
-            android:id="@+id/action_navigation_home_to_bottomSheetChooser"
-            app:destination="@id/bottomSheetChooser" />
-    </fragment>
+        </fragment>
 
 
     <dialog
@@ -63,5 +57,14 @@
         android:name="com.sms.pipe.view.addApplet.CreateAppletActivity"
         android:label="createAppletActivity"
         tools:layout="@layout/activity_create_applet"/>
+
+        <action
+            android:id="@+id/action_navigation_main_to_bottomSheetChooser"
+            app:destination="@id/bottomSheetChooser" />
+
+        <action
+            android:id="@+id/action_navigation_main_to_privacyPolicy"
+            app:destination="@id/privacyPolicy" />
+
 
 </navigation>
