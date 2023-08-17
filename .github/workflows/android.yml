@@ -7,20 +7,103 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build:
 
-    runs-on: ubuntu-latest
+  setup-env:
+    runs-on: debian12-xxsmall
 
     steps:
-    - uses: actions/checkout@v3
-    - name: set up JDK 11
-      uses: actions/setup-java@v3
-      with:
-        java-version: '11'
-        distribution: 'temurin'
-        cache: gradle
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ inputs.branchRef }}
 
-    - name: Grant execute permission for gradlew
-      run: chmod +x gradlew
-    - name: Build with Gradle
-      run: ./gradlew build
+      - name: Set artifacts to assemble
+        run: |
+          ARTIFACTS_TO_ASSEMBLE='["Debug"]'
+
+    outputs:
+      ARTIFACTS_TO_ASSEMBLE: ${{ env.ARTIFACTS_TO_ASSEMBLE }}
+
+  assemble-apks:
+    runs-on: android-jdk11-medium
+    strategy:
+      matrix:
+        artifact: ${{ fromJson(needs.setup-env.outputs.ARTIFACTS_TO_ASSEMBLE) }}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ inputs.branchRef }}
+
+      - name: Setup runner
+        uses: ./.github/actions/setup-android-runner
+
+      - name: Clean Gradle Cache
+        if: ${{ inputs.clean == true }}
+        run: |
+          gh extension install actions/gh-actions-cache
+          gh actions-cache delete ${{ github.job }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle*.properties') }} --confirm
+
+      - name: Setup Gradle Cache
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ github.job }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle*.properties') }}
+
+      - name: Assemble
+        run: |
+          echo "🔧 Assembling ${{ matrix.artifact }} "
+          ./gradlew :app:assembleDebug --stacktrace
+          echo "🔧 Assembling  android Test "
+          ./gradlew assembleAndroidTest --stacktrace
+          echo "🔧 Copying assembled APK file to build directory"
+          mkdir -p ${{ github.workspace }}/build/
+          cp -fv /app/build/outputs/apk/androidTest/*/*.apk ${{ github.workspace }}/build/
+          cp -fv /app/build/outputs/apk/**/*.apk ${{ github.workspace }}/build/
+          echo "🔧 Available artifact are :"
+          ls ${{ github.workspace }}/build/
+
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: app-${{ matrix.artifact }}
+          path: ${{ github.workspace }}/build/*.apk
+          if-no-files-found: ignore
+          retention-days: 7
+      - name: Upload test suite
+        if: ${{ matrix.artifact == 'Debug'}}
+        uses: actions/upload-artifact@v3
+        with:
+          name: app-test
+          path: ${{ github.workspace }}/build/*.apk
+          if-no-files-found: ignore
+          retention-days: 7
+
+  upload-tests-artifacts:
+    permissions:
+      id-token: write
+    needs: [setup-env, assemble-apks]
+    #if: needs.setup-env.outputs.WILL_RUN_INTEGRATION_TESTS == 'true'
+    runs-on: debian12-xxsmall
+
+    steps:
+      - name: Download Debug artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: app-Debug
+
+      - name: Download debug test artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: app-test
+
+      - name: Upload artifacts to Browserstack
+        if: steps.import_secrets.outcome == 'success'
+        id: browserstack_upload
+        run: |
+          echo "🔍 Artifact download from the platform are :"
+          ls -l 
+          curl -u "abdelhakghouas_knui1v:zMhs5qmm2qU1a7qUNAqV" -X POST "https://api-cloud.browserstack.com/app-automate/espresso/v2/app" -F "file=app-debug.apk" -F "custom_id=android_native_app_debug_apk"
+          curl -u "abdelhakghouas_knui1v:zMhs5qmm2qU1a7qUNAqV" -X POST "https://api-cloud.browserstack.com/app-automate/espresso/v2/test-suite" -F "file=@app-debug-androidTest.apk" -F "custom_id=android_native_test_suite_debug_apk"
+          curl -u "abdelhakghouas_knui1v:zMhs5qmm2qU1a7qUNAqV" -X POST "https://api-cloud.browserstack.com/app-automate/espresso/v2/build" -d '{"local" : "false","app": "android_native_app_debug_apk", "testSuite": "android_native_test_suite_debug_apk", "devices": ["Samsung Galaxy S20-10.0"],"deviceLogs":true}' -H "Content-Type: application/json"
