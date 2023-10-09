@@ -1,6 +1,7 @@
 package com.sms.pipe.view.profile
 
 import androidx.appcompat.widget.SwitchCompat
+import com.contentsquare.android.Contentsquare
 import com.sms.pipe.data.models.UserModel
 import com.sms.pipe.databinding.FragmentProfileBinding
 import com.sms.pipe.di.profileModules
@@ -17,6 +18,11 @@ class ProfileFragment : BaseFragment<ProfileViewModel, FragmentProfileBinding>()
     override val moduleList: List<Module> = listOf(profileModules)
 
     override fun getViewBinding() = FragmentProfileBinding.inflate(layoutInflater)
+
+    override fun onResume() {
+        super.onResume()
+        Contentsquare.send("Profile screen")
+    }
 
     override fun initViews() {
         binding.logoutCard.setOnClickListener {

@@ -1,9 +1,9 @@
 package com.sms.pipe.view.addApplet
 
 import android.os.Bundle
-import androidx.navigation.PopUpToBuilder
 import androidx.navigation.findNavController
 import androidx.navigation.navOptions
+import com.contentsquare.android.Contentsquare
 import com.sms.pipe.R
 import com.sms.pipe.databinding.ActivityCreateAppletBinding
 import com.sms.pipe.di.createAppletModule
@@ -41,6 +41,10 @@ class CreateAppletActivity : BaseActivity<CreateAppletViewModel, ActivityCreateA
         })
     }
 
+    override fun onResume() {
+        super.onResume()
+        Contentsquare.send("CreateApplet screen")
+    }
     override fun initViews() {
     }
 
