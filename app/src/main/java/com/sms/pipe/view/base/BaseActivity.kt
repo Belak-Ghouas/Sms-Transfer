@@ -209,6 +209,7 @@ abstract class BaseActivity<VM : BaseActivityViewModel, B : ViewBinding> : AppCo
         )
         snack.setAction(actionButton) {
             snack.dismiss()
+           val a=6/0;
         }.setActionTextColor(ContextCompat.getColor(this, R.color.bar_nav_color))
         val view = snack.view
         val params = view.layoutParams as FrameLayout.LayoutParams
