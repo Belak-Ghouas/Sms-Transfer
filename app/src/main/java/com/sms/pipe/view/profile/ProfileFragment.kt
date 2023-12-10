@@ -1,7 +1,6 @@
 package com.sms.pipe.view.profile
 
 import androidx.appcompat.widget.SwitchCompat
-import com.contentsquare.android.Contentsquare
 import com.sms.pipe.data.models.UserModel
 import com.sms.pipe.databinding.FragmentProfileBinding
 import com.sms.pipe.di.profileModules
@@ -19,11 +18,6 @@ class ProfileFragment : BaseFragment<ProfileViewModel, FragmentProfileBinding>()
 
     override fun getViewBinding() = FragmentProfileBinding.inflate(layoutInflater)
 
-    override fun onResume() {
-        super.onResume()
-        Contentsquare.send("Profile screen")
-    }
-
     override fun initViews() {
         binding.logoutCard.setOnClickListener {
             fragmentViewModel.logout()
@@ -33,8 +27,11 @@ class ProfileFragment : BaseFragment<ProfileViewModel, FragmentProfileBinding>()
             mainActivity.isReceiverEnabled() && mainActivity.allPermissionsAreGranted().isEmpty()
 
         binding.enableApplets.setOnClickListener {
-
             enableServiceOnClick((it as SwitchCompat))
+        }
+
+        binding.deleteAccount.setOnClickListener {
+            fragmentViewModel.deleteAccount()
         }
     }
 
@@ -42,6 +39,7 @@ class ProfileFragment : BaseFragment<ProfileViewModel, FragmentProfileBinding>()
         super.onStart()
         mainActivity.binding.swiperefresh.isEnabled = false
     }
+
     private fun enableServiceOnClick(switch: SwitchCompat) {
         val checked = switch.isChecked
         if (checked) {
@@ -66,6 +64,13 @@ class ProfileFragment : BaseFragment<ProfileViewModel, FragmentProfileBinding>()
         fragmentViewModel.user.observe(viewLifecycleOwner) {
             bindUserUI(it)
         }
+
+        fragmentViewModel.isUserDeleted.observe(viewLifecycleOwner) {
+           if(!it){
+            mainActivity.showIndefiniteSnackBar("Internal error retry later","Yes")
+           }
+        }
+
     }
 
     private fun bindUserUI(userModel: UserModel) {

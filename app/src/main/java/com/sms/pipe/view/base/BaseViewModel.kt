@@ -13,7 +13,7 @@ abstract class BaseViewModel : ViewModel() {
 
     private val logoutUseCase : LogoutUseCase by inject(LogoutUseCase::class.java)
 
-    private val _loggedOut = MutableLiveData<Boolean>()
+    protected val _loggedOut = MutableLiveData<Boolean>()
     val loggedOut: LiveData<Boolean> = _loggedOut
 
 

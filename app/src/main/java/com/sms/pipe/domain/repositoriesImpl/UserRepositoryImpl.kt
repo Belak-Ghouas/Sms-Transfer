@@ -54,12 +54,19 @@ class UserRepositoryImpl(
         }
     }
 
+    override suspend fun deleteAccount(token: String): Result<Unit> {
+       return userRemoteDataSource.deleteAccount(token).doIfSuccess {
+            userLocalDataSource.deleteAccount(token)
+        }
+    }
+
     private fun saveUserOnLocal(user: UserModel) {
         scope.launch {
             userLocalDataSource.save(user)
             user.token?.let { secureDataStore.store(KEY_TOKEN, it) }
         }
     }
+
 
     /*override suspend fun refreshToken(token: String): Result<RefreshTokenResponse> {
         secureDataStore.getString(KEY_REFRESH_TOKEN).let {

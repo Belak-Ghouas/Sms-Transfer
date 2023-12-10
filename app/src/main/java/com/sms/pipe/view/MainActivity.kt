@@ -11,7 +11,6 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.forEach
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
-import com.contentsquare.android.Contentsquare
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.play.core.review.ReviewManagerFactory
 import com.sms.pipe.R
@@ -45,7 +44,6 @@ class MainActivity : BaseActivity<MainActivityViewModel, ActivityMainBinding>() 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val navView: BottomNavigationView = binding.navView
-        Contentsquare.send("Main screen")
         navView.setupWithNavController(navController)
         activityViewModel.getApplet()
         activityViewModel.refresh()

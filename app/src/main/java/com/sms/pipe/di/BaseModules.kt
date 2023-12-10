@@ -68,6 +68,7 @@ val baseDomainModules = module {
     factory { StoreAlreadyOnBoarderUseCase(dataStoreRepository = get()) }
     factory { LogoutUseCase(userRepository = get()) }
     factory { GetUserOnceUseCase (userRepository = get())}
+    factory { DeleteAccountUseCase(userRepository = get(), getUserTokenUseCase = get()) }
 }
 
 fun getEncrypted(context: Context): SharedPreferences {

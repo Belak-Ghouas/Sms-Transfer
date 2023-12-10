@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.contentsquare.android.Contentsquare
 import com.sms.pipe.R
 import com.sms.pipe.databinding.BottomSheetChooseReceiverBinding
 import com.sms.pipe.utils.ARG_APPLET_TYPE
@@ -68,7 +67,6 @@ class ChooseReceiverBottomSheet : BaseBottomSheet() {
 
     override fun onResume() {
         super.onResume()
-        Contentsquare.send("Chooser screen")
     }
     private fun onAppletTypeSelected(appletType: AppletType) {
         if (mActivity.isReceiveSMSGranted()) {

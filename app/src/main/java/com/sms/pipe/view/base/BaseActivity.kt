@@ -41,7 +41,7 @@ abstract class BaseActivity<VM : BaseActivityViewModel, B : ViewBinding> : AppCo
     lateinit var binding: B
     abstract val moduleList: List<Module>
 
-    var logoutReason :String =""
+    private var logoutReason: String = ""
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -193,7 +193,7 @@ abstract class BaseActivity<VM : BaseActivityViewModel, B : ViewBinding> : AppCo
         }
     }
 
-    fun showSnackBarPermission() {
+    private fun showSnackBarPermission() {
         showIndefiniteSnackBar(
             "We don't guarantee that the application will be functional without this permission",
             "Ok"
@@ -209,7 +209,6 @@ abstract class BaseActivity<VM : BaseActivityViewModel, B : ViewBinding> : AppCo
         )
         snack.setAction(actionButton) {
             snack.dismiss()
-           val a=6/0;
         }.setActionTextColor(ContextCompat.getColor(this, R.color.bar_nav_color))
         val view = snack.view
         val params = view.layoutParams as FrameLayout.LayoutParams
@@ -234,7 +233,7 @@ abstract class BaseActivity<VM : BaseActivityViewModel, B : ViewBinding> : AppCo
                 intent.putExtras(this)
             }
         }
-        logoutReason =""
+        logoutReason = ""
         intent.flags =
             Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)

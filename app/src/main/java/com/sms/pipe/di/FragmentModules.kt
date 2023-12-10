@@ -17,7 +17,7 @@ val vmNotificationModules = module {
 }
 
 val profileModules = module {
-    viewModel { ProfileViewModel(getLoggedUserUseCase = get()) }
+    viewModel { ProfileViewModel(getLoggedUserUseCase = get(), deleteAccountUseCase = get()) }
 }
 
 val vmCreateFilterModules = module {

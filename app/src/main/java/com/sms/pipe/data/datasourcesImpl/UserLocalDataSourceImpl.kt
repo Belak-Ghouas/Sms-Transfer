@@ -42,6 +42,13 @@ class UserLocalDataSourceImpl(private val userDao: UserDao): UserLocalDataSource
         return user
     }
 
+    override suspend fun deleteAccount(token: String) {
+        user?.toEntity()?.let {
+            userDao.delete(it)
+            user = null
+        }
+    }
+
 
     private fun UserModel.toEntity(): UserEntity {
        return UserEntity(

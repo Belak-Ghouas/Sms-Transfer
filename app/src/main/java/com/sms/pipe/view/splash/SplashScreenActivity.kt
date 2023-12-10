@@ -3,7 +3,6 @@ package com.sms.pipe.view.splash
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import com.contentsquare.android.Contentsquare
 import com.sms.pipe.databinding.SplashScreenActivityBinding
 import com.sms.pipe.di.vmSplashModule
 import com.sms.pipe.view.MainActivity
@@ -18,7 +17,6 @@ class SplashScreenActivity :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Contentsquare.send("Splash screen")
         activityViewModel.getLoggedUser()
     }
 

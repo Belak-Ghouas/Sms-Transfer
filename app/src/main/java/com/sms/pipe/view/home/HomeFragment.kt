@@ -5,7 +5,6 @@ import android.util.DisplayMetrics
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.contentsquare.android.Contentsquare
 import com.sms.pipe.R
 import com.sms.pipe.databinding.FragmentHomeBinding
 import com.sms.pipe.di.homeModules
@@ -46,7 +45,6 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>() {
 
     override fun onResume() {
         super.onResume()
-        Contentsquare.send("Home screen")
         mActivity.binding.swiperefresh.isEnabled = true
     }
 

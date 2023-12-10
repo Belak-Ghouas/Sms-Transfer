@@ -15,4 +15,6 @@ interface UserLocalDataSource {
 
     fun userSession():UserModel?
 
+    suspend fun deleteAccount(token: String)
+
 }
