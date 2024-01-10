@@ -2,6 +2,7 @@ package com.sms.pipe.view.login
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
@@ -45,6 +46,13 @@ class LoginFragment : BaseFragment<BaseFragmentViewModel, LoginFragmentBinding>(
 
         binding.termsConditions.setOnClickListener {
             signActivity.showTermsAndConditionsView()
+        }
+        binding.deleteAccount.setOnClickListener{
+                val browserIntent = Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse("https://sms-pipe-web.web.app/delete-account")
+                )
+                requireActivity().startActivity(browserIntent)
         }
     }
 
