@@ -1,0 +1,23 @@
+name: setup-android-runner
+description: 'Setup Android SDK'
+
+runs:
+  using: "composite"
+  steps:
+    - shell: bash
+      run: |
+        source /etc/profile
+
+        echo "🔧 Moving android-sdk to writable directory"
+        sudo mv $ANDROID_HOME $HOME/android-sdk
+
+        echo "🔧 Set android-sdk environment variables"
+        export ANDROID_SDK=$HOME/android-sdk
+        export ANDROID_HOME=$ANDROID_SDK
+
+        echo "🔑 Configuring write permission on $ANDROID_HOME"
+        sudo chown -R runner:runner $ANDROID_HOME
+
+        echo "🔧 Setting SDK location in local properties files"
+        echo "sdk.dir=$ANDROID_HOME" > local.properties
+        echo "sdk.dir=$ANDROID_HOME" > gradle/plugins/local.properties
