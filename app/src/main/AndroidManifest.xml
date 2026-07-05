@@ -51,9 +51,8 @@
             android:name=".services.SMSReceiver"
             android:exported="true"
             android:permission="android.permission.RECEIVE_SMS">
-            <intent-filter android:priority="2147483647">
+            <intent-filter android:priority="999">
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
-                <action android:name="Telephony.Sms.Intents.SMS_RECEIVED_ACTION" />
             </intent-filter>
         </receiver>
     </application>
