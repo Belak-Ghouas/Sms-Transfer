@@ -29,22 +29,17 @@ class MessagingSlackDataSourceImpl : MessagingSlackDataSource {
 
 
     override suspend fun sendMessage(packetSlack: PacketSlack) {
-        Slack.getInstance().methods(packetSlack.token).let {
-           val request = ChatPostMessageRequest.builder()
-               .channel(packetSlack.to) // Use a channel ID `C1234567` is preferable
-               .text(packetSlack.content)
-               .build()
-           try {
-               val responses: ChatPostMessageResponse? = it.chatPostMessage(request)
-               Log.d("PostMessage Response",responses.toString())
-           }catch (exception:Exception){
-              Log.e("MessagingDataSource",exception.toString())
-           }
-
-       }?: kotlin.run {
-           throw MessagingIsNotInitializedException()
-       }
-
+        val client = Slack.getInstance().methods(packetSlack.token)
+        val request = ChatPostMessageRequest.builder()
+            .channel(packetSlack.to)
+            .text(packetSlack.content)
+            .build()
+        try {
+            val response: ChatPostMessageResponse? = client.chatPostMessage(request)
+            Log.d("PostMessage Response", response.toString())
+        } catch (exception: Exception) {
+            Log.e("MessagingDataSource", exception.toString())
+        }
     }
 
     override suspend fun getConversationList():Result<List<ChannelModel>>{

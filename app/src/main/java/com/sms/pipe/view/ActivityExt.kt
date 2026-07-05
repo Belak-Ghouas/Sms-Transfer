@@ -15,6 +15,7 @@ fun Activity.getScreenHeight():Int{
         windowMetrics.bounds.height()
     } else {
         val displayMetrics = DisplayMetrics()
+        @Suppress("DEPRECATION")
         this.windowManager.defaultDisplay.getMetrics(displayMetrics)
         displayMetrics.heightPixels
     }

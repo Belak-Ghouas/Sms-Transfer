@@ -90,7 +90,6 @@ class SignActivity : BaseActivity<LoginActivityViewModel, LoginActivityBinding>(
             Snackbar.LENGTH_LONG
         ).setActionTextColor(ContextCompat.getColor(this, R.color.white))
             .setBackgroundTint(ContextCompat.getColor(this, R.color.green))
-        snack.anchorView = binding.guideline
         snack.show()
     }
 

@@ -50,8 +50,7 @@
             android:layout_marginHorizontal="20dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/screen_title"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent">
+            app:layout_constraintEnd_toEndOf="parent">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -85,7 +84,7 @@
                 app:strokeColor="@color/black"
                 android:outlineProvider="none"
 
-                app:strokeWidth="1px" />
+                app:strokeWidth="1dp" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/later"
@@ -97,7 +96,7 @@
                 android:outlineProvider="none"
                 app:cornerRadius="4dp"
                 app:strokeColor="@color/black"
-                app:strokeWidth="1px" />
+                app:strokeWidth="1dp" />
         </androidx.appcompat.widget.LinearLayoutCompat>
 
 

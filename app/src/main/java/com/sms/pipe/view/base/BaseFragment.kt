@@ -58,6 +58,7 @@ abstract class BaseFragment <VM : BaseFragmentViewModel, B : ViewBinding> : Frag
      * and like that we can instantiate it on the baseFragment
      * we don't have to add any code in the child fragments
      */
+    @Suppress("UNCHECKED_CAST")
     private fun getViewModelClass(): KClass<VM> {
         return (((javaClass.genericSuperclass as ParameterizedType).actualTypeArguments[0]) as Class<VM>).kotlin
     }

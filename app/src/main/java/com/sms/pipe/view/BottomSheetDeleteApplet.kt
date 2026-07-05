@@ -1,5 +1,6 @@
 package com.sms.pipe.view
 
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -27,7 +28,12 @@ class BottomSheetDeleteApplet : BaseBottomSheet() {
         savedInstanceState: Bundle?
     ): View {
         binding = BottomSheetDeleteAppletBinding.inflate(requireActivity().layoutInflater)
-        appletUi = arguments?.getParcelable(ARG_SELECTED_APPLET)
+        appletUi = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            arguments?.getParcelable(ARG_SELECTED_APPLET, AppletUi::class.java)
+        } else {
+            @Suppress("DEPRECATION")
+            arguments?.getParcelable(ARG_SELECTED_APPLET)
+        }
         return binding.root
     }
 

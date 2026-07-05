@@ -14,6 +14,7 @@ class MessagingContactDataSourceImpl(private val context: Context) : MessagingCo
             val smsManager: SmsManager = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                 context.getSystemService(SmsManager::class.java)
             } else {
+                @Suppress("DEPRECATION")
                 SmsManager.getDefault()
             }
             smsManager.sendTextMessage(

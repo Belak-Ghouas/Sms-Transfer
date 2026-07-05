@@ -16,7 +16,7 @@
     <ImageView
         android:id="@+id/cover"
         android:layout_width="0dp"
-        android:layout_height="240dp"
+        android:layout_height="160dp"
         android:src="@drawable/register_image"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

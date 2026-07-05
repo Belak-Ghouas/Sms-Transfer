@@ -3,6 +3,10 @@ package com.sms.pipe.view.base
 import android.app.Dialog
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -51,16 +55,33 @@ abstract class BaseBottomSheet : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        // Apply the navigation-bar inset as bottom padding so bottom-pinned views
+        // are never hidden behind the home indicator on edge-to-edge displays.
+        // view.post() defers the read until the dialog window is fully shown
+        // and getRootWindowInsets() returns valid values.
+        view.post {
+            val navBarHeight = ViewCompat.getRootWindowInsets(view)
+                ?.getInsets(WindowInsetsCompat.Type.navigationBars())
+                ?.bottom ?: 0
+            if (navBarHeight > 0) {
+                view.updatePadding(bottom = view.paddingBottom + navBarHeight)
+            }
+        }
         initViews()
         initObservers()
     }
-
 
     open fun initViews() {}
     open fun initObservers() {}
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = BottomSheetDialog(requireContext(), theme)
+        // Allow the dialog window to draw behind the navigation bar so that the
+        // sheet extends to the very bottom of the screen. The inset listener in
+        // onViewCreated then pads the content back up above the home indicator.
+        dialog.window?.let { window ->
+            WindowCompat.setDecorFitsSystemWindows(window, false)
+        }
         dialog.setOnShowListener {
             (it as BottomSheetDialog).apply {
                 setCancelable(isCancellable)
@@ -87,7 +108,6 @@ abstract class BaseBottomSheet : BottomSheetDialogFragment() {
             behaviour.isHideable = true
         }
     }
-
 
     private fun getHeight(): Int {
         return ((heightPercentage * getScreenHeight()) / 100)

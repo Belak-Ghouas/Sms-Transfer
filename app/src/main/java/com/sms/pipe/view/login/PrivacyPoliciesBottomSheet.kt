@@ -27,7 +27,7 @@ class PrivacyPoliciesBottomSheet : BaseBottomSheet() {
         savedInstanceState: Bundle?
     ): View {
         binding = BottomSheetTermsConditionsBinding.inflate(inflater, container, false)
-        initViews()
+        // initViews() is called by BaseBottomSheet.onViewCreated — do not call it here too
         return binding.root
     }
 

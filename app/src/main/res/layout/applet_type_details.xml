@@ -55,12 +55,14 @@
             app:layout_constraintTop_toTopOf="parent"/>
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="40dp"
             android:layout_marginTop="18dp"
             android:textSize="16sp"
             android:textColor="@color/black"
+            android:maxLines="6"
+            android:ellipsize="end"
             android:text="@string/applet_type_slack_description"/>
 
 
