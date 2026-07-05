@@ -13,7 +13,7 @@ def apikeyProperties = new Properties()
 apikeyProperties.load(new FileInputStream(apikeyPropertiesFile))
 
 android {
-    compileSdk 37
+    compileSdk 35
 
     signingConfigs {
         release {
@@ -28,7 +28,7 @@ android {
         applicationId = "com.sms.pipe"
         minSdk = rootProject.ext.minSdkVersion
         targetSdk = rootProject.ext.targetSdkVersion
-        versionCode = 32
+        versionCode = 33
         versionName = rootProject.ext.versionName
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
