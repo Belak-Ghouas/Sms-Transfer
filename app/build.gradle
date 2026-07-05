@@ -13,7 +13,7 @@ def apikeyProperties = new Properties()
 apikeyProperties.load(new FileInputStream(apikeyPropertiesFile))
 
 android {
-    compileSdk 34
+    compileSdk 37
 
     signingConfigs {
         release {

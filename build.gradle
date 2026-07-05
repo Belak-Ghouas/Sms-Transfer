@@ -21,11 +21,9 @@ task clean(type: Delete) {
 }
 
 ext {
-
-    versionName = versionName
     minSdkVersion = 24
-    compileSdkVersion = 34
-    targetSdkVersion = 34
+    compileSdkVersion = 37
+    targetSdkVersion = 35
     buildToolsVersion = "32.0.0"
     kotlin_version = '1.6.21'
     core_ktx = "1.8.0"
