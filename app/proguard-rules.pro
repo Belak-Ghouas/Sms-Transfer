@@ -39,10 +39,31 @@
 -dontwarn kotlinx.coroutines.**
 
 # ─── Retrofit ────────────────────────────────────────────────────────────────
+# Official Retrofit R8/ProGuard rules (retrofit2 2.9.0)
+# Retrofit does reflection on generic parameters.
+-keepattributes Signature, InnerClasses, EnclosingMethod
 -keepattributes RuntimeVisibleAnnotations, RuntimeVisibleParameterAnnotations
+-keepattributes AnnotationDefault
+
+# Retain service method parameters when optimizing.
 -keepclassmembers,allowshrinking,allowobfuscation interface * {
     @retrofit2.http.* <methods>;
 }
+
+# With R8 full mode, it sees no subtypes of Retrofit interfaces,
+# so it removes/renames them. Keep all interfaces with Retrofit annotations.
+-if interface * { @retrofit2.http.* <methods>; }
+-keep,allowobfuscation interface <1>
+
+-if interface * { @retrofit2.http.* <methods>; }
+-keep,allowobfuscation,allowshrinking interface <1>
+
+# Keep generic signatures of Call, Response, Callback so R8 does not strip
+# the type parameter from Response<T> which Retrofit reads via reflection.
+-keep,allowobfuscation,allowshrinking class retrofit2.Call
+-keep,allowobfuscation,allowshrinking class retrofit2.Response
+-keep,allowobfuscation,allowshrinking class retrofit2.Callback
+
 -dontwarn org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement
 -dontwarn javax.annotation.**
 -dontwarn kotlin.Unit
