@@ -87,6 +87,11 @@
 -keepclassmembers,allowobfuscation class * {
     @com.google.gson.annotations.SerializedName <fields>;
 }
+# Retain generic signatures of TypeToken and all its subclasses with R8.
+# Without this, R8 strips the type argument from TypeToken<T>() {} anonymous
+# subclasses and Gson throws: TypeToken must be created with a type argument.
+-keep,allowobfuscation,allowshrinking class com.google.gson.reflect.TypeToken
+-keep,allowobfuscation,allowshrinking class * extends com.google.gson.reflect.TypeToken
 
 # ─── Room ────────────────────────────────────────────────────────────────────
 -keep class * extends androidx.room.RoomDatabase
