@@ -36,7 +36,7 @@
             />
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="240dp"
             android:minHeight="80dp"
             android:layout_marginTop="30dp"
             android:background="@drawable/profile_background"
