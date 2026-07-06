@@ -15,6 +15,12 @@
 -keep class com.sms.pipe.data.db.entities.** { *; }
 -keep class com.sms.pipe.domain.** { *; }
 
+# Explicitly keep the Retrofit API interface with its full name and method signatures.
+# R8 was obfuscating ApiInterface to class "a", stripping the generic Response<T>
+# type parameter which Retrofit needs via reflection at runtime.
+-keep interface com.sms.pipe.data.ApiInterface { *; }
+-keep class com.sms.pipe.data.ApiInterface { *; }
+
 # ─── Kotlin ──────────────────────────────────────────────────────────────────
 -keep class kotlin.** { *; }
 -keep class kotlin.Metadata { *; }
