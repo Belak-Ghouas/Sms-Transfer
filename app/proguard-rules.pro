@@ -12,7 +12,8 @@
 # ─── App data / domain models (Gson, Room, Retrofit) ────────────────────────
 # Keep all classes in the models package so Gson can reflect over them
 -keep class com.sms.pipe.data.models.** { *; }
--keep class com.sms.pipe.data.db.entities.** { *; }
+-keep class com.sms.pipe.data.db.entity.** { *; }
+-keep class com.sms.pipe.data.datasourcesImpl.AppletDataSourceImpl$AppletFilterType { *; }
 -keep class com.sms.pipe.domain.** { *; }
 
 # Explicitly keep the Retrofit API interface with its full name and method signatures.

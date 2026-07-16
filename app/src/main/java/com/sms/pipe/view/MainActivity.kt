@@ -24,6 +24,7 @@ import com.sms.pipe.view.base.BaseBottomSheet.Companion.ARG_IS_CANCELLABLE
 import com.sms.pipe.view.base.BaseBottomSheet.Companion.ARG_IS_DRAGGABLE
 import org.greenrobot.eventbus.EventBus
 import org.koin.core.module.Module
+import androidx.core.net.toUri
 
 
 const val PERMISSION_REQUEST_CODE = 99
@@ -119,10 +120,10 @@ class MainActivity : BaseActivity<MainActivityViewModel, ActivityMainBinding>() 
         request.addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 // We got the ReviewInfo object
-                val reviewInfo = task.result
+                val reviewInfo = task.result ?: return@addOnCompleteListener
                 val flow = manager.launchReviewFlow(this, reviewInfo)
                 flow.addOnFailureListener {
-                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(PLAY_STORE_BASE_URL)).apply {
+                    val intent = Intent(Intent.ACTION_VIEW, PLAY_STORE_BASE_URL.toUri()).apply {
                         flags = Intent.FLAG_ACTIVITY_NEW_TASK
                     }
                     this.startActivity(intent)
@@ -132,7 +133,7 @@ class MainActivity : BaseActivity<MainActivityViewModel, ActivityMainBinding>() 
                 }
             } else {
                 // There was some problem, log or handle the error code.
-                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(PLAY_STORE_BASE_URL)).apply {
+                val intent = Intent(Intent.ACTION_VIEW, PLAY_STORE_BASE_URL.toUri()).apply {
                     flags = Intent.FLAG_ACTIVITY_NEW_TASK
                 }
                 this.startActivity(intent)
