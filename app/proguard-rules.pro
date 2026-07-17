@@ -160,6 +160,11 @@
 }
 
 # ─── General Android / Java ──────────────────────────────────────────────────
+# Keep enum constant names for all app enums (Gson deserializes by name)
+-keepclassmembers enum com.sms.pipe.** {
+    <fields>;
+}
+
 -dontwarn java.awt.**
 -dontwarn javax.swing.**
 -dontwarn java.lang.invoke.**

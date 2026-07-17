@@ -34,7 +34,9 @@ object Converters {
     @TypeConverter
     fun fromString(value: String): List<AppletFilterEntity> {
         val listType = object: TypeToken<ArrayList<AppletFilterEntity>>() {}.type
-        return Gson().fromJson(value, listType)
+        val list: List<AppletFilterEntity> = Gson().fromJson(value, listType)
+        // Drop entries with null/unrecognized enum from corrupted legacy data
+        return list.filter { it.appletFilterType != null }
     }
 
     @TypeConverter

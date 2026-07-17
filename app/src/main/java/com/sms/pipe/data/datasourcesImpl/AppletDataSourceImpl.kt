@@ -52,7 +52,7 @@ class AppletDataSourceImpl(private val appletDao: AppletDao): AppletDataSource {
             appletName = this.appletName,
             creationDate = this.creationDate,
             channelName = this.channelName,
-            filters = this.filters.map { it.toModel() },
+            filters = this.filters.mapNotNull { it.toModel() },
             isEnabled = this.isEnabled,
             userId = this.userId,
             type = this.appletType
@@ -68,10 +68,11 @@ class AppletDataSourceImpl(private val appletDao: AppletDao): AppletDataSource {
      }
  }
 
-    private fun AppletFilterEntity.toModel():AppletFilter{
+    private fun AppletFilterEntity.toModel():AppletFilter?{
         return when(this.appletFilterType){
             AppletFilterType.SENDER -> AppletFilterSender(this.value)
             AppletFilterType.CONTENT -> AppletFilterContent(this.value)
+            null -> null
         }
     }
 
